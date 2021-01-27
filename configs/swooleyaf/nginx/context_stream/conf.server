@@ -1,0 +1,3 @@
+map $remote_addr $syServerIp {
+    default "10.81.125.222";
+}

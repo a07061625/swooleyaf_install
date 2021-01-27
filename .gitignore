@@ -1,0 +1,6 @@
+.idea/
+__pycache__/
+venv/
+jcomponent/configs/*_pro.py
+configs_pro.py
+jinstall/configs/*_pro.py

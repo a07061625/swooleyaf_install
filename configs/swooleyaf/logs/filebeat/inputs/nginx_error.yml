@@ -1,0 +1,21 @@
+- type: log
+  enabled: true
+  paths:
+    - /home/logs/nginx/error.log
+  encoding: "utf-8"
+  fields:
+    server_type: nginx
+    server_tag: error
+    redis_key: sla00_00002
+    log_level: ERROR
+  fields_under_root: true
+  multiline.pattern: '^\d{4}\/\d{2}\/\d{2}'
+  multiline.negate: true
+  multiline.match: after
+  multiline.max_lines: 500
+  multiline.timeout: 10s
+  max_bytes: 10485760
+  harvester_buffer_size: 16384
+  scan_frequency: 3s
+  harvester_limit: 0
+  close_inactive: 5m

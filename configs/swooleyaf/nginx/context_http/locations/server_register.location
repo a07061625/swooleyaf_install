@@ -1,0 +1,31 @@
+content_by_lua_block {
+    local dkjson = require("jnl/tools/dkjson")
+    local errCode = require("jnl/constants/errcode")
+    local toolBase = require("jnl/tools/base")
+    local upstream = require("ngx.upstream")
+
+    local operateRes = symodules.manager.serverOperateRegister()
+    if operateRes['code'] == 0 then
+        local name = operateRes['result']['name']
+        local peerId = operateRes['result']['peer_id']
+        local isBackup = operateRes['result']['is_backup']
+        local isDown = operateRes['result']['is_down']
+        local resultStr = ''
+        if isDown then
+            resultStr = '删除服务'
+        else
+            resultStr = '添加服务'
+        end
+        local ok, err = upstream.set_peer_down(name, isBackup, peerId, isDown)
+        if ok then
+            operateRes['data'] = resultStr .. '成功'
+            operateRes['result'] = nil
+        else
+            ngx.log(ngx.ERR, "upstream " .. name .. " refresh error: ", err)
+            operateRes['code'] = errCode.REGISTER_UPDATE_ERROR
+            operateRes['msg'] = resultStr .. '失败'
+        end
+    end
+
+    toolBase.sendResp(0, 'json', dkjson.encode(operateRes))
+}

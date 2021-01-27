@@ -1,0 +1,44 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "ik_pinyin_analyzer": {
+          "type": "custom",
+          "tokenizer": "ik_smart",
+          "filter": [
+            "pinyin_max_word_filter"
+          ]
+        },
+        "ik_pinyin_smark": {
+          "type": "custom",
+          "tokenizer": "ik_smart",
+          "filter": [
+            "pinyin_smark_word_filter"
+          ]
+        }
+      },
+      "filter": {
+        "pinyin_max_word_filter": {
+          "type": "pinyin",
+          "keep_full_pinyin": "true",
+          "keep_separate_first_letter": "true",
+          "keep_joined_full_pinyin": true
+        },
+        "pinyin_smark_word_filter": {
+          "type": "pinyin",
+          "keep_separate_first_letter": "false",
+          "keep_first_letter": "false"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "doc_title": {
+        "type": "text",
+        "analyzer": "ik_pinyin_analyzer",
+        "search_analyzer": "ik_pinyin_smark"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=mosquitto
+After=network.target
+[Service]
+Type=forking
+ExecStart=mosquitto -c /etc/mosquitto/mosquitto.conf
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

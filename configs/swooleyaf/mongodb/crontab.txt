@@ -1,0 +1,1 @@
+0 3 * * * echo >/usr/local/mongodb/data/logs/mongodb.log

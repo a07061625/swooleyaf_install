@@ -1,0 +1,130 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: esapp_cluster
+#
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: esapp_node1
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+node.master: true
+node.data: true
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+path.data: /usr/local/elasticsearch/data
+#
+# Path to log files:
+#
+path.logs: /home/logs/elasticsearch
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+bootstrap.memory_lock: true
+#
+# Make sure that the heap size is set to about half the memory available
+# on the system and that the owner of the process is allowed to use this
+# limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+bootstrap.system_call_filter: false
+# ---------------------------------- Network -----------------------------------
+#
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+network.host: 192.168.96.21
+network.tcp.no_delay: true
+network.tcp.keep_alive: true
+network.tcp.reuse_address: true
+network.tcp.send_buffer_size: 256mb
+network.tcp.receive_buffer_size: 256mb
+
+transport.tcp.port: 9301
+transport.tcp.compress: true
+
+#
+# Set a custom port for HTTP:
+#
+http.port: 9201
+#
+# For more information, consult the network module documentation.
+#
+http.max_content_length: 200mb
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: Authorization
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.seed_hosts: ["192.168.96.21:9301"]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: ["192.168.96.21:9301"]
+#
+# For more information, consult the discovery and cluster formation module documentation.
+#
+cluster.fault_detection.leader_check.interval: 15s
+discovery.cluster_formation_warning_timeout: 30s
+cluster.join.timeout: 30s
+cluster.publish.timeout: 90s
+cluster.routing.allocation.cluster_concurrent_rebalance: 16
+cluster.routing.allocation.node_concurrent_recoveries: 16
+cluster.routing.allocation.node_initial_primaries_recoveries: 16
+cluster.routing.allocation.disk.include_relocations: false
+# ---------------------------------- Gateway -----------------------------------
+#
+# Block initial recovery after a full cluster restart until N nodes are started:
+#
+#gateway.recover_after_nodes: 3
+#
+# For more information, consult the gateway module documentation.
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Require explicit names when deleting indices:
+#
+#action.destructive_requires_name: true
+
+xpack.security.enabled: true
+xpack.license.self_generated.type: basic
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.keystore.path: elastic-certificates.p12
+xpack.security.transport.ssl.truststore.path: elastic-certificates.p12
+
+# 默认读取文件方式
+index.store.type: niofs
+
+index.merge.scheduler.max_thread_count: 1
+index.mapping.total_fields.limit: 200
+
+indices.breaker.total.limit: 50%
+indices.breaker.request.limit: 10%
+indices.breaker.fielddata.limit: 10%
+indices.queries.cache.size: 5%

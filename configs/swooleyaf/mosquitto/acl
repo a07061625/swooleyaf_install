@@ -1,0 +1,5 @@
+user jw
+topic read jtest/#
+
+user jw
+topic write jtest/#

@@ -1,0 +1,2 @@
+# 该文件必须位于vsftpd.conf配置文件中user_config_dir配置的目录下,文件名为登录用户名
+local_root=/home/jw

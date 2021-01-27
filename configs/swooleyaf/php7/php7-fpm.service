@@ -1,0 +1,11 @@
+[Unit]
+Description=php7-fpm
+After=network.target
+[Service]
+Type=forking
+ExecStart=/etc/init.d/php7-fpm start
+ExecReload=/etc/init.d/php7-fpm restart
+ExecStop=/etc/init.d/php7-fpm stop
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

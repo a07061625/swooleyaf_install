@@ -1,0 +1,12 @@
+include /home/configs/nginx/context_http/locations/pagespeed_admin.location;
+pagespeed GlobalStatisticsPath /pagespeed_global_statistics;
+pagespeed GlobalAdminPath /pagespeed_global_admin;
+
+location /pagespeed_global_statistics {
+    auth_basic "PageSpeed Global Statistics";
+    auth_basic_user_file /home/configs/nginx/passwd/pagespeed;
+}
+location ~ ^/pagespeed_global_admin {
+    auth_basic "PageSpeed Global Admin";
+    auth_basic_user_file /home/configs/nginx/passwd/pagespeed;
+}

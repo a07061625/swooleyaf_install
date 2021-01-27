@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus
+Documentation=https://prometheus.io/docs/introduction/overview/
+Wants=network-online.target
+After=network-online.target
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/usr/local/prometheus/prometheus.sh
+[Install]
+WantedBy=multi-user.target

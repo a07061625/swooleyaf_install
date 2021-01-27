@@ -1,0 +1,2 @@
+include /home/configs/nginx/context_http/locations/proxy_api_common.location;
+proxy_set_header Connection "";

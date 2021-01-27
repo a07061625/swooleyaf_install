@@ -1,0 +1,98 @@
+# -*- coding:utf-8 -*-
+from jinstall.centos7.utils.Tool import *
+
+
+class SyCache:
+    @staticmethod
+    def install_redis(params: dict):
+        """安装缓存redis"""
+        Tool.check_local_files([
+            'resources/cache/redis/redis-5.0.10.tar.gz',
+            'configs/swooleyaf/redis/redis',
+            'configs/swooleyaf/redis/redis.conf',
+        ])
+
+        Tool.upload_file_fabric({
+            '/resources/cache/redis/redis-5.0.10.tar.gz': 'remote/redis-5.0.10.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('mkdir %s' % install_configs['redis.path.install'])
+            run('mkdir %s' % install_configs['redis.path.log'])
+            run('mkdir /etc/redis')
+            run('touch %s/redis.log' % install_configs['redis.path.log'])
+            run('tar -zxf redis-5.0.10.tar.gz')
+            run('mv redis-5.0.10/ %s/' % install_configs['redis.path.install'])
+            run('cd %s/redis-5.0.10 && make && cd src/ && make install' % install_configs['redis.path.install'])
+            redis_service_remote = '/etc/init.d/redis'
+            Tool.upload_file_fabric({
+                '/configs/swooleyaf/redis/redis': redis_service_remote,
+            })
+            run('sed -i "5iREDISPORT=%s" %s' % (install_configs['redis.port'], redis_service_remote), False)
+            run('chmod +x %s' % redis_service_remote)
+            redis_conf_remote = ''.join(['/etc/redis/', install_configs['redis.port'], '.conf'])
+            Tool.upload_file_fabric({
+                '/configs/swooleyaf/redis/redis.conf': redis_conf_remote,
+            })
+            run('echo -e "bind 127.0.0.1 %s" >> %s' % (env.host, redis_conf_remote), False)
+            run('echo -e "pidfile /var/run/redis_%s.pid" >> %s' % (install_configs['redis.port'], redis_conf_remote), False)
+            run('echo -e "port %s" >> %s' % (install_configs['redis.port'], redis_conf_remote), False)
+            run('echo -e "logfile \"%s/redis.log\"" >> %s' % (install_configs['redis.path.log'], redis_conf_remote), False)
+            run('echo -e "dir %s" >> %s' % (install_configs['redis.path.log'], redis_conf_remote), False)
+            run('rm -rf redis-5.0.10.tar.gz')
+            run('systemctl daemon-reload')
+            run('chkconfig redis on')
+
+    @staticmethod
+    def install_redis_insight(params: dict):
+        """安装redis客户端工具-RedisInsight"""
+        Tool.check_local_files([
+            'resources/cache/redis/redisinsight-linux64-1.6.3',
+        ])
+
+        with cd(install_configs['path.package.remote']):
+            run('mkdir %s' % install_configs['redis.insight.path.install'])
+            run('mkdir %s/data' % install_configs['redis.insight.path.install'])
+            run('mkdir %s/bin' % install_configs['redis.insight.path.install'])
+            run('mkdir %s' % install_configs['redis.insight.path.log'])
+            run('echo "export REDISINSIGHT_HOST=%s" >> /etc/profile' % install_configs['redis.insight.host'], False)
+            run('echo "export REDISINSIGHT_PORT=%s" >> /etc/profile' % install_configs['redis.insight.port'], False)
+            run('echo "export REDISINSIGHT_HOME_DIR=%s/data" >> /etc/profile' % install_configs['redis.insight.path.install'], False)
+            run('echo "export LOG_DIR=%s" >> /etc/profile' % install_configs['redis.insight.path.log'], False)
+            redis_insight_remote = ''.join([install_configs['redis.insight.path.install'], '/bin/redisinsight'])
+            Tool.upload_file_fabric({
+                '/resources/cache/redis/redisinsight-linux64-1.6.3': redis_insight_remote,
+            })
+            run('chmod +x %s' % redis_insight_remote)
+
+    @staticmethod
+    def install_memcache_server(params: dict):
+        """安装缓存memcache"""
+        Tool.check_local_files([
+            'resources/cache/memcache/memcached-1.5.12.tar.gz',
+        ])
+
+        Tool.upload_file_fabric({
+            '/resources/cache/memcache/memcached-1.5.12.tar.gz': 'remote/memcached-1.5.12.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('yum -y install libevent libevent-devel')
+            run('mkdir %s' % install_configs['memcached.path.install'])
+            run('tar -zxf memcached-1.5.12.tar.gz')
+            run('cd memcached-1.5.12/ && ./configure --prefix=%s && make && make install' % install_configs['memcached.path.install'])
+            run('rm -rf memcached-1.5.12/ && rm -rf memcached-1.5.12.tar.gz')
+
+    @staticmethod
+    def install_memcache_lib(params: dict):
+        """安装缓存memcache依赖"""
+        Tool.check_local_files([
+            'resources/cache/memcache/libmemcached-1.0.18.tar.gz',
+        ])
+
+        Tool.upload_file_fabric({
+            '/resources/cache/memcache/libmemcached-1.0.18.tar.gz': 'remote/libmemcached-1.0.18.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('mkdir %s' % install_configs['libmemcached.path.install'])
+            run('tar -zxf libmemcached-1.0.18.tar.gz')
+            run('cd libmemcached-1.0.18/ && ./configure --prefix=%s --with-memcached && make && make install' % install_configs['libmemcached.path.install'])
+            run('rm -rf libmemcached-1.0.18/ && rm -rf libmemcached-1.0.18.tar.gz')

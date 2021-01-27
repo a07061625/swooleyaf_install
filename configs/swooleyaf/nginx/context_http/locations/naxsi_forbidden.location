@@ -1,0 +1,3 @@
+location /RequestDenied {
+    return 403;
+}

@@ -1,0 +1,52 @@
+root /home/phpspace/swooleyaf;
+index index.php index.html;
+
+error_page 500 502 503 504 /50x.html;
+location = /50x.html {
+    root html;
+}
+
+set $sytag 'a01';
+add_header Cache-Control 'no-store';
+
+location / {
+    proxy_pass http://http_a01;
+    include /home/configs/nginx/context_http/locations/proxy_api_http.location;
+    include /home/configs/nginx/context_http/locations/naxsi_config.location;
+    mirror /mymonitor;
+    access_by_lua 'symodules.waf.requestCors()';
+}
+location = /mymonitor {
+    include /home/configs/nginx/context_http/locations/mirror_monitor.location;
+    proxy_set_header Sy-Monitor "a01";
+}
+location /ws/ {
+    proxy_pass http://http_a01;
+    include /home/configs/nginx/context_http/locations/proxy_api_websocket.location;
+    access_by_lua 'symodules.waf.requestCors()';
+}
+location = /register {
+    include /home/configs/nginx/context_http/locations/server_register.location;
+}
+location ~ /purge(/.*) {
+    allow all;
+    proxy_cache_purge ngcachea01 $host$1;
+}
+location ~ .*\.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)$ {
+    proxy_pass http://http_static_a01;
+    include /home/configs/nginx/context_http/locations/proxy_static.location;
+    proxy_cache ngcachea01;
+    proxy_cache_key $host$uri;
+}
+location ~ /\.ht {
+    deny all;
+}
+location /robots.txt {
+    return 200 'User-agent: *\nDisallow: /';
+}
+
+include /home/configs/nginx/context_http/locations/ip_common.location;
+include /home/configs/nginx/context_http/locations/naxsi_forbidden.location;
+include /home/configs/nginx/context_http/locations/pagespeed_server.location;
+#域名,如果server中没有写明,则必须显式列举出来
+#pagespeed Domain api.xxx.cn;

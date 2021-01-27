@@ -1,0 +1,15 @@
+root /home/phpspace/swooleyaf;
+index index.php index.html;
+
+error_page 500 502 503 504 /50x.html;
+location = /50x.html {
+    root html;
+}
+
+set $sytag 'a01';
+
+add_header Cache-Control 'no-store';
+location / {
+    proxy_pass http://http_a01;
+    include /home/configs/nginx/context_http/locations/proxy_api_http.location;
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Frp Server Service
+After=network.target
+[Service]
+Type=forking
+ExecStart=/usr/local/frp/frps -c /usr/local/frp/frps.ini
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,129 @@
+pagespeed on;
+#备机模式,不会改变你网站的原有配置,只有在以下两种情况下才会起作用
+#  1.当你的请求带着关于pagespeed的参数的时候,这时候会按照参数的配置返回给你响应
+#  2.当请求.pagespeed类的资源的时候
+pagespeed standby;
+#能够根据响应头中指定的任何内容安全策略调整其优化
+pagespeed HonorCsp on;
+#为了达到优化的最大效果,对于资源文件(css、js、HTML文件除外)等PageSpeed是不遵循Vary HTTP头
+pagespeed RespectVary off;
+#HTML是不区分大小写的,最佳实践建议使用小写
+#一般来说,pagespeed会根据头信息自动判断是不是html页面,但是有时候xml或者xhtml会使用错误的头信息Content-Type: text/html,此时如果开启了转换成小写,那么当时xml和xhtml的时候可能会出现问题
+pagespeed LowercaseHtmlNames on;
+#默认遵守 Cache-Control: no-transform 协议,表示不可被中间代理软件改写,想让优化效果最大化则关闭
+pagespeed DisableRewriteOnNoTransform off;
+#修改HTML页面汇总的Meta缓存标记,将其统一执为Cache-Control: no-cache, max-age=0
+pagespeed ModifyCachingHeaders on;
+#默认情况下,PageSpeed 在优化时会把相对路径转成绝对路径,如果因此而产生问题,如下指令来保留相对路径
+#pagespeed PreserveUrlRelativity on;
+#使用https协议,则需要加上如下指令之后,某些过滤器才能生效
+pagespeed FetchHttps enable,allow_self_signed,allow_unknown_certificate_authority,allow_certificate_not_yet_valid;
+#限制资源最大值启用优化,默认大小16M
+pagespeed MaxCacheableContentLength 16777216;
+
+#过滤器
+pagespeed RewriteLevel PassThrough;
+#combine_css配合MaxCombinedCssBytes参数使用,影响combine_css的参数
+#MaxBytes是组合CSS文件的最大字节大小,大于MaxBytes的CSS文件将保持完整;其他CSS文件将被组合成一个或多个文件,每个文件的大小都不超过MaxBytes.MaxBytes的当前默认值是-1(无限制)
+pagespeed MaxCombinedCssBytes 1024;
+#combine_javascript配合MaxCombinedJsBytes参数使用
+#该参数是组合JavaScript文件的最大未压缩大小(以字节为单位).大于MaxBytes的JavaScript文件将保持完整;其他JavaScript文件将组合成一个或多个文件,每个文件的大小不超过MaxBytes.MaxBytes的当前默认值是92160 (90K).
+pagespeed MaxCombinedJsBytes 1024;
+#不加载显示区域以外的图片
+pagespeed LazyloadImagesAfterOnload off;
+#顺序按照文档提供的表格顺序来
+#将多个head标签合并成一个
+pagespeed EnableFilters combine_heads;
+#将css内容移动到script之前,优先于script渲染
+pagespeed EnableFilters move_css_above_scripts;
+#将css文件移到头部显示优先,让用户体验更好
+pagespeed EnableFilters move_css_to_head;
+#合并CSS
+pagespeed EnableFilters combine_css;
+#压缩CSS
+pagespeed EnableFilters rewrite_css;
+#优化内嵌样式属性
+pagespeed EnableFilters rewrite_style_attributes;
+#通过删除CSS文件中的@import,减少HTTP请求往返次数
+pagespeed EnableFilters flatten_css_imports;
+#重写CSS,优化加载渲染页面的CSS规则
+pagespeed EnableFilters prioritize_critical_css;
+#压缩js
+pagespeed EnableFilters rewrite_javascript;
+#合并js
+pagespeed EnableFilters combine_javascript;
+#将小的CSS文件已内联方式引入,避免HTTP请求
+pagespeed EnableFilters inline_css;
+#google字体直接写入html,目的是减少浏览器请求和DNS查询
+pagespeed EnableFilters inline_google_font_css;
+#将小的js文件已内联方式引入,避免http请求
+pagespeed EnableFilters inline_javascript;
+#压缩图片
+pagespeed EnableFilters rewrite_images;
+pagespeed EnableFilters convert_png_to_jpeg;
+pagespeed EnableFilters convert_jpeg_to_webp;
+pagespeed EnableFilters convert_to_webp_lossless;
+#将小图片的http调用转成内联方式调用
+pagespeed EnableFilters inline_images;
+pagespeed EnableFilters recompress_images;
+pagespeed EnableFilters recompress_jpeg;
+pagespeed EnableFilters recompress_png;
+pagespeed EnableFilters recompress_webp;
+pagespeed EnableFilters convert_gif_to_png;
+pagespeed EnableFilters strip_image_color_profile;
+pagespeed EnableFilters strip_image_meta_data;
+pagespeed EnableFilters resize_images;
+pagespeed EnableFilters resize_rendered_image_dimensions;
+#图片预加载
+pagespeed EnableFilters inline_preview_images;
+#移动端图片自适应重置
+pagespeed EnableFilters resize_mobile_images;
+#移除html注释
+pagespeed EnableFilters remove_comments;
+#移除html空白
+pagespeed EnableFilters collapse_whitespace;
+#删除带默认属性的标签,缩小文档大小
+pagespeed EnableFilters elide_attributes;
+#扩展缓存,改善页面资源的可缓存性
+pagespeed EnableFilters extend_cache;
+pagespeed EnableFilters extend_cache_css;
+pagespeed EnableFilters extend_cache_images;
+pagespeed EnableFilters extend_cache_scripts;
+#自动将多张背景图片合并成一张图片,处理雪碧图片很有用
+pagespeed EnableFilters sprite_images;
+#移除不必要的url前缀,开启可能会导致某些自动加载功能失效
+#pagespeed EnableFilters trim_urls;
+#移除HTML属性中的不必要的引号
+pagespeed EnableFilters remove_quotes;
+#存在多个相同的内联图片的话,通过js控制,只保留第一个内联的数据这样可以删除重复数据,较小页面体积经常和inline_images过滤器配合使用
+pagespeed EnableFilters dedup_inlined_images;
+#图片延迟加载
+pagespeed EnableFilters lazyload_images;
+#DNS预加载
+pagespeed EnableFilters insert_dns_prefetch;
+
+#资源限制
+#启用通配符匹配
+pagespeed Allow wildcard_spec;
+pagespeed Disallow "*";
+pagespeed Allow "*.htm";
+pagespeed Allow "*.html";
+pagespeed Allow "*.css";
+pagespeed Allow "*.js";
+pagespeed Allow "*.jpg";
+pagespeed Allow "*.jpeg";
+pagespeed Allow "*.png";
+pagespeed Allow "*.gif";
+
+#缓存清除,比较方便的管理方式是,通过admin页面管理(自己可以通过配置开启)
+pagespeed EnableCachePurge on;
+pagespeed PurgeMethod PURGE;
+
+#确保对pagespeed优化资源的请求进入pagespeed处理程序并且没有额外的头部信息
+location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" {
+    add_header "" "";
+}
+location ~ ^/pagespeed_static/ {
+}
+location /ngx_pagespeed_beacon {
+}

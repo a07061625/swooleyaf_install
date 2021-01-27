@@ -1,0 +1,25 @@
+pagespeed XHeaderValue "1.0.0";
+#列出优化过程中所有失败的请求,debug时很有用,失败的信息会打印到error log
+pagespeed ListOutstandingUrlsOnError on;
+#开启gzip压缩后,减少网络资源传输的字节
+pagespeed FetchWithGzip on;
+#HTML的大小超过MaxHtmlParseBytes,就会禁用进一步的解析,并插入一个脚本,将用户重定向到关闭ModPagespeed的页面
+pagespeed MaxHtmlParseBytes 1048576;
+#为了优化性能,可以写LRU缓存,nginx使用更少的进程,LRUCacheKbPerProcess可以适当大点
+pagespeed LRUCacheKbPerProcess 8192;
+pagespeed LRUCacheByteLimit 16384;
+
+#开启虚拟主机统计信息
+pagespeed UsePerVhostStatistics on;
+#消息缓冲区大小,默认为0,不保留消息
+pagespeed MessageBufferSize 100000;
+pagespeed LogDir /home/logs/nginx/pagespeed;
+
+#配置文件高速缓存
+pagespeed FileCachePath /home/configs/nginx/temp/pagespeed;
+pagespeed FileCacheSizeKb 102400;
+pagespeed FileCacheCleanIntervalMs 7200000;
+pagespeed FileCacheInodeLimit 500000;
+#配置共享内存元数据缓存
+pagespeed CreateSharedMemoryMetadataCache "/home/configs/nginx/cache/pagespeed" 102400;
+pagespeed DefaultSharedMemoryCacheKB 102400;

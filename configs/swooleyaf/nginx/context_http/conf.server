@@ -1,0 +1,67 @@
+map $remote_addr $syServerIp {
+    default "10.81.125.222";
+}
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+}
+
+#gzip压缩-http,https
+gzip on;
+gzip_vary on;
+gzip_proxied any;
+gzip_disable "msie6";
+gzip_min_length 1k;
+gzip_buffers 4 16k;
+gzip_http_version 1.1;
+gzip_comp_level 1;
+gzip_types text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml;
+#brotli压缩-https(压缩效果和性能比gzip好,只能在https工作)
+brotli on;
+brotli_comp_level 6;
+brotli_buffers 16 8k;
+brotli_min_length 20;
+brotli_types application/atom+xml application/javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-opentype application/x-font-truetype application/x-font-ttf application/x-javascript application/xhtml+xml application/xml font/eot font/opentype font/otf font/truetype image/svg+xml image/vnd.microsoft.icon image/x-icon image/x-win-bitmap text/css text/javascript text/plain text/xml;
+brotli_static always;
+brotli_window 512k;
+
+vhost_traffic_status_zone;
+vhost_traffic_status_filter_by_host on;
+
+lua_shared_dict sm010 10M;
+
+lua_code_cache on;
+lua_need_request_body on;
+lua_package_path "/home/configs/nginx/lualib/?.lua;;/usr/local/openresty/lualib/?.lua;/usr/local/luarocks/share/lua/5.1/?.lua;/usr/local/luarocks/share/lua/5.1/?/init.lua;";
+lua_package_cpath "/home/configs/nginx/lualib/?.so;;/usr/local/openresty/lualib/?.so;/usr/local/luarocks/lib/lua/5.1/?.so;";
+init_by_lua_file /home/configs/nginx/lualib/init.lua;
+
+#监控数据采集
+#log_by_lua 'symodules.manager.monitorCollectMetrics()';
+
+#naxsi(waf模块)
+include /home/configs/nginx/context_http/naxsi_core.rules;
+
+#pagespeed
+include /home/configs/nginx/context_http/locations/pagespeed_common.location;
+
+#geoip
+geoip2 /home/configs/nginx/data/geoip2/country.mmdb {
+    auto_reload 5m;
+    $geoip2_metadata_country_build metadata build_epoch;
+    #国家编码
+    $geoip2_country_code source=$remote_addr country iso_code;
+    #国家英文名
+    $geoip2_country_name_en source=$remote_addr country names en;
+    #国家中文名
+    $geoip2_country_name_cn source=$remote_addr country names zh-CN;
+}
+geoip2 /home/configs/nginx/data/geoip2/city.mmdb {
+    $geoip2_metadata_city_build metadata build_epoch;
+    #城市id,maxmaind库里的id,非国际标准
+    $geoip2_city_code source=$remote_addr city geoname_id;
+    #城市英文名,大多是拼音,有重复情况
+    $geoip2_city_name_en source=$remote_addr city names en;
+    #城市中文名,部分城市没有中文名
+    $geoip2_city_name_cn source=$remote_addr city names zh-CN;
+}

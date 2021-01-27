@@ -1,0 +1,66 @@
+root /home/jw/front;
+
+if ( $uri ~ ^/MP_verify_([0-9a-zA-z]+)\.txt$ ) {
+    return 200 $1;
+}
+
+error_page 500 502 503 504 /50x.html;
+location = /50x.html {
+    root html;
+}
+
+set $sytag 'b01';
+
+location / {
+    index index.html index.htm index.php;
+    rewrite_by_lua 'symodules.waf.monitorIp()';
+}
+location = /register {
+    include /home/configs/nginx/context_http/locations/server_register.location;
+}
+location /ngx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+}
+location /phpfpm_status {
+    include fastcgi_params;
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+}
+location ~ \.php$ {
+    try_files $uri =404;
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
+location ~ /purge(/.*) {
+    allow 127.0.0.1;
+    allow 113.110.210.0/24;
+    deny all;
+    proxy_cache_purge ngcacheb01 $host$1;
+}
+location ~ \.(gif|jpg|jpeg|bmp|png|ico)$ {
+    valid_referers none blocked server_names *.xxx.cn;
+    if ($invalid_referer) {
+        return 403;
+    }
+    proxy_pass http://http_static_b01;
+    include /home/configs/nginx/context_http/locations/proxy_static.location;
+    proxy_cache ngcacheb01;
+    proxy_cache_key $host$uri;
+}
+location ~ \.(html|htm|txt|js|css)$ {
+    proxy_pass http://http_static_b01;
+    include /home/configs/nginx/context_http/locations/proxy_static.location;
+    proxy_cache ngcacheb01;
+    proxy_cache_key $host$uri;
+}
+location ~ /\.ht {
+    deny all;
+}
+
+include /home/configs/nginx/context_http/locations/ip_common.location;
+include /home/configs/nginx/context_http/locations/pagespeed_admin.location;

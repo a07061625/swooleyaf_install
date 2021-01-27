@@ -1,0 +1,53 @@
+version: "2"
+services:
+  basecommon:
+    build:
+      context: .
+      dockerfile: ./resources/docker/base/common/Dockerfile
+    image: base-common
+    labels:
+      image_title: "公共基础环境"
+      image_version: "1.0.0"
+      image_desc: "全局基础环境,其他所有镜像都是基于该镜像集成"
+  basenginx:
+    build:
+      context: .
+      dockerfile: ./resources/docker/base/nginx/Dockerfile
+      args:
+        - GIT_USERNAME=jiangwei
+        - GIT_USEREMAIL=jiangwei07061625@163.com
+    image: base-nginx
+    labels:
+      image_title: "nginx基础环境"
+      image_version: "1.0.0"
+      image_desc: "基于全局基础环境构建"
+  basephp7:
+    build:
+      context: .
+      dockerfile: ./resources/docker/base/php7/Dockerfile
+      args:
+        - GIT_USERNAME=jiangwei
+        - GIT_USEREMAIL=jiangwei07061625@163.com
+    image: base-php7
+    labels:
+      image_title: "PHP7基础环境"
+      image_version: "1.0.0"
+      image_desc: "基于全局基础环境构建"
+  systemnginx:
+    build:
+      context: .
+      dockerfile: ./resources/docker/system/nginx/Dockerfile
+    image: system-nginx
+    labels:
+      image_title: "nginx系统环境"
+      image_version: "1.0.0"
+      image_desc: "基于nginx基础环境构建"
+  systemphp7:
+    build:
+      context: .
+      dockerfile: ./resources/docker/system/php7/Dockerfile
+    image: system-php7
+    labels:
+      image_title: "PHP7系统环境"
+      image_version: "1.0.0"
+      image_desc: "基于PHP7基础环境构建"

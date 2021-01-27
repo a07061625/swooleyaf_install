@@ -1,0 +1,10 @@
+SecRulesEnabled;
+#启用学习模式,即拦截请求后不拒绝访问,只将触发规则的请求写入error_log选项定义的文件中,如果对规则产生的影响不太清楚,可以先设置为学习模式.
+#启用学习模式不能起到拦截非法请求的防御的效果,建议先使用学习模式,规则测试完成后再启用拦截模式,这样可以避免出现对网站、服务器某些不可知的影响
+#LearningMode
+DeniedUrl "/RequestDenied";
+CheckRule "$SQL >= 8" BLOCK;
+CheckRule "$RFI >= 8" BLOCK;
+CheckRule "$TRAVERSAL >= 4" BLOCK;
+CheckRule "$EVADE >= 4" BLOCK;
+CheckRule "$XSS >= 8" BLOCK;

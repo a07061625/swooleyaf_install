@@ -1,0 +1,27 @@
+include /home/configs/nginx/context_http/locations/pagespeed_server.location;
+#共享内存统计
+pagespeed Statistics on;
+pagespeed StatisticsLogging on;
+pagespeed StatisticsLoggingIntervalMs 60000;
+pagespeed StatisticsLoggingMaxFileSizeKb 51200;
+pagespeed StatisticsPath /pagespeed_statistics;
+pagespeed MessagesPath /pagespeed_messages;
+pagespeed ConsolePath /pagespeed_console;
+pagespeed AdminPath /pagespeed_admin;
+
+location /pagespeed_statistics {
+    auth_basic "PageSpeed Statistics";
+    auth_basic_user_file /home/configs/nginx/passwd/pagespeed;
+}
+location /pagespeed_messages {
+    auth_basic "PageSpeed Messages";
+    auth_basic_user_file /home/configs/nginx/passwd/pagespeed;
+}
+location /pagespeed_console {
+    auth_basic "PageSpeed Console";
+    auth_basic_user_file /home/configs/nginx/passwd/pagespeed;
+}
+location ~ ^/pagespeed_admin {
+    auth_basic "PageSpeed Admin";
+    auth_basic_user_file /home/configs/nginx/passwd/pagespeed;
+}

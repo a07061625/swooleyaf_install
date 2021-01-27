@@ -1,0 +1,10 @@
+[Unit]
+Description=Frp Client Service
+After=network.target
+[Service]
+Type=forking
+ExecStart=/usr/local/frp/frpc -c /usr/local/frp/frpc.ini
+ExecReload=/usr/local/frp/frpc reload -c /usr/local/frp/frpc.ini
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

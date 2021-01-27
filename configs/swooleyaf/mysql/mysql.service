@@ -1,0 +1,11 @@
+[Unit]
+Description=mysql
+After=network.target remote-fs.target nss-lookup.target
+[Service]
+Type=forking
+ExecStart=/usr/local/mysql/support-files/mysql.server start --transaction-isolation=READ-COMMITTED
+ExecReload=/usr/local/mysql/support-files/mysql.server restart --transaction-isolation=READ-COMMITTED
+ExecStop=/usr/local/mysql/support-files/mysql.server stop
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

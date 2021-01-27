@@ -1,0 +1,9 @@
+#!/usr/bin/env resty
+
+setmetatable(_G, nil)
+
+pcall(require, "luarocks.loader")
+
+package.path = "/usr/local/luarocks/share/lua/5.1/?.lua;;/usr/local/luarocks/share/lua/5.1/?/init.lua;/usr/local/openresty/lualib/?.lua;"
+
+require("kong.cmd.init")(arg)
