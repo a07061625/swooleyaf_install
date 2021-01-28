@@ -6,6 +6,7 @@ from jinstall.centos7.tools.SyErlang import *
 from jinstall.centos7.tools.SyJava import *
 from jinstall.centos7.tools.SyJs import *
 from jinstall.centos7.tools.SyLinux import *
+from jinstall.centos7.tools.SyLua import *
 from jinstall.centos7.tools.SyMq import *
 from jinstall.centos7.tools.SyNginx import *
 from jinstall.centos7.tools.SyPhp import *
@@ -23,6 +24,8 @@ class FrontBackend(SyBase):
             'ulimit -m unlimited',
             "export CPPFLAGS='-I/usr/include -I/usr/local/libjpeg/include -I/usr/local/freetype/include -I/usr/local/zlib/include -I/usr/local/pcre/include -I/usr/local/jemalloc/include -I/usr/local/openssl/include -I/usr/local/openresty/luajit/include/luajit-2.1'",
             "export LDFLAGS='-L/usr/lib64 -L/usr/local/libjpeg/lib -L/usr/local/freetype/lib -L/usr/local/zlib/lib -L/usr/local/pcre/lib -L/usr/local/jemalloc/lib -L/usr/local/openssl/lib -L/usr/local/openresty/luajit/lib'",
+            'export CRYPTO_DIR=/usr/local/openssl',
+            'export OPENSSL_DIR=/usr/local/openssl',
             'export OPENSSL_ROOT_DIR=/usr/local/openssl',
             'export OPENSSL_CRYPTO_LIBRARY=/usr/local/openssl/lib',
             'export OPENSSL_INCLUDE_DIR=/usr/local/openssl/include',
@@ -63,16 +66,17 @@ class FrontBackend(SyBase):
             15: SyLinux.install_jemalloc,
             16: SyLinux.install_libmaxminddb,
             17: SyNginx.install_openresty,
-            18: SyCache.install_memcache_server,
-            19: SyCache.install_memcache_lib,
-            20: SyMq.install_rabbit_lib,
-            21: SyPhp.install_php7,
-            22: SyCache.install_redis,
-            23: SyJava.install_java,
-            24: SyLinux.install_inotify,
-            25: SyLinux.install_etcd,
-            26: SyJs.install_nodejs,
-            27: SyDb.install_mongodb,
-            28: SyCpp.install_boost,
-            29: SyDb.install_mysql
+            18: SyLua.install_luarocks,
+            19: SyCache.install_memcache_server,
+            20: SyCache.install_memcache_lib,
+            21: SyMq.install_rabbit_lib,
+            22: SyPhp.install_php7,
+            23: SyCache.install_redis,
+            24: SyJava.install_java,
+            25: SyLinux.install_inotify,
+            26: SyLinux.install_etcd,
+            27: SyJs.install_nodejs,
+            28: SyDb.install_mongodb,
+            29: SyCpp.install_boost,
+            30: SyDb.install_mysql
         }

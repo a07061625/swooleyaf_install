@@ -26,16 +26,17 @@ class SyNginx:
             'configs/swooleyaf/nginx/context_http/conf.server',
             'configs/swooleyaf/nginx/context_http/default.conf',
             'configs/swooleyaf/nginx/context_http/vts.conf',
-            'configs/swooleyaf/nginx/context_http/demo_api.conf',
-            'configs/swooleyaf/nginx/context_http/demo_api.server',
-            'configs/swooleyaf/nginx/context_http/demo_api.upstream',
-            'configs/swooleyaf/nginx/context_http/demo_api_static.conf',
-            'configs/swooleyaf/nginx/context_http/demo_front.conf',
-            'configs/swooleyaf/nginx/context_http/demo_front.server',
-            'configs/swooleyaf/nginx/context_http/demo_front.upstream',
-            'configs/swooleyaf/nginx/context_http/demo_front_static.conf',
-            'configs/swooleyaf/nginx/context_http/demo_rtmp.conf',
-            'configs/swooleyaf/nginx/context_http/demo_rtmp_api.conf',
+            'configs/swooleyaf/nginx/context_http/api.conf_demo',
+            'configs/swooleyaf/nginx/context_http/api.server',
+            'configs/swooleyaf/nginx/context_http/api.upstream',
+            'configs/swooleyaf/nginx/context_http/api_static.conf',
+            'configs/swooleyaf/nginx/context_http/front.conf_demo',
+            'configs/swooleyaf/nginx/context_http/front.server',
+            'configs/swooleyaf/nginx/context_http/front.upstream',
+            'configs/swooleyaf/nginx/context_http/front_static.conf',
+            'configs/swooleyaf/nginx/context_http/rtmp.conf_demo',
+            'configs/swooleyaf/nginx/context_http/rtmp_api.conf_demo',
+            'configs/swooleyaf/nginx/context_http/naxsi_core.rules',
             'configs/swooleyaf/nginx/context_http/rtmp_stat.conf',
             'configs/swooleyaf/nginx/context_http/locations/https_cert.location',
             'configs/swooleyaf/nginx/context_http/locations/ip_common.location',
@@ -53,12 +54,12 @@ class SyNginx:
             'configs/swooleyaf/nginx/context_http/locations/server_register.location',
             'configs/swooleyaf/nginx/context_stream/conf.server',
             'configs/swooleyaf/nginx/context_stream/proxy_rpc.server',
-            'configs/swooleyaf/nginx/context_stream/a01_order.conf',
-            'configs/swooleyaf/nginx/context_stream/a01_services.conf',
-            'configs/swooleyaf/nginx/context_stream/a01_user.conf',
-            'configs/swooleyaf/nginx/context_stream/a01_api.conf',
-            'configs/swooleyaf/nginx/context_stream/a01_content.conf',
-            'configs/swooleyaf/nginx/context_rtmp/demo.conf',
+            'configs/swooleyaf/nginx/context_stream/a01_order.conf_demo',
+            'configs/swooleyaf/nginx/context_stream/a01_services.conf_demo',
+            'configs/swooleyaf/nginx/context_stream/a01_user.conf_demo',
+            'configs/swooleyaf/nginx/context_stream/a01_api.conf_demo',
+            'configs/swooleyaf/nginx/context_stream/a01_content.conf_demo',
+            'configs/swooleyaf/nginx/context_rtmp/tv.conf_demo',
             'configs/swooleyaf/nginx/certs/dhparam.pem',
             'configs/swooleyaf/nginx/certs/fake.crt',
             'configs/swooleyaf/nginx/certs/fake.key',
@@ -189,13 +190,13 @@ class SyNginx:
             '/resources/nginx/openresty-1.15.8.3.tar.gz': 'remote/openresty-1.15.8.3.tar.gz',
         })
 
+        openresty_dir = '/usr/local/openresty'
         with cd(install_configs['path.package.remote']):
             zlib_dir_remote = ''.join([install_configs['path.package.remote'], '/zlib-1.2.11'])
             pcre_include = '/usr/local/pcre/include'
             pcre_lib = '/usr/local/pcre/lib'
             openssl_include = '/usr/local/openssl/include'
             openssl_lib = '/usr/local/openssl/lib'
-            openresty_dir = '/usr/local/openresty'
             run('mkdir %s' % openresty_dir)
             run('tar -zxf openresty-1.15.8.3.tar.gz')
             run('tar -zxf zlib-1.2.11.tar.gz')
@@ -230,24 +231,25 @@ class SyNginx:
             run('rm -rf openresty-1.15.8.3/ && rm -rf openresty-1.15.8.3.tar.gz')
             run('rm -rf zlib-1.2.11/ && rm -rf zlib-1.2.11.tar.gz')
 
-        conf_remote_nginx = '/usr/local/openresty/nginx/conf/nginx.conf'
+        conf_remote_nginx = ''.join([openresty_dir, '/nginx/conf/nginx.conf'])
         run('rm -rf %s' % conf_remote_nginx)
         service_remote_nginx = '/lib/systemd/system/nginx.service'
         Tool.upload_file_fabric({
             '/configs/swooleyaf/nginx/context_http/conf.server': ''.join([install_configs['openresty.path.configs'], '/context_http/conf.server']),
             '/configs/swooleyaf/nginx/context_http/default.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/default.conf']),
             '/configs/swooleyaf/nginx/context_http/vts.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/vts.conf']),
-            '/configs/swooleyaf/nginx/context_http/demo_api.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_api.conf']),
-            '/configs/swooleyaf/nginx/context_http/demo_api.server': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_api.server']),
-            '/configs/swooleyaf/nginx/context_http/demo_api.upstream': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_api.upstream']),
-            '/configs/swooleyaf/nginx/context_http/demo_api_static.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_api_static.conf']),
-            '/configs/swooleyaf/nginx/context_http/demo_front.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_front.conf']),
-            '/configs/swooleyaf/nginx/context_http/demo_front.server': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_front.server']),
-            '/configs/swooleyaf/nginx/context_http/demo_front.upstream': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_front.upstream']),
-            '/configs/swooleyaf/nginx/context_http/demo_front_static.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_front_static.conf']),
-            '/configs/swooleyaf/nginx/context_http/demo_rtmp.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_rtmp.conf']),
-            '/configs/swooleyaf/nginx/context_http/demo_rtmp_api.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/demo_rtmp_api.conf']),
+            '/configs/swooleyaf/nginx/context_http/api.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_http/api.conf_demo']),
+            '/configs/swooleyaf/nginx/context_http/api.server': ''.join([install_configs['openresty.path.configs'], '/context_http/api.server']),
+            '/configs/swooleyaf/nginx/context_http/api.upstream': ''.join([install_configs['openresty.path.configs'], '/context_http/api.upstream']),
+            '/configs/swooleyaf/nginx/context_http/api_static.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/api_static.conf']),
+            '/configs/swooleyaf/nginx/context_http/front.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_http/front.conf_demo']),
+            '/configs/swooleyaf/nginx/context_http/front.server': ''.join([install_configs['openresty.path.configs'], '/context_http/front.server']),
+            '/configs/swooleyaf/nginx/context_http/front.upstream': ''.join([install_configs['openresty.path.configs'], '/context_http/front.upstream']),
+            '/configs/swooleyaf/nginx/context_http/front_static.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/front_static.conf']),
+            '/configs/swooleyaf/nginx/context_http/rtmp.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_http/rtmp.conf_demo']),
+            '/configs/swooleyaf/nginx/context_http/rtmp_api.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_http/rtmp_api.conf_demo']),
             '/configs/swooleyaf/nginx/context_http/rtmp_stat.conf': ''.join([install_configs['openresty.path.configs'], '/context_http/rtmp_stat.conf']),
+            '/configs/swooleyaf/nginx/context_http/naxsi_core.rules': ''.join([install_configs['openresty.path.configs'], '/context_http/naxsi_core.rules']),
             '/configs/swooleyaf/nginx/context_http/locations/https_cert.location': ''.join([install_configs['openresty.path.configs'], '/context_http/locations/https_cert.location']),
             '/configs/swooleyaf/nginx/context_http/locations/ip_common.location': ''.join([install_configs['openresty.path.configs'], '/context_http/locations/ip_common.location']),
             '/configs/swooleyaf/nginx/context_http/locations/mirror_monitor.location': ''.join([install_configs['openresty.path.configs'], '/context_http/locations/mirror_monitor.location']),
@@ -264,12 +266,12 @@ class SyNginx:
             '/configs/swooleyaf/nginx/context_http/locations/server_register.location': ''.join([install_configs['openresty.path.configs'], '/context_http/locations/server_register.location']),
             '/configs/swooleyaf/nginx/context_stream/conf.server': ''.join([install_configs['openresty.path.configs'], '/context_stream/conf.server']),
             '/configs/swooleyaf/nginx/context_stream/proxy_rpc.server': ''.join([install_configs['openresty.path.configs'], '/context_stream/proxy_rpc.server']),
-            '/configs/swooleyaf/nginx/context_stream/a01_order.conf': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_order.conf']),
-            '/configs/swooleyaf/nginx/context_stream/a01_services.conf': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_services.conf']),
-            '/configs/swooleyaf/nginx/context_stream/a01_user.conf': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_user.conf']),
-            '/configs/swooleyaf/nginx/context_stream/a01_api.conf': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_api.conf']),
-            '/configs/swooleyaf/nginx/context_stream/a01_content.conf': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_content.conf']),
-            '/configs/swooleyaf/nginx/context_rtmp/demo.conf': ''.join([install_configs['openresty.path.configs'], '/context_rtmp/demo.conf']),
+            '/configs/swooleyaf/nginx/context_stream/a01_order.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_order.conf_demo']),
+            '/configs/swooleyaf/nginx/context_stream/a01_services.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_services.conf_demo']),
+            '/configs/swooleyaf/nginx/context_stream/a01_user.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_user.conf_demo']),
+            '/configs/swooleyaf/nginx/context_stream/a01_api.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_api.conf_demo']),
+            '/configs/swooleyaf/nginx/context_stream/a01_content.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_stream/a01_content.conf_demo']),
+            '/configs/swooleyaf/nginx/context_rtmp/tv.conf_demo': ''.join([install_configs['openresty.path.configs'], '/context_rtmp/tv.conf_demo']),
             '/configs/swooleyaf/nginx/certs/dhparam.pem': ''.join([install_configs['openresty.path.configs'], '/certs/dhparam.pem']),
             '/configs/swooleyaf/nginx/certs/fake.crt': ''.join([install_configs['openresty.path.configs'], '/certs/fake.crt']),
             '/configs/swooleyaf/nginx/certs/fake.key': ''.join([install_configs['openresty.path.configs'], '/certs/fake.key']),
@@ -292,7 +294,6 @@ class SyNginx:
         ])
 
         with cd(install_configs['path.package.remote']):
-            run('%s/bin/luarocks install kong 2.0.4-0' % install_configs['luarocks.path.install'])
             run('mkdir /home/logs/kong && mkdir /usr/local/kong && mkdir /usr/local/kong/bin && mkdir /etc/kong && mkdir %s/share/lua/5.1/resty/kong' % install_configs['luarocks.path.install'])
 
             # tls.lua文件在lua-kong-module扩展的lualib目录下有

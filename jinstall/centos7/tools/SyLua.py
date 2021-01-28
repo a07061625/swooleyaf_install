@@ -37,3 +37,5 @@ class SyLua:
             run('tar -zxf luarocks-3.3.1.tar.gz')
             run('cd luarocks-3.3.1/ && ./configure --prefix=%s --lua-suffix=jit --with-lua=%s --with-lua-include=%s/include/luajit-2.1 && make build && make install' % (install_configs['luarocks.path.install'], install_configs['lua.path.install'], install_configs['lua.path.install']))
             run('rm -rf luarocks-3.3.1/ && rm -rf luarocks-3.3.1.tar.gz')
+            run('%s/bin/luarocks install kong 2.0.4-0' % install_configs['luarocks.path.install'])
+            run('%s/bin/luarocks install lua-resty-openssl 0.4.4-1' % install_configs['luarocks.path.install'])

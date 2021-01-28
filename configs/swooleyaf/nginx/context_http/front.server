@@ -63,4 +63,4 @@ location ~ /\.ht {
 }
 
 include /home/configs/nginx/context_http/locations/ip_common.location;
-include /home/configs/nginx/context_http/locations/pagespeed_admin.location;
+include /home/configs/nginx/context_http/locations/pagespeed_server.location;
