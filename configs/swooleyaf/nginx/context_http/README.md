@@ -1,0 +1,18 @@
+# 介绍
+- api.conf_demo: 接口项目配置样例,如需使用将后缀改成.conf即可
+- api.server: 接口项目server块配置
+- api.upstream: 接口项目反向代理配置
+- api_static.conf_demo: 接口项目静态资源样例配置,如需使用将后缀改成.conf即可
+- conf.server: http块公共配置
+- default.conf: 默认域名配置
+- front.conf_demo: 前端项目配置样例,如需使用将后缀改成.conf即可
+- front.server: 前端项目server块配置
+- front.upstream: 前端项目反向代理配置
+- front_static.conf_demo: 前端项目静态资源样例配置,如需使用将后缀改成.conf即可
+- idea_license_server.conf: idea服务认证配置(已废弃)
+- naxsi_core.rules: naxsi网页防火墙配置
+- rtmp.conf_demo: rtmp服务配置
+- rtmp_api.conf_demo: rtmp服务接口配置
+- rtmp_stat.conf: rtmp状态监控配置
+- upstream_check.conf: 反向代理健康检测配置
+- vts.conf: 域名监控配置
