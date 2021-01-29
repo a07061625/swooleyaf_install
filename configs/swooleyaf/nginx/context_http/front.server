@@ -1,15 +1,7 @@
 root /home/jw/front;
 
-if ( $uri ~ ^/MP_verify_([0-9a-zA-z]+)\.txt$ ) {
-    return 200 $1;
-}
-
-error_page 500 502 503 504 /50x.html;
-location = /50x.html {
-    root html;
-}
-
 set $sytag 'b01';
+include /home/configs/nginx/context_http/locations/domain_outer_front.location;
 
 location / {
     index index.html index.htm index.php;
@@ -58,9 +50,5 @@ location ~ \.(html|htm|txt|js|css)$ {
     proxy_cache ngcacheb01;
     proxy_cache_key $host$uri;
 }
-location ~ /\.ht {
-    deny all;
-}
 
-include /home/configs/nginx/context_http/locations/ip_common.location;
 include /home/configs/nginx/context_http/locations/pagespeed_server.location;

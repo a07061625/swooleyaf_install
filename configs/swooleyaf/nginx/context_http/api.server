@@ -1,13 +1,8 @@
 root /home/phpspace/swooleyaf;
 index index.php index.html;
 
-error_page 500 502 503 504 /50x.html;
-location = /50x.html {
-    root html;
-}
-
 set $sytag 'a01';
-add_header Cache-Control 'no-store';
+include /home/configs/nginx/context_http/locations/domain_outer_api.location;
 
 location / {
     proxy_pass http://http_a01;
@@ -38,14 +33,7 @@ location ~ .*\.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)$ {
     proxy_cache ngcachea01;
     proxy_cache_key $host$uri;
 }
-location ~ /\.ht {
-    deny all;
-}
-location /robots.txt {
-    return 200 'User-agent: *\nDisallow: /';
-}
 
-include /home/configs/nginx/context_http/locations/ip_common.location;
 include /home/configs/nginx/context_http/locations/naxsi_forbidden.location;
 include /home/configs/nginx/context_http/locations/pagespeed_server.location;
 #域名,如果server中没有写明,则必须显式列举出来

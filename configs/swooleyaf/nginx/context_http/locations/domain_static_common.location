@@ -1,0 +1,4 @@
+include /home/configs/nginx/context_http/locations/domain_common.location;
+location / {
+    index index.html index.htm;
+}

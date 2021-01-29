@@ -1,0 +1,4 @@
+include /home/configs/nginx/context_http/locations/domain_outer_common.location;
+if ( $uri ~ ^/MP_verify_([0-9a-zA-z]+)\.txt$ ) {
+    return 200 $1;
+}
