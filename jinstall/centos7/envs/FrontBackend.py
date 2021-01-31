@@ -22,8 +22,8 @@ class FrontBackend(SyBase):
             'ulimit -t unlimited',
             'ulimit -v unlimited',
             'ulimit -m unlimited',
-            "export CPPFLAGS='-I/usr/include -I/usr/local/libjpeg/include -I/usr/local/freetype/include -I/usr/local/zlib/include -I/usr/local/pcre/include -I/usr/local/jemalloc/include -I/usr/local/openssl/include -I/usr/local/openresty/luajit/include/luajit-2.1'",
-            "export LDFLAGS='-L/usr/lib64 -L/usr/local/libjpeg/lib -L/usr/local/freetype/lib -L/usr/local/zlib/lib -L/usr/local/pcre/lib -L/usr/local/jemalloc/lib -L/usr/local/openssl/lib -L/usr/local/openresty/luajit/lib'",
+            "export CPPFLAGS='-I/usr/include -I/usr/local/libjpeg/include -I/usr/local/zlib/include -I/usr/local/pcre/include -I/usr/local/jemalloc/include -I/usr/local/openssl/include -I/usr/local/openresty/luajit/include/luajit-2.1'",
+            "export LDFLAGS='-L/usr/lib64 -L/usr/local/libjpeg/lib -L/usr/local/zlib/lib -L/usr/local/pcre/lib -L/usr/local/jemalloc/lib -L/usr/local/openssl/lib -L/usr/local/openresty/luajit/lib'",
             'export CRYPTO_DIR=/usr/local/openssl',
             'export OPENSSL_DIR=/usr/local/openssl',
             'export OPENSSL_ROOT_DIR=/usr/local/openssl',
@@ -35,7 +35,7 @@ class FrontBackend(SyBase):
             'export JAVA_HOME=/usr/java/jdk1.8.0',
             'export CLASSPATH=.:\$JAVA_HOME/jre/lib/rt.jar:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar',
             'export ER_LANG=/usr/erlang',
-            'export PATH=\$PATH:/usr/local/bin:/usr/local/gcc/bin:/usr/local/git/bin:/usr/local/openresty/bin:\$ER_LANG/bin:\$NODE_HOME/bin:\$JAVA_HOME/bin:\$JAVA_HOME/jre/bin',
+            'export PATH=\$PATH:/usr/local/bin:/usr/local/cmake/bin:/usr/local/git/bin:/usr/local/openresty/bin:\$ER_LANG/bin:\$NODE_HOME/bin:\$JAVA_HOME/bin:\$JAVA_HOME/jre/bin',
         ]
         self._ports = [
             '21/tcp',
@@ -62,7 +62,7 @@ class FrontBackend(SyBase):
             11: SyLinux.install_nghttp2,
             12: SyLinux.install_jpeg,
             13: SyLinux.install_imagemagick,
-            14: SyLinux.install_freetype,
+            14: SyLinux.install_font,
             15: SyLinux.install_jemalloc,
             16: SyLinux.install_libmaxminddb,
             17: SyNginx.install_openresty,

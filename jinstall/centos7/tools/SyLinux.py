@@ -130,19 +130,25 @@ class SyLinux:
             run('rm -rf ImageMagick-7.0.8-24/ && rm -rf ImageMagick-7.0.8-24.tar.gz')
 
     @staticmethod
-    def install_freetype(params: dict):
+    def install_font(params: dict):
         """安装freetype"""
         Tool.check_local_files([
-            'resources/linux/freetype-2.6.5.tar.bz2',
+            'resources/linux/fribidi-1.0.9.tar.xz',
+            'resources/linux/fontconfig-2.12.1.tar.gz',
         ])
         Tool.upload_file_fabric({
-            '/resources/linux/freetype-2.6.5.tar.bz2': 'remote/freetype-2.6.5.tar.bz2',
+            '/resources/linux/fribidi-1.0.9.tar.xz': 'remote/fribidi-1.0.9.tar.xz',
+            '/resources/linux/fontconfig-2.12.1.tar.gz': 'remote/fontconfig-2.12.1.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('mkdir /usr/local/freetype')
-            run('tar -xjf freetype-2.6.5.tar.bz2')
-            run('cd freetype-2.6.5/ && ./configure --prefix=/usr/local/freetype --enable-shared --enable-static && make && make install && echo "/usr/local/freetype/lib" >> /etc/ld.so.conf && ldconfig')
-            run('rm -rf freetype-2.6.5/ && rm -rf freetype-2.6.5.tar.bz2')
+            run('mkdir /usr/local/fribidi')
+            run('xz -d fribidi-1.0.9.tar.xz && tar -xf fribidi-1.0.9.tar')
+            run('cd fribidi-1.0.9/ && ./configure --prefix=/usr/local/fribidi && make && make install && echo "/usr/local/fribidi/lib" >> /etc/ld.so.conf && ldconfig')
+            run('rm -rf fribidi-1.0.9/ && rm -rf fribidi-1.0.9.tar')
+            run('mkdir /usr/local/fontconfig && mkdir /usr/share/fonts')
+            run('tar -zxf fontconfig-2.12.1.tar.gz')
+            run('cd fontconfig-2.12.1/ && ./configure --prefix=/usr/local/fontconfig --sysconfdir=/etc  --localstatedir=/var --disable-docs --docdir=/usr/share/doc/fontconfig-2.12.1 --enable-libxml2 && make && make install && echo "/usr/local/fontconfig/lib" >> /etc/ld.so.conf && ldconfig')
+            run('rm -rf fontconfig-2.12.1/ && rm -rf fontconfig-2.12.1.tar.gz')
 
     @staticmethod
     def install_jemalloc(params: dict):
@@ -164,16 +170,16 @@ class SyLinux:
     def install_cmake(params: dict):
         """安装cmake"""
         Tool.check_local_files([
-            'resources/linux/cmake-3.18.2.tar.gz',
+            'resources/linux/cmake-3.18.5-Linux-x86_64.tar.gz',
         ])
         Tool.upload_file_fabric({
-            '/resources/linux/cmake-3.18.2.tar.gz': 'remote/cmake-3.18.2.tar.gz',
+            '/resources/linux/cmake-3.18.5-Linux-x86_64.tar.gz': 'remote/cmake-3.18.5-Linux-x86_64.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('yum remove -y cmake')
-            run('tar -zxf cmake-3.18.2.tar.gz')
-            run('cd cmake-3.18.2/ && ./bootstrap --prefix=/usr && gmake && gmake install')
-            run('rm -rf cmake-3.18.2/ && rm -rf cmake-3.18.2.tar.gz')
+            run('yum -y remove cmake')
+            run('tar -zxf cmake-3.18.5-Linux-x86_64.tar.gz')
+            run('mv cmake-3.18.5-Linux-x86_64/ /usr/local/cmake')
+            run('rm -rf cmake-3.18.5-Linux-x86_64.tar.gz')
 
     @staticmethod
     def install_gcc(params: dict):
@@ -193,8 +199,8 @@ class SyLinux:
         #         run('rm -rf %s' % gcc_gdb_py)
         #     run('ln -s /usr/local/gcc/include/ /usr/include/gcc && ln -s /usr/local/gcc/bin/c++ /usr/bin/ && ln -s /usr/local/gcc/bin/gcc /usr/bin/gcc && ln -s /usr/local/gcc/bin/gcc /usr/bin/cc && rm -rf /usr/lib64/libstdc++.so.6 && cp /usr/local/gcc/lib64/libstdc++.so /usr/lib64/ && echo "/usr/local/gcc/lib64" >> /etc/ld.so.conf.d/gcc.conf && ldconfig')
         #     run('rm -rf gcc-9.3.0/ && rm -rf gcc-9.3.0.tar.gz')
-        run('yum –y remove gcc')
-        run('yum install centos-release-scl')
+        run('yum -y remove gcc')
+        run('yum -y install centos-release-scl')
         run('yum -y install devtoolset-9-gcc*')
         run('scl enable devtoolset-9 bash')
         run('echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile')
