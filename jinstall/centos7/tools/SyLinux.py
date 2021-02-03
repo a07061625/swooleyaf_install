@@ -343,3 +343,25 @@ class SyLinux:
             run('tar -zxf libtool-2.4.6.tar.gz')
             run('cd libtool-2.4.6/ && ./configure --prefix=/usr && make && make install')
             run('rm -rf libtool-2.4.6/ && rm -rf libtool-2.4.6.tar.gz')
+
+    @staticmethod
+    def install_goaccess(params: dict):
+        """安装goaccess-web日志处理器"""
+        Tool.check_local_files([
+            'resources/linux/goaccess-1.4.5.tar.gz',
+            'configs/swooleyaf/nginx/nginx2goaccess.sh',
+        ])
+
+        remote_goaccess = '/usr/local/goaccess'
+        Tool.upload_file_fabric({
+            '/resources/linux/goaccess-1.4.5.tar.gz': 'remote/goaccess-1.4.5.tar.gz',
+            '/configs/swooleyaf/nginx/nginx2goaccess.sh': 'remote/nginx2goaccess.sh',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('yum -y install glib2 glib2-devel ncurses ncurses-devel')
+            run('mkdir %s' % remote_goaccess)
+            run('tar -zxf goaccess-1.4.5.tar.gz')
+            run('cd goaccess-1.4.5/ && ./configure --prefix=/usr/local/goaccess --enable-utf8 --with-getline && make && make install')
+            run('rm -rf goaccess-1.4.5/ && rm -rf goaccess-1.4.5.tar.gz')
+            run('chmod a+x nginx2goaccess.sh')
+            run('mv nginx2goaccess.sh %s/bin/nginx2goaccess.sh' % remote_goaccess)
