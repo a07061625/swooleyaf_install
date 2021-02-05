@@ -1,4 +1,9 @@
 include /home/configs/nginx/context_http/locations/domain_common.location;
+location /ngx_status {
+    stub_status on;
+    access_log off;
+}
+
 add_header Sy-Country-Code $geoip2_country_code;
 add_header Sy-Country-Name $geoip2_country_name_en;
 add_header Sy-City-Name $geoip2_city_name_en;
