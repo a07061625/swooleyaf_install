@@ -22,6 +22,7 @@ class SyNginx:
             'resources/nginx/modules/module_ct_1.3.2.zip',
             'resources/nginx/modules/module_pagespeed_1.13.35.2.zip',
             'resources/nginx/modules/module_geoip2_3.3.tar.gz',
+            'resources/nginx/modules/module_substitutions_filter_0.6.4.tar.gz',
             'resources/nginx/openresty-1.15.8.3.tar.gz',
             'configs/swooleyaf/nginx/context_http/conf.server',
             'configs/swooleyaf/nginx/context_http/default.conf',
@@ -192,6 +193,14 @@ class SyNginx:
             run('rm -rf geoip2.tar.gz && rm -rf module_geoip2_3.3.tar.gz')
 
         Tool.upload_file_fabric({
+            '/resources/nginx/modules/module_substitutions_filter_0.6.4.tar.gz': 'remote/module_substitutions_filter_0.6.4.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('tar -zxf module_substitutions_filter_0.6.4.tar.gz')
+            run('mv module_substitutions_filter_0.6.4/ %s/modules/substitutions_filter' % install_configs['openresty.path.configs'])
+            run('rm -rf module_substitutions_filter_0.6.4.tar.gz')
+
+        Tool.upload_file_fabric({
             '/resources/linux/zlib-1.2.11.tar.gz': 'remote/zlib-1.2.11.tar.gz',
             '/resources/nginx/openresty-1.15.8.3.tar.gz': 'remote/openresty-1.15.8.3.tar.gz',
         })
@@ -211,26 +220,30 @@ class SyNginx:
             ngx_conf_custom2 = '--with-zlib=%s --with-openssl-opt="enable-tls1_3 enable-weak-ssl-ciphers" --with-luajit --with-luajit-xcflags="-DLUAJIT_NUMMODE=2" --with-pcre-jit' % zlib_dir_remote
             ngx_conf_custom3 = '--with-debug --with-threads --with-file-aio --with-google_perftools_module'
             ngx_conf_without = '--without-http_autoindex_module --without-http_ssi_module'
-            ngx_conf_http = '--with-http_ssl_module --with-http_realip_module --with-http_stub_status_module --with-http_v2_module --with-http_gzip_static_module --with-http_image_filter_module'
+            ngx_conf_http1 = '--with-http_ssl_module --with-http_realip_module --with-http_stub_status_module --with-http_sub_module'
+            ngx_conf_http2 = '--with-http_v2_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_addition_module'
             ngx_conf_stream = '--with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module'
             ngx_conf_modules1 = '--add-module=%s/modules/cache_purge --add-module=%s/modules/lua_kong' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules2 = '--add-module=%s/modules/vts --add-module=%s/modules/http_flv' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules3 = '--add-module=%s/modules/brotli --add-module=%s/modules/iconv' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules4 = '--add-module=%s/modules/naxsi/naxsi_src --add-module=%s/modules/ct' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules5 = '--add-module=%s/modules/pagespeed --add-module=%s/modules/geoip2' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
+            ngx_conf_modules6 = '--add-module=%s/modules/substitutions_filter' % (install_configs['openresty.path.configs'])
             ngx_conf = ' '.join([
                 ngx_conf_start,
                 ngx_conf_custom1,
                 ngx_conf_custom2,
                 ngx_conf_custom3,
                 ngx_conf_without,
-                ngx_conf_http,
+                ngx_conf_http1,
+                ngx_conf_http2,
                 ngx_conf_stream,
                 ngx_conf_modules1,
                 ngx_conf_modules2,
                 ngx_conf_modules3,
                 ngx_conf_modules4,
                 ngx_conf_modules5,
+                ngx_conf_modules6,
             ])
             # 中间会弹出关于PSOL的选择,选Y即可
             run('cd openresty-1.15.8.3/ && %s && gmake && gmake install' % ngx_conf)

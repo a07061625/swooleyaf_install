@@ -5,6 +5,11 @@ map $http_upgrade $connection_upgrade {
     default upgrade;
     '' close;
 }
+#substitutions_filter过滤器放行标识
+map $sent_http_content_type $syfilter_content_type {
+    default '0';
+    text/html '1';
+}
 
 #gzip压缩-http,https
 gzip on;
@@ -73,3 +78,7 @@ geoip2 /home/configs/nginx/data/geoip2/city.mmdb {
     #城市中文名,部分城市没有中文名
     $geoip2_city_name_cn source=$remote_addr city names zh-CN;
 }
+
+#内容替换,在proxy中使用是无效的,必须在原始location中处理
+sub_filter_last_modified on;
+sub_filter_once on;
