@@ -16,3 +16,24 @@
 - rtmp_stat.conf: rtmp状态监控配置
 - upstream_check.conf: 反向代理健康检测配置
 - vts.conf: 域名监控配置
+
+# 其他
+## 防止通过接口上传大文件来恶意攻击服务器
+nginx直接处理,避免透传到后端来判断,占用后端的服务资源
+```
+location / {
+    rewrite_by_lua_block {
+        local contentLength = 0
+        if ngx.var.content_length ~= nil then
+            contentLength = tonumber(ngx.var.content_length)
+        end
+        
+        //最大不允许超过3M
+        if contentLength > 3145728 then
+            ngx.exit(403)
+        elseif contentLength <= 0 then
+            ngx.exit(403)
+        end
+    }
+}
+```
