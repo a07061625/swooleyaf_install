@@ -14,20 +14,20 @@ class SyPhp:
             'configs/swooleyaf/php7/www.conf',
             'configs/swooleyaf/php7/php7-fpm.service',
             'resources/lang/php7/php-7.4.14.tar.gz',
-            'resources/lang/php7/msgpack-2.1.1.tgz',
-            'resources/lang/php7/redis-5.3.1.tgz',
+            'resources/lang/php7/msgpack-2.1.2.tgz',
+            'resources/lang/php7/redis-5.3.3.tgz',
             'resources/lang/php7/memcached-3.1.5.tgz',
             'resources/lang/php7/imagick-3.4.4.tgz',
-            'resources/lang/php7/SeasLog-2.1.0.tgz',
-            'resources/lang/php7/mongodb-1.8.0.tgz',
-            'resources/lang/php7/yac-2.2.1.tgz',
+            'resources/lang/php7/SeasLog-2.2.0.tgz',
+            'resources/lang/php7/mongodb-1.9.0.tgz',
+            'resources/lang/php7/yac-2.3.0.tgz',
             'resources/lang/php7/yaconf-1.1.0.tgz',
-            'resources/lang/php7/yaf-3.2.5.tgz',
-            'resources/lang/php7/swoole-4.5.2.tgz',
+            'resources/lang/php7/yaf-3.3.0.tgz',
+            'resources/lang/php7/swoole-4.6.2.tgz',
             'resources/lang/php7/runkit7-4.0.0a2.tgz',
             'resources/lang/php7/amqp-1.10.2.tgz',
             'resources/lang/php7/screw-plus.tgz',
-            'resources/lang/php7/xdebug-2.9.7.tgz',
+            'resources/lang/php7/xdebug-3.0.2.tgz',
             'resources/lang/php7/swoole-tracker.tar.gz',
         ])
         run('yum -y install libxslt libxml2 libxml2-devel mysql-devel openldap openldap-devel gmp-devel')
@@ -78,22 +78,22 @@ class SyPhp:
 
         # 扩展msgpack
         Tool.upload_file_fabric({
-            '/resources/lang/php7/msgpack-2.1.1.tgz': 'remote/msgpack-2.1.1.tgz',
+            '/resources/lang/php7/msgpack-2.1.2.tgz': 'remote/msgpack-2.1.2.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf msgpack-2.1.1.tgz')
-            run('cd msgpack-2.1.1/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf msgpack-2.1.1/ && rm -rf msgpack-2.1.1.tgz')
+            run('tar -zxf msgpack-2.1.2.tgz')
+            run('cd msgpack-2.1.2/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf msgpack-2.1.2/ && rm -rf msgpack-2.1.2.tgz')
 
         # 扩展redis
         Tool.upload_file_fabric({
-            '/resources/lang/php7/redis-5.3.1.tgz': 'remote/redis-5.3.1.tgz',
+            '/resources/lang/php7/redis-5.3.3.tgz': 'remote/redis-5.3.3.tgz',
         })
         with cd(install_configs['path.package.remote']):
             run('mkdir /usr/local/phpredis')
-            run('tar -zxf redis-5.3.1.tgz')
-            run('cd redis-5.3.1/ && %s/bin/phpize && ./configure --prefix=/usr/local/phpredis --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf redis-5.3.1/ && rm -rf redis-5.3.1.tgz')
+            run('tar -zxf redis-5.3.3.tgz')
+            run('cd redis-5.3.3/ && %s/bin/phpize && ./configure --prefix=/usr/local/phpredis --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf redis-5.3.3/ && rm -rf redis-5.3.3.tgz')
 
         # 扩展memcached
         Tool.upload_file_fabric({
@@ -116,30 +116,30 @@ class SyPhp:
 
         # 扩展SeasLog
         Tool.upload_file_fabric({
-            '/resources/lang/php7/SeasLog-2.1.0.tgz': 'remote/SeasLog-2.1.0.tgz',
+            '/resources/lang/php7/SeasLog-2.2.0.tgz': 'remote/SeasLog-2.2.0.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf SeasLog-2.1.0.tgz')
-            run('cd SeasLog-2.1.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf SeasLog-2.1.0/ && rm -rf SeasLog-2.1.0.tgz')
+            run('tar -zxf SeasLog-2.2.0.tgz')
+            run('cd SeasLog-2.2.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf SeasLog-2.2.0/ && rm -rf SeasLog-2.2.0.tgz')
 
         # 扩展mongodb
         Tool.upload_file_fabric({
-            '/resources/lang/php7/mongodb-1.8.0.tgz': 'remote/mongodb-1.8.0.tgz',
+            '/resources/lang/php7/mongodb-1.9.0.tgz': 'remote/mongodb-1.9.0.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf mongodb-1.8.0.tgz')
-            run('cd mongodb-1.8.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf mongodb-1.8.0/ && rm -rf mongodb-1.8.0.tgz')
+            run('tar -zxf mongodb-1.9.0.tgz')
+            run('cd mongodb-1.9.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf mongodb-1.9.0/ && rm -rf mongodb-1.9.0.tgz')
 
         # 扩展yac
         Tool.upload_file_fabric({
-            '/resources/lang/php7/yac-2.2.1.tgz': 'remote/yac-2.2.1.tgz',
+            '/resources/lang/php7/yac-2.3.0.tgz': 'remote/yac-2.3.0.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf yac-2.2.1.tgz')
-            run('cd yac-2.2.1/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config --enable-msgpack && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf yac-2.2.1/ && rm -rf yac-2.2.1.tgz')
+            run('tar -zxf yac-2.3.0.tgz')
+            run('cd yac-2.3.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config --enable-msgpack && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf yac-2.3.0/ && rm -rf yac-2.3.0.tgz')
 
         # 扩展yaconf
         Tool.upload_file_fabric({
@@ -152,21 +152,21 @@ class SyPhp:
 
         # 扩展yaf
         Tool.upload_file_fabric({
-            '/resources/lang/php7/yaf-3.2.5.tgz': 'remote/yaf-3.2.5.tgz',
+            '/resources/lang/php7/yaf-3.3.0.tgz': 'remote/yaf-3.3.0.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf yaf-3.2.5.tgz')
-            run('cd yaf-3.2.5/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf yaf-3.2.5/ && rm -rf yaf-3.2.5.tgz')
+            run('tar -zxf yaf-3.3.0.tgz')
+            run('cd yaf-3.3.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf yaf-3.3.0/ && rm -rf yaf-3.3.0.tgz')
 
         # 扩展swoole
         Tool.upload_file_fabric({
-            '/resources/lang/php7/swoole-4.5.2.tgz': 'remote/swoole-4.5.2.tgz',
+            '/resources/lang/php7/swoole-4.6.2.tgz': 'remote/swoole-4.6.2.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf swoole-4.5.2.tgz')
-            run('cd swoole-4.5.2/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config --with-jemalloc-dir=/usr/local/jemalloc --enable-openssl --enable-http2 --enable-sockets && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf swoole-4.5.2/ && rm -rf swoole-4.5.2.tgz')
+            run('tar -zxf swoole-4.6.2.tgz')
+            run('cd swoole-4.6.2/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config --with-jemalloc-dir=/usr/local/jemalloc --enable-openssl --enable-http2 --enable-sockets && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf swoole-4.6.2/ && rm -rf swoole-4.6.2.tgz')
 
         # 扩展runkit7
         Tool.upload_file_fabric({
@@ -199,12 +199,12 @@ class SyPhp:
 
         # # 扩展xdebug
         # Tool.upload_file_fabric({
-        #     '/resources/lang/php7/xdebug-2.9.7.tgz': 'remote/xdebug-2.9.7.tgz',
+        #     '/resources/lang/php7/xdebug-3.0.2.tgz': 'remote/xdebug-3.0.2.tgz',
         # })
         # with cd(install_configs['path.package.remote']):
-        #     run('tar -zxf xdebug-2.9.7.tgz')
-        #     run('cd xdebug-2.9.7/ && %s/bin/phpize && ./configure --enable-xdebug --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-        #     run('rm -rf xdebug-2.9.7/ && rm -rf xdebug-2.9.7.tgz')
+        #     run('tar -zxf xdebug-3.0.2.tgz')
+        #     run('cd xdebug-3.0.2/ && %s/bin/phpize && ./configure --enable-xdebug --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+        #     run('rm -rf xdebug-3.0.2/ && rm -rf xdebug-3.0.2.tgz')
         # # 扩展swoole_tracker
         # Tool.upload_file_fabric({
         #     '/resources/lang/php7/swoole-tracker.tar.gz': 'remote/swoole-tracker.tar.gz',

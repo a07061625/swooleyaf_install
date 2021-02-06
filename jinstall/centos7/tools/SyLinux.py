@@ -197,6 +197,7 @@ class SyLinux:
         #     gcc_gdb_py = str(run('find /usr/lib -maxdepth 1 -name "libstdc*.py"'))
         #     if len(gcc_gdb_py) > 0:
         #         run('rm -rf %s' % gcc_gdb_py)
+        #     run('rm -rf /lib64/libstdc++.so*')
         #     run('ln -s /usr/local/gcc/include/ /usr/include/gcc && ln -s /usr/local/gcc/bin/c++ /usr/bin/ && ln -s /usr/local/gcc/bin/gcc /usr/bin/gcc && ln -s /usr/local/gcc/bin/gcc /usr/bin/cc && rm -rf /usr/lib64/libstdc++.so.6 && cp /usr/local/gcc/lib64/libstdc++.so /usr/lib64/ && echo "/usr/local/gcc/lib64" >> /etc/ld.so.conf.d/gcc.conf && ldconfig')
         #     run('rm -rf gcc-9.3.0/ && rm -rf gcc-9.3.0.tar.gz')
         run('yum -y remove gcc')
