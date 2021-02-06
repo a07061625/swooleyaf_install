@@ -5,6 +5,7 @@ proxy_send_timeout 30;
 proxy_buffers 4 32k;
 proxy_buffer_size 4k;
 proxy_busy_buffers_size 64k;
+proxy_set_header Sy-Req-Id $request_id;
 proxy_set_header Sy-Country-Code $geoip2_country_code;
 proxy_set_header Sy-Country-Name $geoip2_country_name_en;
 proxy_set_header Sy-City-Code $geoip2_city_code;
