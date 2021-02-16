@@ -12,9 +12,10 @@ class SyLinux:
         run('source /etc/profile')
 
         if params['init'] == 1:
-            run('yum -y install lrzsz bison.x86_64 bison-devel.x86_64 re2c.x86_64 gdb vim zip nss gcc gcc-c++ net-tools wget htop lsof unzip bzip2 curl-devel libcurl-devel patch zlib-devel epel-release perl-ExtUtils-MakeMaker expat-devel gettext-devel openssl-devel iproute.x86_64 autoconf automake make cmake libtool libtool-ltdl libtool-ltdl-devel libpng.x86_64 freetype.x86_64 libjpeg-turbo.x86_64 libjpeg-turbo-devel.x86_64 libjpeg-turbo-utils.x86_64 libpng-devel.x86_64 freetype-devel.x86_64 libjpeg-turbo-devel')
+            run('yum -y install lrzsz bison bison-devel gdb vim zip nss gcc gcc-c++ net-tools wget lsof unzip bzip2 curl-devel libcurl-devel patch zlib-devel epel-release perl-ExtUtils-MakeMaker expat-devel gettext-devel openssl-devel iproute autoconf automake make cmake libtool libtool-ltdl libtool-ltdl-devel libpng freetype libjpeg-turbo libjpeg-turbo-devel libjpeg-turbo-utils libpng-devel freetype-devel')
             run('wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo')
             run('yum -y update')
+            run('yum -y install re2c htop')
             run('systemctl enable firewalld')
             run('systemctl start firewalld')
             run('systemctl enable crond')
@@ -80,8 +81,9 @@ class SyLinux:
             run('rm -rf openssl-1.1.1f/ && rm -rf openssl-1.1.1f.tar.gz')
             run('rm -rf /usr/lib64/libcrypto.so && rm -rf /lib64/libcrypto.so && rm -rf /lib64/libssl.so')
             run('ln -s /usr/local/openssl/lib/libcrypto.so /usr/lib64/libcrypto.so')
+            run('ln -s /usr/local/openssl/lib/libssl.so /usr/lib64/libssl.so')
             run('ln -s /usr/local/openssl/bin/openssl /usr/local/bin/openssl')
-            run('ln -s /usr/local/include/openssl /usr/include/openssl')
+            run('ln -s /usr/local/openssl/include/openssl /usr/include/openssl')
             run('echo "/usr/local/openssl/lib" >> /etc/ld.so.conf && ldconfig')
 
     @staticmethod
@@ -141,6 +143,7 @@ class SyLinux:
             '/resources/linux/fontconfig-2.12.1.tar.gz': 'remote/fontconfig-2.12.1.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
+            run('yum -y install libxml2 libxml2-devel')
             run('mkdir /usr/local/fribidi')
             run('xz -d fribidi-1.0.9.tar.xz && tar -xf fribidi-1.0.9.tar')
             run('cd fribidi-1.0.9/ && ./configure --prefix=/usr/local/fribidi && make && make install && echo "/usr/local/fribidi/lib" >> /etc/ld.so.conf && ldconfig')
@@ -324,7 +327,7 @@ class SyLinux:
 
         with cd(install_configs['path.package.remote']):
             run('tar -zxf libmaxminddb-1.5.0.tar.gz')
-            run('cd libmaxminddb-1.5.0/ && ./configure && make && make install && echo "/usr/local/lib" >> /etc/ld.so.conf.d/local.conf && ldconfig')
+            run('cd libmaxminddb-1.5.0/ && ./configure && make && make install && echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf && ldconfig')
             run('rm -rf libmaxminddb-1.5.0/ && rm -rf libmaxminddb-1.5.0.tar.gz')
 
     @staticmethod

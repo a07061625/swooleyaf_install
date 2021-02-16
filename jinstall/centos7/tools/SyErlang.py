@@ -16,7 +16,7 @@ class SyErlang:
             '/resources/lang/erlang/otp_src_21.0.tar.gz': 'remote/otp_src_21.0.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('yum -y install make gcc gcc-c++ kernel-devel m4 ncurses-devel openssl-devel unixODBC-devel')
+            run('yum -y install ncurses-devel unixODBC-devel')
             run('mkdir /usr/erlang')
             run('tar -zxf otp_src_21.0.tar.gz')
             run('cd otp_src_21.0/ && ./configure --prefix=/usr/erlang --with-ssl -enable-threads -enable-smmp-support -enable-kernel-poll --enable-hipe --without-javac && make && make install')
