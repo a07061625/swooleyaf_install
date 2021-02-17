@@ -32,7 +32,7 @@ node.data: true
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-path.data: /usr/local/elasticsearch/data
+path.data: /home/data/elasticsearch
 #
 # Path to log files:
 #

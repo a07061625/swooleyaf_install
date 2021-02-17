@@ -13,12 +13,11 @@ vim /etc/security/limits.conf
     root soft memlock unlimited
     root hard memlock unlimited
 
-mkdir /usr/local/elasticsearch/data
+mkdir /home/data/elasticsearch
 mkdir /home/logs/elasticsearch
-chown -R www /usr/local/elasticsearch
-chgrp -R www /usr/local/elasticsearch
-chown -R www /home/logs/elasticsearch
-chgrp -R www /home/logs/elasticsearch
+chown -R www:www /usr/local/elasticsearch
+chown -R www:www /home/logs/elasticsearch
+chown -R www:www /home/data/elasticsearch
 
 cd /usr/local/elasticsearch
 # 插件-在线安装
