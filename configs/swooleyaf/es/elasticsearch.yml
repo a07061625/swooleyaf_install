@@ -59,8 +59,8 @@ network.host: 192.168.96.21
 network.tcp.no_delay: true
 network.tcp.keep_alive: true
 network.tcp.reuse_address: true
-network.tcp.send_buffer_size: 256mb
-network.tcp.receive_buffer_size: 256mb
+network.tcp.send_buffer_size: 512mb
+network.tcp.receive_buffer_size: 512mb
 
 transport.tcp.port: 9301
 transport.tcp.compress: true
