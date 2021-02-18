@@ -2,7 +2,10 @@
 Description=Frp Client Service
 After=network.target
 [Service]
-Type=forking
+Type=simple
+User=root
+Restart=on-failure
+RestartSec=15s
 ExecStart=/usr/local/frp/frpc -c /usr/local/frp/frpc.ini
 ExecReload=/usr/local/frp/frpc reload -c /usr/local/frp/frpc.ini
 PrivateTmp=true
