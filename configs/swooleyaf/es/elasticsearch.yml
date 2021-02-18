@@ -115,14 +115,11 @@ xpack.security.enabled: true
 xpack.license.self_generated.type: basic
 xpack.security.transport.ssl.enabled: true
 xpack.security.transport.ssl.verification_mode: certificate
-xpack.security.transport.ssl.keystore.path: elastic-certificates.p12
-xpack.security.transport.ssl.truststore.path: elastic-certificates.p12
+xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
+xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
 
 # 默认读取文件方式
 index.store.type: niofs
-
-index.merge.scheduler.max_thread_count: 1
-index.mapping.total_fields.limit: 200
 
 indices.breaker.total.limit: 50%
 indices.breaker.request.limit: 10%

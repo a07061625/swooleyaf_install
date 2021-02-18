@@ -36,6 +36,15 @@ cd /usr/local/elasticsearch
 bin/elasticsearch
 # 后台启动
 bin/elasticsearch -d
+# 证书生成
+bin/elasticsearch-certutil ca //输入自定义密码
+bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12 //输入自定义密码
+mkdir config/certs
+mv elastic-stack-ca.p12 config/certs/
+mv elastic-certificates.p12 config/certs/
+bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password //密码为创建证书时设置的密码
+bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password //密码为创建证书时设置的密码
+
 # 初始化密码
 bin/elasticsearch-setup-passwords interactive
 # 清除日志
