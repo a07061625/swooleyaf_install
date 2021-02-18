@@ -48,6 +48,8 @@ bin/elasticsearch
 bin/elasticsearch -d
 # 初始化密码
 bin/elasticsearch-setup-passwords interactive
+# 索引优化
+curl -XPUT 'http://192.168.96.21:9201/_all/_settings?preserve_existing=true' -d '{"index.mapping.total_fields.limit" : "200","index.merge.scheduler.max_thread_count" : "1"}'
 # 清除日志
 DEL_DATE=`date +%Y-%m-%d -d "-3 days"`
 curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-$DEL_DATE
