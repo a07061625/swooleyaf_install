@@ -1,0 +1,24 @@
+{
+  "port": "3001",
+  "adminAccount": "admin@admin.com",
+  "timeout":120000,
+  "closeRegister": true,
+  "db": {
+    "servername": "192.168.3.168",
+    "DATABASE": "yapi",
+    "port": 27017,
+    "user": "111111",
+    "pass": "111111",
+    "authSource": "admin"
+  },
+  "mail": {
+    "enable": true,
+    "host": "smtp.163.com",
+    "port": 465,
+    "from": "jiangwei07061625@163.com",
+    "auth": {
+      "user": "jiangwei07061625@163.com",
+      "pass": "jw07061625"
+    }
+  }
+}
