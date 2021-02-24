@@ -1,0 +1,6 @@
+upstream http_c03 {
+    zone http_c03 64k;
+    least_conn;
+    keepalive 500;
+    server 192.168.3.168:3002 weight=1 max_fails=3 fail_timeout=30;
+}

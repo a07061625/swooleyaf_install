@@ -1,0 +1,23 @@
+root /home/phpspace/swooleyaf;
+index index.php index.html;
+
+set $sytag 'c03';
+set $jsshuri '0';
+set $jsshsecret '0';
+if ( $uri ~ ^/ssh/host/ ) {
+    set $jsshuri '1';
+}
+if ( $arg_jsecret = "123456" ) {
+    set $jsshsecret '1';
+}
+set $jsshtag "$jsshuri$jsshsecret";
+if ( $jsshtag = "10" ) {
+    return 403;
+}
+include /home/configs/nginx/context_http/locations/domain_outer_api.location;
+
+location / {
+    proxy_pass http://http_c03;
+    include /home/configs/nginx/context_http/locations/proxy_api_websocket.location;
+}
+
