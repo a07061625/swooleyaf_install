@@ -114,3 +114,20 @@ class SyDb:
             Tool.upload_file_fabric({
                 '/configs/swooleyaf/mysql/goinception.toml': ''.join([install_configs['goinception.path.install'], '/config/config.toml']),
             })
+
+    @staticmethod
+    def install_prometheus(params: dict):
+        """安装数据库prometheus"""
+        Tool.check_local_files([
+            'resources/db/cassandra/apache-cassandra-3.11.4-bin.tar.gz',
+            'configs/swooleyaf/cassandra/cassandra.yaml',
+        ])
+        cassandra_remote = ''.join([install_configs['path.package.remote'], '/apache-cassandra-3.11.4-bin.tar.gz'])
+        Tool.upload_file_fabric({
+            '/resources/db/cassandra/apache-cassandra-3.11.4-bin.tar.gz': cassandra_remote,
+        })
+        with cd(install_configs['path.package.remote']):
+            run('mkdir %s' % install_configs['cassandra.path.log'])
+            run('tar -zxf apache-cassandra-3.11.4-bin.tar.gz')
+            run('mv apache-cassandra-3.11.4/ %s' % install_configs['cassandra.path.install'])
+            run('rm -rf %s' % cassandra_remote)

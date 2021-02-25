@@ -1,0 +1,19 @@
+groups:
+- name: "common"
+  rules:
+  - alert: "InstanceDown" #检测job的状态，持续1分钟metrices不能访问会发给altermanager进行报警
+    expr: up == 0
+    for: 1m #持续时间
+    labels:
+      serverity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - alert: "InstanceProblem"
+    expr: "test_tomcat{exported_instance="pushgateway01",exported_job="pushgateway",host="test",instance="pushgateway01",job="pushgateway"} -  test_tomcat{exported_instance="pushgateway01",exported_job="pushgateway",host="test",instance="pushgateway01",job="pushgateway"} offset 1w > 5" # 这个意思是监控该表达式查询出来的值与一周前的值进行比较，大于5且持续10m钟就发送给altermanager进行报警
+    for: 1m #持续时间
+    labels:
+      serverity: warning
+    annotations:
+      summary: "{{ $labels.type }}趋势增高"
+      description: "机器:{{ $labels.host }} tomcat_id:{{ $labels.id }} 类型:{{ $labels.type }} 与一周前的差值大于5,当前的差值为:{{ $value }}"

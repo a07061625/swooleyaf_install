@@ -1,0 +1,61 @@
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - 192.168.3.168:19092
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+    - targets: ['192.168.3.168:19090']
+      labels:
+        instance: prometheus01
+  - job_name: 'pushgateway'
+    honor_labels: true
+    static_configs:
+      - targets: ['192.168.3.168:19091']
+        labels:
+          instance: pushgateway01
+  - job_name: 'netdata'
+    metrics_path: /api/v1/allmetrics?format=prometheus
+    static_configs:
+      - targets: ['192.168.3.168:19999']
+        labels:
+          instance: netdata01
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['192.168.3.168:19093']
+        labels:
+          instance: mongodb01
+  - job_name: 'node'
+    static_configs:
+      - targets: ['192.168.3.168:19094']
+        labels:
+          instance: node01
+  - job_name: 'mysql'
+    static_configs:
+      - targets: ['192.168.3.168:19095']
+        labels:
+          instance: mysql01
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['192.168.3.168:19096']
+        labels:
+          instance: redis01
