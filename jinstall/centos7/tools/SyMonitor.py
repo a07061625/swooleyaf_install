@@ -25,4 +25,6 @@ class SyMonitor:
             run('rm -rf /tmp/kickstart-static64.sh')
             run('rm -rf /tmp/netdata-v1.29.3.gz.run')
             run('rm -rf /tmp/sha256sums.txt')
+            run('echo 1 >/sys/kernel/mm/ksm/run')
+            run('echo 1000 >/sys/kernel/mm/ksm/sleep_millisecs')
             run('systemctl start netdata')
