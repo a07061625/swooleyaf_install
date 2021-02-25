@@ -38,16 +38,16 @@ pipeline.id: main
 #
 # This defaults to the number of the host's CPU cores.
 #
-# pipeline.workers: 2
+pipeline.workers: 8
 #
 # How many events to retrieve from inputs before sending to filters+workers
 #
-# pipeline.batch.size: 125
+pipeline.batch.size: 4000
 #
 # How long to wait in milliseconds while polling for the next event
 # before dispatching an undersized batch to filters+outputs
 #
-# pipeline.batch.delay: 50
+pipeline.batch.delay: 50
 #
 # Force Logstash to exit during shutdown even if there are still inflight
 # events in memory. By default, logstash will refuse to quit until all

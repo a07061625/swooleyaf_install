@@ -53,5 +53,12 @@ curl -u elastic:jw07061625 -X PUT -H 'Content-Type: application/json' -d '{"inde
 # 清除日志
 DEL_DATE=`date +%Y-%m-%d -d "-3 days"`
 curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-$DEL_DATE
+# 调整es的索引的写入参数,牺牲持久性来换取高写入性能,在新索引创建完成后执行
+curl -s -H Content-Type:application/json  -u elastic:jw07061625 -d '{
+  "index.translog.durability" : "async",
+  "index.translog.flush_threshold_size" : "512mb",
+  "index.translog.sync_interval" : "60s",
+  "index.refresh_interval" : "60s"
+}' -X PUT http://192.168.96.21:9201/_all/_settings?preserve_existing=true
 
 # 文档 https://github.com/elastic/built-docs.git
