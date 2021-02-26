@@ -2,9 +2,10 @@
 # chkconfig: 2345 10 90 
 # description: Start and Stop redis
 
+USER=default
 PASSWARD=yjbn15su
-EXEC=/usr/local/bin/redis-server
-CLIEXEC=/usr/local/bin/redis-cli
+EXEC=/usr/local/redis/bin/redis-server
+CLIEXEC=/usr/local/redis/bin/redis-cli
 MODULE_PATH=/usr/local/redis/modules
 MODULES="--loadmodule ${MODULE_PATH}/redisearch.so --loadmodule ${MODULE_PATH}/redisgears.so --loadmodule ${MODULE_PATH}/redisgraph.so --loadmodule ${MODULE_PATH}/redistimeseries.so"
 
@@ -26,7 +27,7 @@ case "$1" in
         else
             PID=$(cat $PIDFILE)
             echo "Stopping ..."
-            $CLIEXEC -p $REDISPORT -a $PASSWARD shutdown
+            $CLIEXEC -p $REDISPORT --user $USER --pass $PASSWARD shutdown
             while [ -x /proc/${PID} ]
             do
                 echo "Waiting for Redis to shutdown ..."
@@ -39,7 +40,7 @@ case "$1" in
     restart)
         if [ -f $PIDFILE ]; then
             PID=$(cat $PIDFILE)
-            $CLIEXEC -p $REDISPORT -a $PASSWARD shutdown
+            $CLIEXEC -p $REDISPORT --user $USER --pass $PASSWARD shutdown
             while [ -x /proc/${PID} ]
             do
                 echo "Waiting for Redis to shutdown ..."

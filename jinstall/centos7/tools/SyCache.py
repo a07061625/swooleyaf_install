@@ -5,19 +5,23 @@ from jinstall.centos7.utils.Tool import *
 class SyCache:
     @staticmethod
     def install_redis(params: dict):
-        """安装缓存redis"""
+        """
+        安装缓存redis
+        注: 默认账号:default 密码:yjbn15su
+        """
         Tool.check_local_files([
-            'resources/cache/redis/redis-5.0.10.tar.gz',
+            'resources/cache/redis/redis-6.2.0.tar.gz',
             'resources/cache/redis/redisearch.so',
             'resources/cache/redis/redisgears.so',
             'resources/cache/redis/redisgraph.so',
             'resources/cache/redis/redistimeseries.so',
             'configs/swooleyaf/redis/redis',
             'configs/swooleyaf/redis/redis.conf',
+            'configs/swooleyaf/redis/users.acl',
         ])
 
         Tool.upload_file_fabric({
-            '/resources/cache/redis/redis-5.0.10.tar.gz': 'remote/redis-5.0.10.tar.gz',
+            '/resources/cache/redis/redis-6.2.0.tar.gz': 'remote/redis-6.2.0.tar.gz',
             '/resources/cache/redis/redisearch.so': 'remote/redisearch.so',
             '/resources/cache/redis/redisgears.so': 'remote/redisgears.so',
             '/resources/cache/redis/redisgraph.so': 'remote/redisgraph.so',
@@ -33,17 +37,18 @@ class SyCache:
             run('chmod a+x redisgears.so && mv redisgears.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redisgraph.so && mv redisgraph.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redistimeseries.so && mv redistimeseries.so %s/modules/' % install_configs['redis.path.install'])
-            run('tar -zxf redis-5.0.10.tar.gz')
-            run('mv redis-5.0.10/ %s/' % install_configs['redis.path.install'])
-            run('cd %s/redis-5.0.10 && make && cd src/ && make install' % install_configs['redis.path.install'])
+            run('tar -zxf redis-6.2.0.tar.gz')
+            run('cd redis-6.2.0/ && make && make PREFIX=/usr/local/redis install')
+            run('rm -rf redis-6.2.0/ && rm -rf redis-6.2.0.tar.gz')
             redis_service_remote = '/etc/init.d/redis'
             Tool.upload_file_fabric({
                 '/configs/swooleyaf/redis/redis': redis_service_remote,
             })
-            run('sed -i "5iREDISPORT=%s" %s' % (install_configs['redis.port'], redis_service_remote), False)
+            run('sed -i "6iREDISPORT=%s" %s' % (install_configs['redis.port'], redis_service_remote), False)
             run('chmod +x %s' % redis_service_remote)
             redis_conf_remote = ''.join(['/etc/redis/', install_configs['redis.port'], '.conf'])
             Tool.upload_file_fabric({
+                '/configs/swooleyaf/redis/users.acl': ''.join([install_configs['redis.path.install'], '/users.acl']),
                 '/configs/swooleyaf/redis/redis.conf': redis_conf_remote,
             })
             run('echo -e "bind 127.0.0.1 %s" >> %s' % (env.host, redis_conf_remote), False)
@@ -51,7 +56,6 @@ class SyCache:
             run('echo -e "port %s" >> %s' % (install_configs['redis.port'], redis_conf_remote), False)
             run('echo -e "logfile \"%s/redis.log\"" >> %s' % (install_configs['redis.path.log'], redis_conf_remote), False)
             run('echo -e "dir %s" >> %s' % (install_configs['redis.path.log'], redis_conf_remote), False)
-            run('rm -rf redis-5.0.10.tar.gz')
             run('systemctl daemon-reload')
             run('chkconfig redis on')
 
