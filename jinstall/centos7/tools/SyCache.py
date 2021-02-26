@@ -8,18 +8,31 @@ class SyCache:
         """安装缓存redis"""
         Tool.check_local_files([
             'resources/cache/redis/redis-5.0.10.tar.gz',
+            'resources/cache/redis/redisearch.so',
+            'resources/cache/redis/redisgears.so',
+            'resources/cache/redis/redisgraph.so',
+            'resources/cache/redis/redistimeseries.so',
             'configs/swooleyaf/redis/redis',
             'configs/swooleyaf/redis/redis.conf',
         ])
 
         Tool.upload_file_fabric({
             '/resources/cache/redis/redis-5.0.10.tar.gz': 'remote/redis-5.0.10.tar.gz',
+            '/resources/cache/redis/redisearch.so': 'remote/redisearch.so',
+            '/resources/cache/redis/redisgears.so': 'remote/redisgears.so',
+            '/resources/cache/redis/redisgraph.so': 'remote/redisgraph.so',
+            '/resources/cache/redis/redistimeseries.so': 'remote/redistimeseries.so',
         })
         with cd(install_configs['path.package.remote']):
             run('mkdir %s' % install_configs['redis.path.install'])
+            run('mkdir %s/modules' % install_configs['redis.path.install'])
             run('mkdir %s' % install_configs['redis.path.log'])
             run('mkdir /etc/redis')
             run('touch %s/redis.log' % install_configs['redis.path.log'])
+            run('chmod a+x redisearch.so && mv redisearch.so %s/modules/' % install_configs['redis.path.install'])
+            run('chmod a+x redisgears.so && mv redisgears.so %s/modules/' % install_configs['redis.path.install'])
+            run('chmod a+x redisgraph.so && mv redisgraph.so %s/modules/' % install_configs['redis.path.install'])
+            run('chmod a+x redistimeseries.so && mv redistimeseries.so %s/modules/' % install_configs['redis.path.install'])
             run('tar -zxf redis-5.0.10.tar.gz')
             run('mv redis-5.0.10/ %s/' % install_configs['redis.path.install'])
             run('cd %s/redis-5.0.10 && make && cd src/ && make install' % install_configs['redis.path.install'])
