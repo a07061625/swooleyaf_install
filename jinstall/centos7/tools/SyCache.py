@@ -7,8 +7,7 @@ class SyCache:
     def install_redis(params: dict):
         """
         安装缓存redis
-        注1: 默认账号:default 密码:yjbn15su
-        注2: 启动服务可能因为模块加载的网络问题报错,但是多试几次,只要加载模块资源成功一次即可
+        注: 默认账号:default 密码:yjbn15su
         """
         Tool.check_local_files([
             'resources/cache/redis/redis-6.2.0.tar.gz',
@@ -16,6 +15,7 @@ class SyCache:
             'resources/cache/redis/redisgears.so',
             'resources/cache/redis/redisgraph.so',
             'resources/cache/redis/redistimeseries.so',
+            'resources/cache/redis/redisgears-dependencies.linux-centos7-x64.1.0.5.tar',
             'configs/swooleyaf/redis/redis',
             'configs/swooleyaf/redis/redis.conf',
             'configs/swooleyaf/redis/users.acl',
@@ -27,6 +27,7 @@ class SyCache:
             '/resources/cache/redis/redisgears.so': 'remote/redisgears.so',
             '/resources/cache/redis/redisgraph.so': 'remote/redisgraph.so',
             '/resources/cache/redis/redistimeseries.so': 'remote/redistimeseries.so',
+            '/resources/cache/redis/redisgears-dependencies.linux-centos7-x64.1.0.5.tar': 'remote/redisgears-dependencies.linux-centos7-x64.1.0.5.tar',
         })
         with cd(install_configs['path.package.remote']):
             run('mkdir %s' % install_configs['redis.path.install'])
@@ -38,6 +39,10 @@ class SyCache:
             run('chmod a+x redisgears.so && mv redisgears.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redisgraph.so && mv redisgraph.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redistimeseries.so && mv redistimeseries.so %s/modules/' % install_configs['redis.path.install'])
+            run('mkdir -p /var/opt/redislabs/modules/rg')
+            run('tar --warning=no-timestamp -xf redisgears-dependencies.linux-centos7-x64.1.0.5.tar')
+            run('mv python3_1.0.5/ /var/opt/redislabs/modules/rg/')
+            run('rm -rf redisgears-dependencies.linux-centos7-x64.1.0.5.tar')
             run('tar -zxf redis-6.2.0.tar.gz')
             run('cd redis-6.2.0/ && make && make PREFIX=/usr/local/redis install')
             run('rm -rf redis-6.2.0/ && rm -rf redis-6.2.0.tar.gz')
