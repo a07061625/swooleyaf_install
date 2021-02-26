@@ -7,7 +7,8 @@ class SyCache:
     def install_redis(params: dict):
         """
         安装缓存redis
-        注: 默认账号:default 密码:yjbn15su
+        注1: 默认账号:default 密码:yjbn15su
+        注2: 启动服务可能因为模块加载的网络问题报错,但是多试几次,只要加载模块资源成功一次即可
         """
         Tool.check_local_files([
             'resources/cache/redis/redis-6.2.0.tar.gz',
