@@ -11,6 +11,7 @@ class SyCache:
         """
         Tool.check_local_files([
             'resources/cache/redis/redis-6.2.0.tar.gz',
+            'resources/cache/redis/redisbloom.so',
             'resources/cache/redis/redisearch.so',
             'resources/cache/redis/redisgears.so',
             'resources/cache/redis/redisgraph.so',
@@ -23,6 +24,7 @@ class SyCache:
 
         Tool.upload_file_fabric({
             '/resources/cache/redis/redis-6.2.0.tar.gz': 'remote/redis-6.2.0.tar.gz',
+            '/resources/cache/redis/redisbloom.so': 'remote/redisbloom.so',
             '/resources/cache/redis/redisearch.so': 'remote/redisearch.so',
             '/resources/cache/redis/redisgears.so': 'remote/redisgears.so',
             '/resources/cache/redis/redisgraph.so': 'remote/redisgraph.so',
@@ -35,6 +37,7 @@ class SyCache:
             run('mkdir %s' % install_configs['redis.path.log'])
             run('mkdir /etc/redis')
             run('touch %s/redis.log' % install_configs['redis.path.log'])
+            run('chmod a+x redisbloom.so && mv redisbloom.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redisearch.so && mv redisearch.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redisgears.so && mv redisgears.so %s/modules/' % install_configs['redis.path.install'])
             run('chmod a+x redisgraph.so && mv redisgraph.so %s/modules/' % install_configs['redis.path.install'])
@@ -52,16 +55,23 @@ class SyCache:
             })
             run('sed -i "6iREDISPORT=%s" %s' % (install_configs['redis.port'], redis_service_remote), False)
             run('chmod +x %s' % redis_service_remote)
+            redis_acl_remote = ''.join([install_configs['redis.path.install'], '/users.acl'])
             redis_conf_remote = ''.join(['/etc/redis/', install_configs['redis.port'], '.conf'])
             Tool.upload_file_fabric({
-                '/configs/swooleyaf/redis/users.acl': ''.join([install_configs['redis.path.install'], '/users.acl']),
+                '/configs/swooleyaf/redis/users.acl': redis_acl_remote,
                 '/configs/swooleyaf/redis/redis.conf': redis_conf_remote,
             })
+            run('echo -e "aclfile %s" >> %s' % (redis_acl_remote, redis_conf_remote), False)
             run('echo -e "bind 127.0.0.1 %s" >> %s' % (env.host, redis_conf_remote), False)
             run('echo -e "pidfile /var/run/redis_%s.pid" >> %s' % (install_configs['redis.port'], redis_conf_remote), False)
             run('echo -e "port %s" >> %s' % (install_configs['redis.port'], redis_conf_remote), False)
             run('echo -e "logfile \"%s/redis.log\"" >> %s' % (install_configs['redis.path.log'], redis_conf_remote), False)
             run('echo -e "dir %s" >> %s' % (install_configs['redis.path.log'], redis_conf_remote), False)
+            run('echo -e "loadmodule %s/modules/redisbloom.so" >> %s' % (install_configs['redis.path.install'], redis_conf_remote), False)
+            run('echo -e "loadmodule %s/modules/redisearch.so" >> %s' % (install_configs['redis.path.install'], redis_conf_remote), False)
+            run('echo -e "loadmodule %s/modules/redisgears.so" >> %s' % (install_configs['redis.path.install'], redis_conf_remote), False)
+            run('echo -e "loadmodule %s/modules/redisgraph.so" >> %s' % (install_configs['redis.path.install'], redis_conf_remote), False)
+            run('echo -e "loadmodule %s/modules/redistimeseries.so" >> %s' % (install_configs['redis.path.install'], redis_conf_remote), False)
             run('systemctl daemon-reload')
             run('chkconfig redis on')
 

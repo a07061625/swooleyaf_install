@@ -7,7 +7,6 @@ PASSWARD=yjbn15su
 EXEC=/usr/local/redis/bin/redis-server
 CLIEXEC=/usr/local/redis/bin/redis-cli
 MODULE_PATH=/usr/local/redis/modules
-MODULES="--loadmodule ${MODULE_PATH}/redisearch.so --loadmodule ${MODULE_PATH}/redisgears.so --loadmodule ${MODULE_PATH}/redisgraph.so --loadmodule ${MODULE_PATH}/redistimeseries.so"
 
 PIDFILE=/var/run/redis_${REDISPORT}.pid
 CONF="/etc/redis/${REDISPORT}.conf"
@@ -18,7 +17,7 @@ case "$1" in
             echo "$PIDFILE exists, process is already running or crashed"
         else
             echo "Starting Redis server..."
-            $EXEC $CONF $MODULES
+            $EXEC $CONF
         fi
         ;;
     stop)
@@ -50,7 +49,7 @@ case "$1" in
             echo "Redis stopped"
         fi
         echo "Starting Redis server..."
-        $EXEC $CONF $MODULES
+        $EXEC $CONF
         ;;
     *)
         echo "Please use start or stop or restart as first argument"
