@@ -12,6 +12,8 @@ cd /usr/local/logstash
 bin/logstash
 
 # 输出到loki
+# 1. 增加logstash-output-loki插件
+# 2. 输出配置如下
 output {
   loki {
     url => "http://<loki地址>/loki/api/v1/push"
