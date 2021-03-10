@@ -4,8 +4,7 @@
     - /home/logs/seaslog-fpm/sya01/*.log
   encoding: "utf-8"
   fields:
-    server_type: php-fpm
-    server_tag: sya01
+    server_type: php-swooleyaf
     redis_key: sla00_00004
   fields_under_root: true
   multiline.pattern: '^\d{4}-\d{2}-\d{2}'

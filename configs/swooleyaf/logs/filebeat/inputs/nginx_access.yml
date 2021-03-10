@@ -1,11 +1,10 @@
 - type: log
   enabled: true
   paths:
-    - /home/logs/nginx/dywxcom_server.access.log
+    - /home/logs/nginx/*.access.log
   encoding: "utf-8"
   fields:
     server_type: nginx
-    server_tag: server.dywx.com
     redis_key: sla00_00001
     log_level: INFO
   fields_under_root: true
