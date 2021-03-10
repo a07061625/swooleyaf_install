@@ -6,8 +6,6 @@ USER=default
 PASSWARD=yjbn15su
 EXEC=/usr/local/redis/bin/redis-server
 CLIEXEC=/usr/local/redis/bin/redis-cli
-MODULE_PATH=/usr/local/redis/modules
-
 PIDFILE=/var/run/redis_${REDISPORT}.pid
 CONF="/etc/redis/${REDISPORT}.conf"
 
