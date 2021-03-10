@@ -8,6 +8,9 @@ mkdir /home/configs/logstash
 mkdir /home/logs/logstash
 
 cd /usr/local/logstash
+# 离线安装插件
+bin/logstash-plugin install file:///path/to/logstash-offline-output-loki-1.0.3.zip
+
 # 启动
 bin/logstash
 
