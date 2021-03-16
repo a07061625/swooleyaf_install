@@ -13,7 +13,7 @@ class SyPhp:
             'configs/swooleyaf/php7/php-fpm-fcgi.ini',
             'configs/swooleyaf/php7/www.conf',
             'configs/swooleyaf/php7/php7-fpm.service',
-            'resources/lang/php7/php-7.4.14.tar.gz',
+            'resources/lang/php7/php-7.4.16.tar.gz',
             'resources/lang/php7/msgpack-2.1.2.tgz',
             'resources/lang/php7/redis-5.3.3.tgz',
             'resources/lang/php7/memcached-3.1.5.tgz',
@@ -22,7 +22,7 @@ class SyPhp:
             'resources/lang/php7/mongodb-1.9.0.tgz',
             'resources/lang/php7/yac-2.3.0.tgz',
             'resources/lang/php7/yaconf-1.1.0.tgz',
-            'resources/lang/php7/yaf-3.3.0.tgz',
+            'resources/lang/php7/yaf-3.3.2.tgz',
             'resources/lang/php7/swoole-4.6.2.tgz',
             'resources/lang/php7/runkit7-4.0.0a2.tgz',
             'resources/lang/php7/amqp-1.10.2.tgz',
@@ -33,7 +33,7 @@ class SyPhp:
         run('yum -y install libxslt libxml2 libxml2-devel mysql-devel openldap openldap-devel gmp-devel')
 
         Tool.upload_file_fabric({
-            '/resources/lang/php7/php-7.4.14.tar.gz': 'remote/php-7.4.14.tar.gz',
+            '/resources/lang/php7/php-7.4.16.tar.gz': 'remote/php-7.4.16.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
             run('mkdir /tmp/swooleyaf && chmod 777 /tmp/swooleyaf')
@@ -45,8 +45,8 @@ class SyPhp:
             run('mkdir /home/logs/swoole')
             run('touch /home/logs/swoole/swoole.log')
             run('mkdir %s' % install_configs['php7.path.install'])
-            run('tar -zxf php-7.4.14.tar.gz')
-            run('cd php-7.4.14/ && ./configure --prefix=%s --exec-prefix=%s --bindir=%s/bin --sbindir=%s/sbin --includedir=%s/include --libdir=%s/lib/php --mandir=%s/php/man --with-config-file-path=%s/etc --with-mysql-sock=/usr/local/mysql/mysql.sock --with-zlib=/usr/local/zlib --with-mhash --with-openssl=/usr/local/openssl --with-iconv --enable-inline-optimization --disable-debug --disable-rpath --enable-shared --enable-xml --enable-pcntl --enable-bcmath --enable-mysqlnd --enable-sysvsem --with-mysqli --with-pdo-mysql --enable-shmop --enable-mbregex --enable-mbstring --enable-ftp --enable-sockets --with-xmlrpc --enable-soap --without-pear --without-sqlite3 --without-pdo-sqlite --without-gdbm --with-gettext --enable-session --with-curl --enable-opcache --enable-fpm --enable-fileinfo --with-gmp && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('tar -zxf php-7.4.16.tar.gz')
+            run('cd php-7.4.16/ && ./configure --prefix=%s --exec-prefix=%s --bindir=%s/bin --sbindir=%s/sbin --includedir=%s/include --libdir=%s/lib/php --mandir=%s/php/man --with-config-file-path=%s/etc --with-mysql-sock=/usr/local/mysql/mysql.sock --with-zlib=/usr/local/zlib --with-mhash --with-openssl=/usr/local/openssl --with-iconv --enable-inline-optimization --disable-debug --disable-rpath --enable-shared --enable-xml --enable-pcntl --enable-bcmath --enable-mysqlnd --enable-sysvsem --with-mysqli --with-pdo-mysql --enable-shmop --enable-mbregex --enable-mbstring --enable-ftp --enable-sockets --with-xmlrpc --enable-soap --without-pear --without-sqlite3 --without-pdo-sqlite --without-gdbm --with-gettext --enable-session --with-curl --enable-opcache --enable-fpm --enable-fileinfo --with-gmp && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install'], install_configs['php7.path.install']))
 
         php7_cli_ini_remote = ''.join([install_configs['php7.path.install'], '/etc/php-cli.ini'])
         php7_fpm_ini_remote = ''.join([install_configs['php7.path.install'], '/etc/php-fpm-fcgi.ini'])
@@ -63,7 +63,7 @@ class SyPhp:
         run('chmod 754 /lib/systemd/system/php7-fpm.service')
         run('systemctl enable php7-fpm.service')
 
-        php7_dir_remote = ''.join([install_configs['path.package.remote'], '/php-7.4.14'])
+        php7_dir_remote = ''.join([install_configs['path.package.remote'], '/php-7.4.16'])
         with cd(php7_dir_remote):
             run('groupadd www')
             run('useradd -g www www -s /sbin/nologin')
@@ -152,12 +152,12 @@ class SyPhp:
 
         # 扩展yaf
         Tool.upload_file_fabric({
-            '/resources/lang/php7/yaf-3.3.0.tgz': 'remote/yaf-3.3.0.tgz',
+            '/resources/lang/php7/yaf-3.3.2.tgz': 'remote/yaf-3.3.2.tgz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf yaf-3.3.0.tgz')
-            run('cd yaf-3.3.0/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf yaf-3.3.0/ && rm -rf yaf-3.3.0.tgz')
+            run('tar -zxf yaf-3.3.2.tgz')
+            run('cd yaf-3.3.2/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf yaf-3.3.2/ && rm -rf yaf-3.3.2.tgz')
 
         # 扩展swoole
         Tool.upload_file_fabric({
