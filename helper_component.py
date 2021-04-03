@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
-import os
 import sys
 
 import click
 
 from configs_pro import *
 from jcomponent.db.ComponentMysql import *
+from jcomponent.notify.DingTalk import *
 
 
 def get_version(ctx, param, value):
@@ -40,6 +40,20 @@ def mysql_inception():
     }
     __check(check_params)
     ComponentMysql.inception({})
+
+
+@main.command()
+@click.option('--file', required=True, type=str, help="通知内容文件")
+def notify_dingtalk_robot(file):
+    """钉钉机器人通知"""
+    check_params = {
+        'packages': ['click', 'requests'],
+    }
+    __check(check_params)
+    params = {
+        'msg_file': file
+    }
+    DingTalk.send_robot(params)
 
 
 if __name__ == '__main__':
