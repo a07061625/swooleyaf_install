@@ -17,7 +17,7 @@ class DingTalk:
             f.close()
 
         if len(msg_content) > 0:
-            send_res = requests.post(component_notify_configs['dingtalk.url'], json.dumps({
+            send_res = requests.post(component_notify_configs['dingtalk.robot.url'], json.dumps({
                 "msgtype": "text",
                 "at": {
                     "atMobiles": [],
@@ -26,7 +26,7 @@ class DingTalk:
                 "text": {
                     "content": msg_content
                 }
-            }), headers=component_notify_configs['dingtalk.headers'])
+            }), headers=component_notify_configs['dingtalk.robot.headers'])
             return str(send_res.content, encoding="utf-8")
         else:
             return '{"errcode":9999,"errmsg":"通知消息内容为空"}'
