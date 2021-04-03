@@ -1,9 +1,6 @@
 # -*- coding:utf-8 -*-
-import sys
-
 import click
 
-from configs_pro import *
 from jcomponent.db.ComponentMysql import *
 from jcomponent.notify.DingTalk import *
 
@@ -24,21 +21,9 @@ def main():
     pass
 
 
-def __check(params):
-    total_packages = os.popen(python3Prefix + 'list').read()
-    for name in params['packages']:
-        if name not in total_packages:
-            click.secho('package ' + name + ' not install', fg='red')
-            sys.exit()
-
-
 @main.command()
 def mysql_inception():
     """审计Mysql"""
-    check_params = {
-        'packages': ['click', 'PyMySQL', 'prettytable', 'colorama'],
-    }
-    __check(check_params)
     ComponentMysql.inception({})
 
 
@@ -46,10 +31,6 @@ def mysql_inception():
 @click.option('--file', required=True, type=str, help="通知内容文件")
 def notify_dingtalk_robot(file):
     """钉钉机器人通知"""
-    check_params = {
-        'packages': ['click', 'requests'],
-    }
-    __check(check_params)
     params = {
         'msg_file': file
     }
