@@ -41,10 +41,10 @@ class SyLinux:
             '/resources/linux/pcre-8.44.tar.gz': 'remote/pcre-8.44.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('rpm -e --nodeps pcre')
             run('mkdir /usr/local/pcre')
             run('tar -zxf pcre-8.44.tar.gz')
             run('cd pcre-8.44/ && ./configure --prefix=/usr/local/pcre --enable-utf --enable-unicode-properties && make && make install && echo "/usr/local/pcre/lib" >> /etc/ld.so.conf && ldconfig')
+            run('rpm -e --nodeps pcre')
             run('rm -rf pcre-8.44/ && rm -rf pcre-8.44.tar.gz')
 
     @staticmethod
@@ -136,22 +136,16 @@ class SyLinux:
         """安装freetype"""
         Tool.check_local_files([
             'resources/linux/fribidi-1.0.9.tar.xz',
-            'resources/linux/fontconfig-2.12.1.tar.gz',
         ])
         Tool.upload_file_fabric({
             '/resources/linux/fribidi-1.0.9.tar.xz': 'remote/fribidi-1.0.9.tar.xz',
-            '/resources/linux/fontconfig-2.12.1.tar.gz': 'remote/fontconfig-2.12.1.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('yum -y install libxml2 libxml2-devel')
+            run('yum -y install libxml2 libxml2-devel gd-devel')
             run('mkdir /usr/local/fribidi')
             run('xz -d fribidi-1.0.9.tar.xz && tar -xf fribidi-1.0.9.tar')
             run('cd fribidi-1.0.9/ && ./configure --prefix=/usr/local/fribidi && make && make install && echo "/usr/local/fribidi/lib" >> /etc/ld.so.conf && ldconfig')
             run('rm -rf fribidi-1.0.9/ && rm -rf fribidi-1.0.9.tar')
-            run('mkdir /usr/local/fontconfig && mkdir /usr/share/fonts')
-            run('tar -zxf fontconfig-2.12.1.tar.gz')
-            run('cd fontconfig-2.12.1/ && ./configure --prefix=/usr/local/fontconfig --sysconfdir=/etc  --localstatedir=/var --disable-docs --docdir=/usr/share/doc/fontconfig-2.12.1 --enable-libxml2 && make && make install && echo "/usr/local/fontconfig/lib" >> /etc/ld.so.conf && ldconfig')
-            run('rm -rf fontconfig-2.12.1/ && rm -rf fontconfig-2.12.1.tar.gz')
 
     @staticmethod
     def install_jemalloc(params: dict):

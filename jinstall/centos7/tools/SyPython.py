@@ -15,7 +15,7 @@ class SyPython:
         with cd(install_configs['path.package.remote']):
             run('mkdir %s' % install_configs['python3.path.install'])
             # PaddleHub需要
-            run('yum install -y sqlite-devel bzip2 bzip2-devel')
+            run('yum install -y sqlite-devel bzip2 bzip2-devel libffi-devel tk-devel')
             run('tar -Jxf Python-3.7.9.tar.xz')
             run('cd Python-3.7.9/ && ./configure --prefix=%s --enable-optimizations && make && make install && %s/bin/pip3 install fabric3' % (install_configs['python3.path.install'], install_configs['python3.path.install']))
 

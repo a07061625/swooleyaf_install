@@ -92,7 +92,7 @@ class SyPhp:
         with cd(install_configs['path.package.remote']):
             run('mkdir /usr/local/phpredis')
             run('tar -zxf redis-5.3.3.tgz')
-            run('cd redis-5.3.3/ && %s/bin/phpize && ./configure --prefix=/usr/local/phpredis --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('cd redis-5.3.3/ && %s/bin/phpize && ./configure --prefix=/usr/local/phpredis --with-php-config=%s/bin/php-config --enable-redis-msgpack && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
             run('rm -rf redis-5.3.3/ && rm -rf redis-5.3.3.tgz')
 
         # 扩展memcached
