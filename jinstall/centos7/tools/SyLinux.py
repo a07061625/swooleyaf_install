@@ -130,6 +130,7 @@ class SyLinux:
             run('mkdir /usr/local/libjpeg')
             run('tar -zxf jpegsrc.v9.tar.gz')
             run('cd jpeg-9/ && ./configure --prefix=/usr/local/libjpeg --enable-shared --enable-static && make && make install && echo "/usr/local/libjpeg/lib" >> /etc/ld.so.conf && ldconfig')
+            run('rm -rf /lib64/libjpeg.so')
             run('rm -rf jpeg-9/ && rm -rf jpegsrc.v9.tar.gz')
 
     @staticmethod
