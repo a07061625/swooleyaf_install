@@ -32,6 +32,22 @@ class SyLinux:
         run('firewall-cmd --reload')
 
     @staticmethod
+    def install_libstdc(params: dict):
+        """安装libstdc"""
+        Tool.check_local_files([
+            'resources/linux/libstdc++.so.6.0.26',
+        ])
+
+        stdc_remote = '/usr/lib64/libstdc++.so.6.0.26'
+        Tool.upload_file_fabric({
+            '/resources/linux/libstdc++.so.6.0.26': stdc_remote,
+        })
+        with cd(install_configs['path.package.remote']):
+            run('chmod a+x %s' % stdc_remote)
+            run('mv /usr/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6.bak')
+            run('ln -s %s /usr/lib64/libstdc++.so.6' % stdc_remote)
+
+    @staticmethod
     def install_pcre(params: dict):
         """安装pcre"""
         Tool.check_local_files([
@@ -114,6 +130,7 @@ class SyLinux:
             run('mkdir /usr/local/libjpeg')
             run('tar -zxf jpegsrc.v9.tar.gz')
             run('cd jpeg-9/ && ./configure --prefix=/usr/local/libjpeg --enable-shared --enable-static && make && make install && echo "/usr/local/libjpeg/lib" >> /etc/ld.so.conf && ldconfig')
+            run('rm -rf /lib64/libjpeg.so')
             run('rm -rf jpeg-9/ && rm -rf jpegsrc.v9.tar.gz')
 
     @staticmethod
