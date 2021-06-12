@@ -17,7 +17,7 @@ class SyPhp:
             'resources/lang/php7/msgpack-2.1.2.tgz',
             'resources/lang/php7/redis-5.3.3.tgz',
             'resources/lang/php7/memcached-3.1.5.tgz',
-            'resources/lang/php7/imagick-3.4.4.tgz',
+            'resources/lang/php7/imagick-3.4.3.tgz',
             'resources/lang/php7/SeasLog-2.2.0.tgz',
             'resources/lang/php7/mongodb-1.9.0.tgz',
             'resources/lang/php7/yac-2.3.0.tgz',
@@ -106,13 +106,13 @@ class SyPhp:
 
         # 扩展imgick
         Tool.upload_file_fabric({
-            '/resources/lang/php7/imagick-3.4.4.tgz': 'remote/imagick-3.4.4.tgz',
+            '/resources/lang/php7/imagick-3.4.3.tgz': 'remote/imagick-3.4.3.tgz',
         })
         with cd(install_configs['path.package.remote']):
             run('mkdir /usr/local/imagick')
-            run('tar -zxf imagick-3.4.4.tgz')
-            run('cd imagick-3.4.4/ && %s/bin/phpize && ./configure --prefix=/usr/local/imagick --with-php-config=%s/bin/php-config --with-imagick=/usr/local/imagemagick && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
-            run('rm -rf imagick-3.4.4/ && rm -rf imagick-3.4.4.tgz')
+            run('tar -zxf imagick-3.4.3.tgz')
+            run('cd imagick-3.4.3/ && %s/bin/phpize && ./configure --prefix=/usr/local/imagick --with-php-config=%s/bin/php-config --with-imagick=/usr/local/imagemagick && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf imagick-3.4.3/ && rm -rf imagick-3.4.3.tgz')
 
         # 扩展SeasLog
         Tool.upload_file_fabric({
