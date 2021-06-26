@@ -105,7 +105,6 @@ pagespeed EnableFilters insert_dns_prefetch;
 #资源限制
 #启用通配符匹配
 pagespeed Allow wildcard_spec;
-pagespeed Disallow "*";
 pagespeed Allow "*.htm";
 pagespeed Allow "*.html";
 pagespeed Allow "*.css";
