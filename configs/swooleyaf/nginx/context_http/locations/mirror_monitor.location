@@ -1,4 +1,6 @@
 internal;
-proxy_pass http://monitor.xxx.cn;
 proxy_set_header Content-Length "";
 proxy_set_header X-Original-URI $request_uri;
+access_by_lua_block {
+    symodules.manager.mirrorCirculationFlow()
+}

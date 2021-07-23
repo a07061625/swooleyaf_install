@@ -15,6 +15,11 @@ location = /mymonitor {
     include /home/configs/nginx/context_http/locations/mirror_monitor.location;
     proxy_set_header Sy-Monitor "a01";
 }
+location /mymonitor-refresh {
+    access_by_lua_block {
+        symodules.manager.mirrorCirculationRefresh()
+    }
+}
 location /ws/ {
     proxy_pass http://http_a01;
     include /home/configs/nginx/context_http/locations/proxy_api_websocket.location;
