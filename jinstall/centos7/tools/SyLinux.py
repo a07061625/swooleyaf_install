@@ -360,6 +360,37 @@ class SyLinux:
             run('rm -rf libtool-2.4.6/ && rm -rf libtool-2.4.6.tar.gz')
 
     @staticmethod
+    def install_make(params: dict):
+        """安装make"""
+        Tool.check_local_files([
+            'resources/linux/make-4.2.1.tar.gz',
+        ])
+        Tool.upload_file_fabric({
+            '/resources/linux/make-4.2.1.tar.gz': 'remote/make-4.2.1.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('tar -zxf make-4.2.1.tar.gz')
+            run('cd make-4.2.1/ && mkdir build && cd build/ && ../configure --prefix=/usr && sh build.sh && make install')
+            run('rm -rf make-4.2.1/ && rm -rf make-4.2.1.tar.gz')
+
+    @staticmethod
+    def install_glibc(params: dict):
+        """安装glibc"""
+        Tool.check_local_files([
+            'resources/linux/glibc-2.29.tar.gz',
+        ])
+        Tool.upload_file_fabric({
+            '/resources/linux/glibc-2.29.tar.gz': 'remote/glibc-2.29.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('tar -zxf glibc-2.29.tar.gz')
+            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons && make')
+            # 忽略错误ld: cannot find -lnss_test2
+            with settings(warn_only=True):
+                run('cd glibc-2.29/build/ && make install')
+            run('rm -rf glibc-2.29/ && rm -rf glibc-2.29.tar.gz')
+
+    @staticmethod
     def install_goaccess(params: dict):
         """安装goaccess-web日志处理器"""
         Tool.check_local_files([
