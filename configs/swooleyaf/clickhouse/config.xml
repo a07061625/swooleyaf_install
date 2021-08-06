@@ -331,10 +331,10 @@
     <compiled_expression_cache_size>1073741824</compiled_expression_cache_size>
 
     <!-- Path to data directory, with trailing slash. -->
-    <path>/home/www/data/clickhouse/</path>
+    <path>/home/data/clickhouse/</path>
 
     <!-- Path to temporary data for processing hard queries. -->
-    <tmp_path>/home/www/data/clickhouse/tmp/</tmp_path>
+    <tmp_path>/home/data/clickhouse/tmp/</tmp_path>
 
     <!-- Policy from the <storage_configuration> for the temporary files.
          If not set <tmp_path> is used, otherwise <tmp_path> is ignored.
@@ -348,7 +348,7 @@
     <!-- <tmp_policy>tmp</tmp_policy> -->
 
     <!-- Directory with user provided files that are accessible by 'file' table function. -->
-    <user_files_path>/home/www/data/clickhouse/user_files/</user_files_path>
+    <user_files_path>/home/data/clickhouse/user_files/</user_files_path>
 
     <!-- LDAP server definitions. -->
     <ldap_servers>
@@ -586,6 +586,16 @@
          https://clickhouse.tech/docs/en/operations/table_engines/distributed/
       -->
     <remote_servers>
+        <!-- 单节点 -->
+        <sy_shard1_localhost>
+            <shard>
+                <replica>
+                    <host>localhost</host>
+                    <port>9801</port>
+                    <priority>1</priority>
+                </replica>
+            </shard>
+        </sy_shard1_localhost>
         <!-- Test only shard config for testing distributed storage -->
         <test_shard_localhost>
             <!-- Inter-server per-cluster secret for Distributed queries
@@ -964,7 +974,7 @@
     <!-- <path_to_regions_names_files>/opt/geo/</path_to_regions_names_files> -->
 
 
-    <!-- <top_level_domains_path>/home/www/data/clickhouse/top_level_domains/</top_level_domains_path> -->
+    <!-- <top_level_domains_path>/home/data/clickhouse/top_level_domains/</top_level_domains_path> -->
     <!-- Custom TLD lists.
          Format: <name>/path/to/file</name>
 
@@ -1077,7 +1087,7 @@
     <!-- Directory in <clickhouse-path> containing schema files for various input formats.
          The directory will be created if it doesn't exist.
       -->
-    <format_schema_path>/home/www/data/clickhouse/format_schemas/</format_schema_path>
+    <format_schema_path>/home/data/clickhouse/format_schemas/</format_schema_path>
 
     <!-- Default query masking rules, matching lines would be replaced with something else in the logs
         (both text logs and system.query_log).
