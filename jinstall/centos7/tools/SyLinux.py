@@ -272,16 +272,16 @@ class SyLinux:
     def install_etcd(params: dict):
         """安装etcd"""
         Tool.check_local_files([
-            'resources/service-discovery/etcd/etcd-v3.2.7-linux-amd64.tar.gz',
+            'resources/service-discovery/etcd/etcd-v3.5.0-linux-amd64.tar.gz',
         ])
         Tool.upload_file_fabric({
-            '/resources/service-discovery/etcd/etcd-v3.2.7-linux-amd64.tar.gz': 'remote/etcd-v3.2.7-linux-amd64.tar.gz',
+            '/resources/service-discovery/etcd/etcd-v3.5.0-linux-amd64.tar.gz': 'remote/etcd-v3.5.0-linux-amd64.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf etcd-v3.2.7-linux-amd64.tar.gz')
-            run('mv etcd-v3.2.7-linux-amd64/ %s' % install_configs['etcd.path.install'])
+            run('tar -zxf etcd-v3.5.0-linux-amd64.tar.gz')
+            run('mv etcd-v3.5.0-linux-amd64/ %s' % install_configs['etcd.path.install'])
             run('cp %s/etcd* /usr/local/bin' % install_configs['etcd.path.install'])
-            run('rm -rf etcd-v3.2.7-linux-amd64.tar.gz')
+            run('rm -rf etcd-v3.5.0-linux-amd64.tar.gz')
 
     @staticmethod
     def install_ftp(params: dict):
