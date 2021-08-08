@@ -10,6 +10,9 @@ class SyLinux:
         for system_env in iter(params['envs']):
             run('echo "%s" >> /etc/profile' % system_env, False)
         run('source /etc/profile')
+        run('echo "/usr/local/lib64" >> /etc/ld.so.conf')
+        run('echo "/usr/local/lib" >> /etc/ld.so.conf')
+        run('ldconfig')
 
         if params['init'] == 1:
             run('yum -y install lrzsz bison bison-devel gdb vim zip nss gcc gcc-c++ net-tools wget lsof unzip bzip2 curl-devel libcurl-devel patch zlib-devel epel-release perl-ExtUtils-MakeMaker expat-devel gettext-devel openssl-devel iproute autoconf automake make cmake libtool libtool-ltdl libtool-ltdl-devel libpng freetype libjpeg-turbo libjpeg-turbo-devel libjpeg-turbo-utils libpng-devel freetype-devel')
@@ -369,7 +372,7 @@ class SyLinux:
 
         with cd(install_configs['path.package.remote']):
             run('tar -zxf libmaxminddb-1.5.0.tar.gz')
-            run('cd libmaxminddb-1.5.0/ && ./configure && make && make install && echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf && ldconfig')
+            run('cd libmaxminddb-1.5.0/ && ./configure && make && make install && ldconfig')
             run('rm -rf libmaxminddb-1.5.0/ && rm -rf libmaxminddb-1.5.0.tar.gz')
 
     @staticmethod

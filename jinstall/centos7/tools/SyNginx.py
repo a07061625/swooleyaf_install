@@ -96,7 +96,7 @@ class SyNginx:
         })
         with cd(install_configs['path.package.remote']):
             run('tar -zxf gperftools-2.1.tar.gz')
-            run('cd gperftools-2.1/ && ./configure --prefix=/usr --enable-frame-pointers && make && make install && echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf && ldconfig')
+            run('cd gperftools-2.1/ && ./configure --prefix=/usr --enable-frame-pointers && make && make install && ldconfig')
             run('rm -rf gperftools-2.1/ && rm -rf gperftools-2.1.tar.gz')
             run('mkdir /tmp/tcmalloc && chmod 0777 /tmp/tcmalloc')
 
