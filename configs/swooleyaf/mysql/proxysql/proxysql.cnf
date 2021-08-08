@@ -1,47 +1,35 @@
-#file proxysql.cfg
-
-########################################################################################
-# This config file is parsed using libconfig , and its grammar is described in:        
-# http://www.hyperrealm.com/libconfig/libconfig_manual.html#Configuration-File-Grammar 
-# Grammar is also copied at the end of this file                                       
-########################################################################################
-
-########################################################################################
-# IMPORTANT INFORMATION REGARDING THIS CONFIGURATION FILE:                             
-########################################################################################
-# On startup, ProxySQL reads its config file (if present) to determine its datadir. 
-# What happens next depends on if the database file (disk) is present in the defined
-# datadir (i.e. "/var/lib/proxysql/proxysql.db").
-#
-# If the database file is found, ProxySQL initializes its in-memory configuration from 
-# the persisted on-disk database. So, disk configuration gets loaded into memory and 
-# then propagated towards the runtime configuration. 
-#
-# If the database file is not found and a config file exists, the config file is parsed 
-# and its content is loaded into the in-memory database, to then be both saved on-disk 
-# database and loaded at runtime.
-#
-# IMPORTANT: If a database file is found, the config file is NOT parsed. In this case
-#            ProxySQL initializes its in-memory configuration from the persisted on-disk
-#            database ONLY. In other words, the configuration found in the proxysql.cnf
-#            file is only used to initial the on-disk database read on the first startup.
-#
-# In order to FORCE a re-initialise of the on-disk database from the configuration file 
-# the ProxySQL service should be started with "systemctl start proxysql-initial".
-#
-########################################################################################
-
 datadir="/home/data/proxysql"
 errorlog="/home/logs/proxysql/proxysql.log"
 
 admin_variables=
 {
-	admin_credentials="admin:admin"
-#	mysql_ifaces="127.0.0.1:6032;/tmp/proxysql_admin.sock"
-	mysql_ifaces="0.0.0.0:6032"
-#	refresh_interval=2000
-#	debug=true
+    admin_credentials="admin:a07061625;cluster_jw:jw07061625"
+    mysql_ifaces="0.0.0.0:6032"
+    #refresh_interval=2000
+    #debug=true
+    cluster_username="cluster_jw"
+    cluster_password="jw07061625"
+    cluster_check_interval_ms=200
+    cluster_check_status_frequency=100
+    cluster_mysql_query_rules_save_to_disk=true
+    cluster_mysql_servers_save_to_disk=true
+    cluster_mysql_users_save_to_disk=true
+    cluster_proxysql_servers_save_to_disk=true
+    cluster_mysql_query_rules_diffs_before_sync=3
+    cluster_mysql_servers_diffs_before_sync=3
+    cluster_mysql_users_diffs_before_sync=3
+    cluster_proxysql_servers_diffs_before_sync=3
 }
+
+proxysql_servers =
+(
+    {
+        hostname="192.168.3.168"
+        port=6032
+        weight=1
+        comment="ProxySQL-node1"
+    }
+)
 
 mysql_variables=
 {
