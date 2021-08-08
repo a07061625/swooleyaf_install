@@ -1,6 +1,6 @@
 # 说明
-## addition_to_sys.sql.sql
-检测集群状态的sql视图脚本和探测语句
+## addition_to_sys.txt
+检测集群状态的sql视图脚本和探测语句,使用时改成.sql后缀
 ## proxysql_groupreplication_checker.sh
 用于multi-primary（多主）模式,可以实现读写分离,以及故障切换,同一时间点多个节点可以多写
 ## gr_mw_mode_cheker.sh
