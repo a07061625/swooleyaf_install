@@ -1,5 +1,10 @@
 lua_shared_dict sw010a01 10m;
 lua_shared_dict sw011a01 20m;
+lua_shared_dict sw012a01 20m;
+lua_shared_dict sw013a01 20m;
+lua_shared_dict sw014a01 20m;
+lua_shared_dict sw015a01 20m;
+lua_shared_dict sw016a01 20m;
 proxy_cache_path /home/configs/nginx/cache/a01 levels=1:2 use_temp_path=off keys_zone=ngcachea01:16m inactive=1d max_size=64m;
 include /home/configs/nginx/context_http/api.upstream;
 
