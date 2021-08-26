@@ -57,6 +57,16 @@ function backupIncremental() {
 
     # shellcheck disable=SC2004
     BACKUP_DIR_TARGET=${BACKUP_DIR_ROOT}/${BACKUP_WEEK_DAY_LAST}/incremental_$(( ${BACKUP_WEEK_DAY_NUM} - 1 ))
+    if [[ -e ${BACKUP_DIR_TARGET} ]]; then
+        # shellcheck disable=SC2129
+        echo "############################################################################" >> ${BACKUP_FILE_LOG}
+        # shellcheck disable=SC2046
+        # shellcheck disable=SC2006
+        echo `date +"%F %T %u %A %B %j"` ${BACKUP_DIR_TARGET} already exits!!!!!!!!!!>> ${BACKUP_FILE_LOG}
+        echo "############################################################################" >> ${BACKUP_FILE_LOG}
+        exit 0
+    fi
+
     if [[ ${BACKUP_WEEK_DAY_NUM} -eq 2 ]]; then
         BACKUP_DIR_INCREMENTAL_BASE=${BACKUP_DIR_ROOT}/${BACKUP_WEEK_DAY_LAST}/base
     else
@@ -67,17 +77,6 @@ function backupIncremental() {
             # shellcheck disable=SC2006
             BACKUP_DIR_INCREMENTAL_BASE=${BACKUP_DIR_ROOT}/${BACKUP_WEEK_DAY_LAST}/base
         fi
-    fi
-
-    if [[ -e ${BACKUP_DIR_TARGET} ]]; then
-        # shellcheck disable=SC2129
-        echo "############################################################################" >> ${BACKUP_FILE_LOG}
-        # shellcheck disable=SC2086
-        # shellcheck disable=SC2046
-        # shellcheck disable=SC2006
-        echo `date +"%F %T %u %A %B %j"` ${BACKUP_DIR_TARGET} already exits!!!!!!!!!!>> ${BACKUP_FILE_LOG}
-        echo "############################################################################" >> ${BACKUP_FILE_LOG}
-        exit 0
     fi
 
     # shellcheck disable=SC2086
