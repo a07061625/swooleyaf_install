@@ -1,5 +1,8 @@
 include /home/configs/nginx/context_http/locations/domain_static_common.location;
 location ~ \.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)$ {
+    if ( $request_method !~ ^(GET|HEAD)$ ) {
+        return 403;
+    }
     add_header Cache-Control 'public,max-age=300';
     add_header Pragma public;
     limit_rate_after 500k;
