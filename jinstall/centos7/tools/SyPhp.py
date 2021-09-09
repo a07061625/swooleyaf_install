@@ -29,6 +29,7 @@ class SyPhp:
             'resources/lang/php7/screw-plus.tgz',
             'resources/lang/php7/xdebug-3.0.2.tgz',
             'resources/lang/php7/swoole-tracker.tar.gz',
+            'resources/lang/php7/zip-1.19.4.tgz',
         ])
         run('yum -y install libxslt libxml2 libxml2-devel mysql-devel openldap openldap-devel gmp-devel')
 
@@ -196,6 +197,15 @@ class SyPhp:
             if install_configs['php7.screw.tool'] == '1':
                 run('cd screw-plus/tools && make && mv screw %s/bin/' % install_configs['php7.path.install'])
             run('rm -rf screw-plus/ && rm -rf screw-plus.tgz')
+
+        # 扩展zip
+        Tool.upload_file_fabric({
+            '/resources/lang/php7/zip-1.19.4.tgz': 'remote/zip-1.19.4.tgz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('tar -zxf zip-1.19.4.tgz')
+            run('cd zip-1.19.4/ && %s/bin/phpize && ./configure --with-php-config=%s/bin/php-config && make && make install' % (install_configs['php7.path.install'], install_configs['php7.path.install']))
+            run('rm -rf zip-1.19.4/ && rm -rf zip-1.19.4.tgz')
 
         # # 扩展xdebug
         # Tool.upload_file_fabric({

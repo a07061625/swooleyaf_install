@@ -414,3 +414,18 @@ class SyLinux:
             run('rm -rf goaccess-1.4.5/ && rm -rf goaccess-1.4.5.tar.gz')
             run('chmod a+x nginx2goaccess.sh')
             run('mv nginx2goaccess.sh %s/bin/nginx2goaccess.sh' % remote_goaccess)
+
+    @staticmethod
+    def install_libzip(params: dict):
+        """安装libzip"""
+        Tool.check_local_files([
+            'resources/linux/libzip-1.7.3.tar.gz',
+        ])
+        Tool.upload_file_fabric({
+            '/resources/linux/libzip-1.7.3.tar.gz': 'remote/libzip-1.7.3.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('tar -zxf libzip-1.7.3.tar.gz')
+            # /usr/local/lib64在开始已经添加到ldconfig配置中,如果未添加需要添加上
+            run('cd libzip-1.7.3/ && mkdir build && cd build/ && cmake .. && make && make install && ldconfig')
+            run('rm -rf libzip-1.7.3/ && rm -rf libzip-1.7.3.tar.gz')
