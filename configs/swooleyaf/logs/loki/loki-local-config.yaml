@@ -1,16 +1,13 @@
 auth_enabled: false
 
 server:
-  http_listen_address: 192.169.3.168
+  http_listen_address: 192.168.3.168
   http_listen_port: 3100
   log_level: info
 
 ingester:
-  wal:
-    enabled: true
-    dir: /tmp/wal
   lifecycler:
-    address: 192.169.3.168
+    address: 192.168.3.168
     ring:
       kvstore:
         store: inmemory
@@ -65,7 +62,7 @@ ruler:
     local:
       directory: /home/data/loki/rules
   rule_path: /home/data/loki/rules-temp
-  alertmanager_url: http://192.169.3.168:9093
+  alertmanager_url: http://192.168.3.168:9093
   ring:
     kvstore:
       store: inmemory
