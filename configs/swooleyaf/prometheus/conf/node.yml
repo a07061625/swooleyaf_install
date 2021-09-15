@@ -1,0 +1,10 @@
+- targets:
+    - "192.168.3.168:19094"
+  labels:
+    host: 192.168.3.168
+    name: node
+- targets:
+    - "192.168.3.169:19094"
+  labels:
+    host: 192.168.3.169
+    name: node

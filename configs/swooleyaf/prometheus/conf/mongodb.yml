@@ -1,0 +1,10 @@
+- targets:
+    - "192.168.3.168:19093"
+  labels:
+    host: 192.168.3.168
+    name: mongodb
+- targets:
+    - "192.168.3.169:19093"
+  labels:
+    host: 192.168.3.169
+    name: mongodb

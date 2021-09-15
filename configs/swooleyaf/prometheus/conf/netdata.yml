@@ -1,0 +1,10 @@
+- targets:
+    - "192.168.3.168:19999"
+  labels:
+    host: 192.168.3.168
+    name: netdata
+- targets:
+    - "192.168.3.169:19999"
+  labels:
+    host: 192.168.3.169
+    name: netdata

@@ -23,39 +23,39 @@ scrape_configs:
   - job_name: 'prometheus'
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-    static_configs:
-    - targets: ['192.168.3.168:19090']
-      labels:
-        instance: prometheus01
+    file_sd_configs:
+    - refresh_interval: 1440m
+      files:
+        - "/usr/local/prometheus/conf/prometheus.yml"
   - job_name: 'pushgateway'
     honor_labels: true
-    static_configs:
-      - targets: ['192.168.3.168:19091']
-        labels:
-          instance: pushgateway01
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/pushgateway.yml"
   - job_name: 'netdata'
     metrics_path: /api/v1/allmetrics?format=prometheus
-    static_configs:
-      - targets: ['192.168.3.168:19999']
-        labels:
-          instance: netdata01
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/netdata.yml"
   - job_name: 'mongodb'
-    static_configs:
-      - targets: ['192.168.3.168:19093']
-        labels:
-          instance: mongodb01
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/mongodb.yml"
   - job_name: 'node'
-    static_configs:
-      - targets: ['192.168.3.168:19094']
-        labels:
-          instance: node01
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/node.yml"
   - job_name: 'mysql'
-    static_configs:
-      - targets: ['192.168.3.168:19095']
-        labels:
-          instance: mysql01
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/mysql.yml"
   - job_name: 'redis'
-    static_configs:
-      - targets: ['192.168.3.168:19096']
-        labels:
-          instance: redis01
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/redis.yml"

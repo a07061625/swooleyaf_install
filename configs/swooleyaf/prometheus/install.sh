@@ -42,7 +42,7 @@ nohup /usr/local/prometheus_exporters/mongodb/mongodb_exporter \
 --mongodb.uri=mongodb://admin:123456@192.168.3.168:27017/admin \
 --web.listen-address="192.168.3.168:19093" \
 --web.telemetry-path="/metrics" \
->/home/logs/prometheus/mongodb.log 2>&1 &
+>/home/logs/prometheus/exporter_mongodb.log 2>&1 &
 
 # node_exporter
 ## grafana dashboard id: 9276
@@ -52,7 +52,7 @@ nohup /usr/local/prometheus_exporters/node/node_exporter \
 --web.listen-address="192.168.3.168:19094" \
 --web.telemetry-path="/metrics" \
 --web.max-requests=10 \
->/home/logs/prometheus/node.log 2>&1 &
+>/home/logs/prometheus/exporter_node.log 2>&1 &
 
 # mysqld_exporter
 ## grafana dashboard id: 7362
@@ -76,7 +76,7 @@ nohup /usr/local/prometheus_exporters/mysql/mysqld_exporter \
 --web.listen-address="192.168.3.168:19095" \
 --web.telemetry-path="/metrics" \
 --config.my-cnf="/root/.my.cnf" \
->/home/logs/prometheus/mysql.log 2>&1 &
+>/home/logs/prometheus/exporter_mysql.log 2>&1 &
 
 # redis_exporter
 ## grafana dashboard id: 763
@@ -84,7 +84,7 @@ mkdir /usr/local/prometheus_exporters/redis
 nohup /usr/local/prometheus_exporters/redis/redis_exporter \
 -redis-only-metrics \
 -redis.addr="redis://192.168.3.168:6688" \
--redis.password yjbn15su \
+-redis.password=yjbn15su \
 -web.listen-address="192.168.3.168:19096" \
 -web.telemetry-path="/metrics" \
->/home/logs/prometheus/redis.log 2>&1 &
+>/home/logs/prometheus/exporter_redis.log 2>&1 &

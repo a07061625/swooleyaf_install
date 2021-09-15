@@ -1,0 +1,10 @@
+- targets:
+    - "192.168.3.168:19095"
+  labels:
+    host: 192.168.3.168
+    name: mysql
+- targets:
+    - "192.168.3.169:19095"
+  labels:
+    host: 192.168.3.169
+    name: mysql
