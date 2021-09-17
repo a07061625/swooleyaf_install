@@ -36,6 +36,7 @@ nohup /usr/local/alertmanager/alertmanager \
 
 mkdir /usr/local/prometheus_exporters
 # mongodb_exporter
+## grafana dashboard id: 7353
 mkdir /usr/local/prometheus_exporters/mongodb
 nohup /usr/local/prometheus_exporters/mongodb/mongodb_exporter \
 --log.level="info" \
@@ -57,9 +58,9 @@ nohup /usr/local/prometheus_exporters/node/node_exporter \
 # mysqld_exporter
 ## grafana dashboard id: 7362
 ## 创建导出用户
-CREATE user 'exporter'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
-ALTER user 'exporter'@'localhost' PASSWORD EXPIRE NEVER;
-GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
+CREATE user 'exporter'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY '123456';
+ALTER user 'exporter'@'127.0.0.1' PASSWORD EXPIRE NEVER;
+GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'127.0.0.1';
 flush privileges;
 
 touch /root/.my.cnf

@@ -232,7 +232,7 @@ path.logs: /home/logs/logstash
 #
 # X-Pack Monitoring
 # https://www.elastic.co/guide/en/logstash/current/monitoring-logstash.html
-xpack.monitoring.enabled: true
+xpack.monitoring.enabled: false
 xpack.monitoring.elasticsearch.username: logstash_system
 xpack.monitoring.elasticsearch.password: jw07061625
 xpack.monitoring.elasticsearch.hosts: ["http://192.168.96.21:9201"]
@@ -252,7 +252,7 @@ xpack.monitoring.elasticsearch.hosts: ["http://192.168.96.21:9201"]
 # X-Pack Management
 # https://www.elastic.co/guide/en/logstash/current/logstash-centralized-pipeline-management.html
 # 需要先通过Monitoring创建用户,假设创建了用户logstash_admin_user
-xpack.management.enabled: true
+xpack.management.enabled: false
 xpack.management.pipeline.id: ["main", "apache_logs"]
 xpack.management.elasticsearch.username: logstash_admin_user
 xpack.management.elasticsearch.password: password

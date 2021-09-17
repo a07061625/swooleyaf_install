@@ -12,3 +12,5 @@ touch /home/logs/loki/console.log
 
 # 启动
 nohup /usr/local/loki/bin/loki-linux-amd64 -config.file=/usr/local/loki/loki-local-config.yaml > /home/logs/loki/console.log 2>&1 &
+
+## grafana dashboard id: 13198
