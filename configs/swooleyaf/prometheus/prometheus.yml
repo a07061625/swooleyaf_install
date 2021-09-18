@@ -59,3 +59,8 @@ scrape_configs:
       - refresh_interval: 1440m
         files:
           - "/usr/local/prometheus/conf/redis.yml"
+  - job_name: 'nginx-vts'
+    file_sd_configs:
+      - refresh_interval: 1440m
+        files:
+          - "/usr/local/prometheus/conf/nginx-vts.yml"

@@ -2,6 +2,18 @@
 set -o nounset
 set -o errexit
 
+mkdir /usr/local/prometheus_webhooks
+# prometheus-webhook-dingtalk
+tar -zxf prometheus-webhook-dingtalk-2.0.0.linux-amd64.tar.gz
+mv prometheus-webhook-dingtalk-2.0.0.linux-amd64/ /usr/local/prometheus_webhooks/dingtalk
+cd /usr/local/prometheus_webhooks/dingtalk
+nohup /usr/local/prometheus_webhooks/dingtalk/prometheus-webhook-dingtalk \
+--web.listen-address="192.168.3.168:19080" \
+--config.file=config.yml \
+--log.level=info \
+--log.format=logfmt \
+>/home/logs/prometheus/webhook_dingtalk.log 2>&1 &
+
 # prometheus
 nohup /usr/local/prometheus/prometheus \
 --config.file=/usr/local/prometheus/prometheus.yml \
@@ -89,3 +101,12 @@ nohup /usr/local/prometheus_exporters/redis/redis_exporter \
 -web.listen-address="192.168.3.168:19096" \
 -web.telemetry-path="/metrics" \
 >/home/logs/prometheus/exporter_redis.log 2>&1 &
+
+# nginx-vts-exporter
+## grafana dashboard id: 2949
+mkdir /usr/local/prometheus_exporters/nginx-vts
+nohup /usr/local/prometheus_exporters/nginx-vts/nginx-vts-exporter \
+-nginx.scrape_uri http://192.168.3.168:8989/status/format/json \
+-telemetry.address 192.168.3.168:19097 \
+-telemetry.endpoint /metrics \
+>/home/logs/prometheus/exporter_nginx_vts.log 2>&1 &
