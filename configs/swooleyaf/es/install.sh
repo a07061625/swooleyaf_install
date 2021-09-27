@@ -10,8 +10,16 @@ sysctl -p
 vim /etc/security/limits.conf
     * soft memlock unlimited
     * hard memlock unlimited
+    * soft nproc 120000
+    * hard nproc 131072
+    * soft nofile 260000
+    * hard nofile 262140
     root soft memlock unlimited
     root hard memlock unlimited
+    root soft nproc 120000
+    root hard nproc 131072
+    root soft nofile 260000
+    root hard nofile 262140
 
 cd /usr/local/elasticsearch
 # 插件

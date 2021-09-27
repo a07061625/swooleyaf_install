@@ -4,8 +4,7 @@
     - /home/logs/nginx/error.log
   encoding: "utf-8"
   fields:
-    server_type: nginx
-    server_tag: error
+    server_type: nginx-error
     redis_key: sla00_00002
     log_level: ERROR
   fields_under_root: true

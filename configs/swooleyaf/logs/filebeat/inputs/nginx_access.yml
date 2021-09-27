@@ -4,7 +4,7 @@
     - /home/logs/nginx/*.access.log
   encoding: "utf-8"
   fields:
-    server_type: nginx
+    server_type: nginx-access
     redis_key: sla00_00001
     log_level: INFO
   fields_under_root: true
