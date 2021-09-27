@@ -13,7 +13,6 @@
 fields_under_root: true
 fields:
   env_type: "dev"
-  drop_status: false
   server_ip: "192.168.96.21"
 
 #=========================== Filebeat inputs =============================
