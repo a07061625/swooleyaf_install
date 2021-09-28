@@ -70,7 +70,7 @@ pipeline.ordered: auto
 #
 # Where to fetch the pipeline configuration for the main pipeline
 #
-path.config: /home/configs/logstash/*.conf
+path.config: /home/configs/logstash/*.cnf
 #
 # Pipeline configuration string for the main pipeline
 #
