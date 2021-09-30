@@ -38,4 +38,15 @@ output {
       url => "%{[save_types][loki]}"
     }
   }
+  if [save_types][dingding] and [save_types][dingding] != "" {
+    http {
+      url => "https://oapi.dingtalk.com/robot/send?access_token=488298742547xxxxxxxxxxxxx"
+      http_method => "post"
+      mapping => {
+        "msgtype" => "text"
+        "at" => "{'atMobiles':[],'isAtAll': false}"
+        "text" => "{'content':'%{[save_types][dingding]}\n  服务类型: %{server_type}\n  日志级别: %{log_level}\n  日志内容: %{message}'}"
+      }
+    }
+  }
 }

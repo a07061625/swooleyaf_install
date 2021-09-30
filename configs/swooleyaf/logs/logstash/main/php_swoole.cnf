@@ -23,7 +23,7 @@ filter {
     mutate {
       remove_field => ["redis_key", "@metadata", "input", "log", "log_date", "savetag1"]
       add_field => {
-        "[save_types][es]" => "logs-"
+        "[save_types][es]" => "logs"
       }
     }
     ruby {

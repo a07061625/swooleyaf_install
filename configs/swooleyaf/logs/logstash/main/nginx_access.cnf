@@ -22,16 +22,21 @@ filter {
       locale => "en"
       match => ["log_date", "dd/MMM/yyyy:HH:mm:ss"]
     }
+    geoip {
+      source => "client_ip"
+      fields => ["city_name", "country_code2", "country_name", "latitude", "longitude", "region_name"]
+    }
     mutate {
       split => ["request_url", "?"]
       add_field => {
         "request_uri" => "%{[request_url][0]}"
-        "[save_types][es]" => "logs-"
-        "[save_types][redis]" => "logs_"
+        "[save_types][es]" => "logs"
+        "[save_types][redis]" => "logs"
         "[save_types][clickhouse]" => "default.table"
         "[save_types][loki]" => "http://192.168.96.21:3100/loki/api/v1/push"
+        "[save_types][dingding]" => "消息告警-日志异常:"
       }
-      remove_field => ["redis_key", "@metadata", "input", "log", "request_url", "log_date", "savetag1"]
+      remove_field => ["redis_key", "@metadata", "input", "log", "[geoip][location]", "request_url", "log_date", "savetag1"]
       convert => {
         "response_status" => "integer"
         "request_time" => "float"
