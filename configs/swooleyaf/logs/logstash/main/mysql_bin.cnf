@@ -16,8 +16,9 @@ filter {
     mutate {
       add_field => {
         "[save_types][es]" => "logs"
+        "message" => "%{row_query}"
       }
-      remove_field => ["redis_key", "@metadata", "input", "log"]
+      remove_field => ["redis_key", "@metadata", "input", "log", "row_query"]
     }
     ruby {
       code => "
