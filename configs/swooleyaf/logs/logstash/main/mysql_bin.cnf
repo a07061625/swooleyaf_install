@@ -1,0 +1,28 @@
+input {
+  redis {
+    batch_count => 1
+    data_type => "list"
+    key => "sla00_00003"
+    host => "127.0.0.1"
+    port => 6688
+    password => "yjbn15su"
+    db => 2
+    threads => 1
+  }
+}
+
+filter {
+  if [server_type] == 'mysql-bin' {
+    mutate {
+      add_field => {
+        "[save_types][es]" => "logs"
+      }
+      remove_field => ["redis_key", "@metadata", "input", "log"]
+    }
+    ruby {
+      code => "
+          event.set('log_timestamp',(event.get('@timestamp').to_f.round(3)*1000).to_i)
+      "
+    }
+  }
+}
