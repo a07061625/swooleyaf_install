@@ -6,7 +6,7 @@
   fields:
     server_type: mysql-slow
     redis_key: sla00_00005
-    log_level: WARNNING
+    log_level: WARNING
   fields_under_root: true
   multiline.pattern: '^\#\s+User\@Host\:'
   multiline.negate: true
