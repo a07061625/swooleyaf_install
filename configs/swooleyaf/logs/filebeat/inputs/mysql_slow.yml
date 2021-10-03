@@ -1,0 +1,20 @@
+- type: log
+  enabled: true
+  paths:
+    - /home/logs/mysql/slow.log
+  encoding: "utf-8"
+  fields:
+    server_type: mysql-slow
+    redis_key: sla00_00005
+    log_level: WARNNING
+  fields_under_root: true
+  multiline.pattern: '^\#\s+User\@Host\:'
+  multiline.negate: true
+  multiline.match: after
+  multiline.max_lines: 800
+  multiline.timeout: 10s
+  max_bytes: 10485760
+  harvester_buffer_size: 16384
+  scan_frequency: 3s
+  harvester_limit: 0
+  close_inactive: 5m

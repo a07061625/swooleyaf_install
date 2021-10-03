@@ -1,0 +1,53 @@
+input {
+  redis {
+    batch_count => 1
+    data_type => "list"
+    key => "sla00_00005"
+    host => "127.0.0.1"
+    port => 6688
+    password => "yjbn15su"
+    db => 2
+    threads => 1
+  }
+}
+
+filter {
+  if [server_type] == 'mysql-slow' {
+    grok {
+      match => ["message", "^\#\s+User\@Host\:\s+(?<query_user>\S+)\[(?<query_host>\S*)\]\s+\@\s+\[(?<query_ip>\S*)\]\s+Id\:\s+(?<query_id>\d+)\s+\#\s+Query_time\:\s+(?<query_time>\S+)\s+Lock_time\:\s+(?<lock_time>\S+)\s+Rows_sent\:\s+(?<rows_sent>\S+)\s+Rows_examined\:\s+(?<rows_examined>\S+)\s*(?<savetag1>use\s+(?<query_db>\w+)\;\s*)?SET\s+timestamp\=(?<log_timestamp>\S+)\;\s*(?<query_sql>(?<query_action>\w+)\s+.*)" ]
+    }
+    grok {
+      match => {"message" => "\#\s+Time:\s+"}
+      add_tag => ["drop"]
+      tag_on_failure => []
+    }
+    if "drop" in [tags] {
+      drop {}
+    }
+    # 转换日志记录中的时间字符串,变成LogStash::Timestamp对象,然后转存到@timestamp字段
+    date {
+      locale => "en"
+      match => ["log_timestamp", "UNIX"]
+    }
+    mutate {
+      add_field => {
+        "[save_types][es]" => "logs"
+      }
+      remove_field => ["redis_key", "@metadata", "input", "log", "savetag1"]
+      convert => {
+        "query_id" => "integer"
+        "query_time" => "float"
+        "lock_time" => "float"
+        "rows_sent" => "integer"
+        "rows_examined" => "integer"
+        "log_timestamp" => "integer"
+      }
+    }
+    ruby {
+      code => "
+          event.set('message',event.get('query_sql'))
+          event.set('query_sql','')
+      "
+    }
+  }
+}
