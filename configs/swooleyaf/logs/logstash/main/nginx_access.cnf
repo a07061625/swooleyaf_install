@@ -48,7 +48,6 @@ filter {
           event.set('request_time',request_time_ms)
           upstream_time_ms = (event.get('upstream_time').to_f.round(3)*1000).to_i
           event.set('upstream_time',upstream_time_ms)
-          ng_request_time = (event.get('request_time').to_f.round(3)*1000).to_i
           ng_response_status = event.get('response_status').to_s
           if ng_response_status == '200' and request_time_ms < 500
               event.set('[save_types][es]','')
