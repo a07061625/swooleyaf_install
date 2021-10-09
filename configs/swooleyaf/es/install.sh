@@ -62,7 +62,11 @@ curl -u elastic:jw07061625 -H "Content-Type: application/json" -X PUT 'http://19
 
 # 清除日志
 DEL_DATE=`date +%Y-%m-%d -d "-3 days"`
-curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-$DEL_DATE
+curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-${DEL_DATE}
+# 数据落盘,每半个小时执行一次
+NOW_DATE=`date +%Y-%m-%d`
+curl -u elastic:jw07061625 -X POST http://192.168.96.21:9201/log-${NOW_DATE}/_flush
+
 # 调整es的索引的写入参数,牺牲持久性来换取高写入性能,在新索引创建完成后执行
 curl -s -H Content-Type:application/json  -u elastic:jw07061625 -d '{
   "index.translog.durability" : "async",
