@@ -57,7 +57,9 @@ bin/elasticsearch -d
 # 初始化密码
 bin/elasticsearch-setup-passwords interactive
 # 索引优化
-curl -u elastic:jw07061625 -X PUT -H 'Content-Type: application/json' -d '{"index.mapping.total_fields.limit" : "200","index.merge.scheduler.max_thread_count" : "1"}' 'http://192.168.96.21:9201/_all/_settings?preserve_existing=true'
+curl -u elastic:jw07061625 -H "Content-Type: application/json" -X PUT 'http://192.168.96.21:9201/_all/_settings?preserve_existing=true' -d '{"index.mapping.total_fields.limit" : "200","index.merge.scheduler.max_thread_count" : "1"}'
+curl -u elastic:jw07061625 -H "Content-Type: application/json" -X PUT 'http://192.168.96.21:9201/_settings' -d '{"index":{"number_of_replicas":0}}'
+
 # 清除日志
 DEL_DATE=`date +%Y-%m-%d -d "-3 days"`
 curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-$DEL_DATE
