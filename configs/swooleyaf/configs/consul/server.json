@@ -1,0 +1,18 @@
+{
+  "datacenter": "yxp_01",
+  "data_dir": "/home/data/consul",
+  "log_level": "INFO",
+  "node_name": "jw01",
+  "server": true,
+  "ports": {
+    "dns": 8600,
+    "http": 8500,
+    "https": -1,
+    "serf_lan": 8301,
+    "serf_wan": 8302
+  },
+  "bootstrap_expect": 1,
+  "bind_addr": "192.168.1.6",
+  "client_addr": "0.0.0.0",
+  "ui": true
+}
