@@ -60,7 +60,7 @@ bin/elasticsearch-setup-passwords interactive
 curl -u elastic:jw07061625 -H "Content-Type: application/json" -X PUT 'http://192.168.96.21:9201/_all/_settings?preserve_existing=true' -d '{"index.mapping.total_fields.limit" : "200","index.merge.scheduler.max_thread_count" : "1"}'
 curl -u elastic:jw07061625 -H "Content-Type: application/json" -X PUT 'http://192.168.96.21:9201/_settings' -d '{"index":{"number_of_replicas":0}}'
 
-# 清除日志
+# 清除日志,最好是每天重启一次elasticsearch
 DEL_DATE=`date +%Y-%m-%d -d "-3 days"`
 curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-${DEL_DATE}
 # 数据落盘,每半个小时执行一次

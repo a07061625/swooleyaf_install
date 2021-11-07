@@ -112,4 +112,4 @@ logging.dest: /home/logs/kibana/kibana.log
 
 # Specifies locale to be used for all localizable strings, dates and number formats.
 # Supported languages are the following: English - en , by default , Chinese - zh-CN .
-#i18n.locale: "en"
+i18n.locale: "zh-CN"
