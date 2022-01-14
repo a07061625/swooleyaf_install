@@ -9,15 +9,15 @@ YXP_COMMON_PATH_ROOT=`dirname ${YXP_COMMON_SCRIPT_NAME_FULL}`
 YXP_COMMON_SCRIPT_NAME=${YXP_COMMON_SCRIPT_NAME_FULL##*/}
 
 # shellcheck disable=SC2086
-. ${YXP_COMMON_PATH_ROOT}/scripts/libs_constants_common.sh
+source ${YXP_COMMON_PATH_ROOT}/scripts/libs_constants_common.sh
 # shellcheck disable=SC2086
-. ${YXP_COMMON_PATH_ROOT}/scripts/libs_constants_ops.sh
+source ${YXP_COMMON_PATH_ROOT}/scripts/libs_constants_ops.sh
 # shellcheck disable=SC2086
-. ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_common.sh
+source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_common.sh
 # shellcheck disable=SC2086
-. ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops1.sh
+source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops1.sh
 # shellcheck disable=SC2086
-. ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops2.sh
+source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops2.sh
 
 # shellcheck disable=SC2086
 # shellcheck disable=SC2164
