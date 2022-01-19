@@ -78,8 +78,8 @@ class SyNginx:
         run('mkdir %s && mkdir %s/pagespeed' % (install_configs['openresty.path.log'], install_configs['openresty.path.log']))
         run('mkdir %s && mkdir %s/certs && mkdir %s/scts && mkdir %s/modules && mkdir %s/passwd' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
         run('mkdir %s/context_http && mkdir %s/context_http/locations && mkdir %s/context_rtmp && mkdir %s/context_stream' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
-        run('mkdir %s/cache && mkdir %s/cache/pagespeed' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
-        run('mkdir %s/temp && mkdir %s/temp/pagespeed' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
+        run('mkdir %s/cache_cgi && mkdir %s/cache && mkdir %s/cache/pagespeed' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
+        run('mkdir %s/temp_cgi && mkdir %s/temp && mkdir %s/temp/pagespeed' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
         run('mkdir %s/data && mkdir %s/data/geoip2' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
         run('yum -y install gd-devel')
 

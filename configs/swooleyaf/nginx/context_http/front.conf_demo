@@ -1,4 +1,6 @@
 proxy_cache_path /home/configs/nginx/cache/b01 levels=1:2 use_temp_path=off keys_zone=ngcacheb01:16m inactive=1d max_size=64m;
+fastcgi_cache_path /home/configs/nginx/cache_cgi/b01 levels=1:2 use_temp_path=off keys_zone=ngcachecgib01:64m inactive=1d max_size=128m;
+fastcgi_cache ngcachecgib01;
 include /home/configs/nginx/context_http/front.upstream;
 
 server {

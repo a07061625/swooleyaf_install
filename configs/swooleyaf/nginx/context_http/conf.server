@@ -42,6 +42,37 @@ brotli_types application/atom+xml application/javascript application/json applic
 brotli_static always;
 brotli_window 512k;
 
+#FastCGI
+#连接到后端fastcgi的超时时间
+fastcgi_connect_timeout 10s;
+#建立连接后多久不传送数据就断开
+fastcgi_send_timeout 30s;
+#接收fastcgi应答的超时时间
+fastcgi_read_timeout 30s;
+#指定读取fastcgi应答缓冲区大小
+fastcgi_buffer_size 64k;
+#指定本地缓冲区大小(缓冲FaseCGI应答请求)
+fastcgi_buffers 4 64k;
+#繁忙时的buffer,可以是fastcgi_buffer的两倍
+fastcgi_busy_buffers_size 128k;
+#在写入缓存文件时用多大的数据块,默认是fastcgi_buffer的两倍
+fastcgi_temp_file_write_size  128k;
+#指定应答码200 302 缓存一小时
+fastcgi_cache_valid 200 302 1h;
+#指定应答码301缓存一天
+fastcgi_cache_valid 301 1d;
+#指定其它应答码缓存一月
+fastcgi_cache_valid any 1m;
+
+#指定缓存最大数目以及缓存的时间
+open_file_cache max=100000 inactive=20s;
+#在open_file_cache中指定检测正确信息的间隔时间
+open_file_cache_valid 30s;
+#定义了open_file_cache中指令参数不活动时间期间里最小的文件数
+open_file_cache_min_uses 2;
+#指定了当搜索一个文件时是否缓存错误信息
+open_file_cache_errors on;
+
 vhost_traffic_status_zone;
 vhost_traffic_status_filter_by_host on;
 
