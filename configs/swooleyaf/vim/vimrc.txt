@@ -1,5 +1,31 @@
 " 不与Vi兼容
 set nocompatible
+filetype off
+set rtp += ~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+" python自动缩进
+Plugin 'vim-scripts/indentpython.vim'
+" 语法检查,运行F7就可以进行flake8检查
+Plugin 'vim-syntastic/syntastic'
+Plugin 'nvie/vim-flake8'
+" 自动补全括号和引号等
+Plugin 'jiangmiao/auto-pairs'
+" 美化状态栏
+Plugin 'Lokaltog/vim-powerline'
+" 缩进指示线 开关 :IndentLinesToggle
+Plugin 'Yggdroot/indentLine'
+" 自动格式化工具,安装后运行:Autopep8就可以自动依照pep8的标准自动格式化代码,必须先执行 pip install autopep8
+Plugin 'tell-k/vim-autopep8'
+" git集成
+Plugin 'tpope/vim-fugitive'
+" 树形目录
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'jistr/vim-nerdtree-tabs'
+call vundle#end()
+filetype plugin indent on
+
 " 显示行号
 set number
 " 光标所在的当前行高亮
@@ -26,6 +52,7 @@ set showcmd
 set mouse=r
 " 使用utf-8编码
 set encoding=utf-8
+set fenc=utf-8
 " 启用256色
 set t_Co=256
 " 开启文件类型检查,并且载入与该类型对应的缩进规则
@@ -76,3 +103,12 @@ set wildmenu
 set wildmode=longest:list,full
 " 设置主题
 color molokai
+" 代码折叠 zc:创建折叠 za:打开或者关闭折叠
+set foldmethod=indent
+set foldlevel=99
+" 树形目录的快捷键 Ctrl+n
+map <C-n> :NERDTreeToggle<CR>
+" 树形目录忽略.pyc文件
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+" 空格键来替代代码折叠快捷键za
+nnoremap <space> za
