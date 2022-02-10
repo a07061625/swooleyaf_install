@@ -18,6 +18,8 @@ source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_common.sh
 source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops1.sh
 # shellcheck disable=SC2086
 source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops2.sh
+# shellcheck disable=SC2086
+source ${YXP_COMMON_PATH_ROOT}/scripts/libs_methods_ops3.sh
 
 # shellcheck disable=SC2086
 # shellcheck disable=SC2164
