@@ -23,12 +23,12 @@ class Front(SyBase):
             'export OPENSSL_ROOT_DIR=/usr/local/openssl',
             'export OPENSSL_CRYPTO_LIBRARY=/usr/local/openssl/lib',
             'export OPENSSL_INCLUDE_DIR=/usr/local/openssl/include',
-            'export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib64',
+            'export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib64:/usr/local/glibc/lib',
             'export NODE_HOME=/usr/local/nodejs',
             'export JAVA_HOME=/usr/java/jdk1.8.0',
             'export CLASSPATH=.:\$JAVA_HOME/jre/lib/rt.jar:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar',
             'export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/lib64/pkgconfig',
-            'export PATH=\$PATH:/usr/local/bin:/usr/local/cmake/bin:/usr/local/git/bin:/usr/local/openresty/bin:\$NODE_HOME/bin:\$JAVA_HOME/bin:\$JAVA_HOME/jre/bin',
+            'export PATH=\$PATH:/usr/local/bin:/usr/local/cmake/bin:/usr/local/git/bin:/usr/local/openresty/bin:/usr/local/glibc/bin:\$NODE_HOME/bin:\$JAVA_HOME/bin:\$JAVA_HOME/jre/bin',
         ]
         self._ports = [
             '21/tcp',
