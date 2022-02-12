@@ -250,10 +250,10 @@ class SyLinux:
             run('tar -zxf glibc-2.29.tar.gz')
             # 需要先获取LD_LIBRARY_PATH的值,然后 export LD_LIBRARY_PATH=
             run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons && make')
-            # 将LD_LIBRARY_PATH重新设置为原来的值
             # 忽略错误ld: cannot find -lnss_test2
             with settings(warn_only=True):
                 run('cd glibc-2.29/build/ && make install')
+            # 将LD_LIBRARY_PATH重新设置为原来的值
             run('rm -rf glibc-2.29/ && rm -rf glibc-2.29.tar.gz')
 
     @staticmethod
