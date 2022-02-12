@@ -247,15 +247,13 @@ class SyLinux:
             '/resources/linux/glibc-2.29.tar.gz': 'remote/glibc-2.29.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('mkdir /usr/local/glibc')
             run('tar -zxf glibc-2.29.tar.gz')
             # 需要先获取LD_LIBRARY_PATH的值,然后 export LD_LIBRARY_PATH=
-            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr/local/glibc --disable-profile --enable-add-ons && make')
+            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons && make')
             # 将LD_LIBRARY_PATH重新设置为原来的值
             # 忽略错误ld: cannot find -lnss_test2
             with settings(warn_only=True):
                 run('cd glibc-2.29/build/ && make install')
-            run('echo "/usr/local/glibc/lib" >> /etc/ld.so.conf && ldconfig')
             run('rm -rf glibc-2.29/ && rm -rf glibc-2.29.tar.gz')
 
     @staticmethod

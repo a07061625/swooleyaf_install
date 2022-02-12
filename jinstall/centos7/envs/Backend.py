@@ -27,11 +27,11 @@ class Backend(SyBase):
             'export OPENSSL_ROOT_DIR=/usr/local/openssl',
             'export OPENSSL_CRYPTO_LIBRARY=/usr/local/openssl/lib',
             'export OPENSSL_INCLUDE_DIR=/usr/local/openssl/include',
-            'export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib64:/usr/local/glibc/lib',
+            'export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib64',
             'export ETCDCTL_API=3',
             'export ER_LANG=/usr/erlang',
             'export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/lib64/pkgconfig',
-            'export PATH=\$PATH:/usr/local/bin:/usr/local/cmake/bin:/usr/local/git/bin:/usr/local/openresty/bin:/usr/local/glibc/bin:\$ER_LANG/bin',
+            'export PATH=\$PATH:/usr/local/bin:/usr/local/cmake/bin:/usr/local/git/bin:/usr/local/openresty/bin:\$ER_LANG/bin',
         ]
         self._ports = [
             '21/tcp',
