@@ -247,11 +247,10 @@ class SyLinux:
         })
         with cd(install_configs['path.package.remote']):
             run('tar -zxf glibc-2.29.tar.gz')
+            # 将glibc-2.29/scripts/test-installation.pl的128行
+            # 由 && $name ne "nss_test1" 改成 && $name ne "nss_test1" && $name ne "nss_test2"
             # 需要先获取LD_LIBRARY_PATH的值,然后 export LD_LIBRARY_PATH=
-            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin --disable-sanity-checks --disable-werror && make -j4')
-            # 忽略错误ld: cannot find -lnss_test2
-            with settings(warn_only=True):
-                run('cd glibc-2.29/build/ && make install')
+            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin --disable-sanity-checks --disable-werror --enable-obsolete-nsl && make -j4 && make install')
             # 将LD_LIBRARY_PATH重新设置为原来的值
             run('rm -rf glibc-2.29/ && rm -rf glibc-2.29.tar.gz')
 
