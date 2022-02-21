@@ -201,27 +201,26 @@ class SyLinux:
     @staticmethod
     def install_gcc(params: dict):
         """安装gcc,需要4G以上的内存,CPU数要多,否则编译时间会比较长"""
-        # Tool.check_local_files([
-        #     'resources/linux/gcc-9.3.0.tar.gz',
-        # ])
-        # Tool.upload_file_fabric({
-        #     '/resources/linux/gcc-9.3.0.tar.gz': 'remote/gcc-9.3.0.tar.gz',
-        # })
-        # with cd(install_configs['path.package.remote']):
-        #     run('mkdir /usr/local/gcc')
-        #     run('tar -zxf gcc-9.3.0.tar.gz')
-        #     run('cd gcc-9.3.0/ && ./contrib/download_prerequisites && ./configure --prefix=/usr/local/gcc --enable-bootstrap --enable-checking=release --enable-languages=c,c++ --disable-multilib && make -j4 && make install && yum –y remove gcc')
-        #     gcc_gdb_py = str(run('find /usr/lib -maxdepth 1 -name "libstdc*.py"'))
-        #     if len(gcc_gdb_py) > 0:
-        #         run('rm -rf %s' % gcc_gdb_py)
-        #     run('rm -rf /lib64/libstdc++.so*')
-        #     run('ln -s /usr/local/gcc/include/ /usr/include/gcc && ln -s /usr/local/gcc/bin/c++ /usr/bin/ && ln -s /usr/local/gcc/bin/gcc /usr/bin/gcc && ln -s /usr/local/gcc/bin/gcc /usr/bin/cc && rm -rf /usr/lib64/libstdc++.so.6 && cp /usr/local/gcc/lib64/libstdc++.so /usr/lib64/ && echo "/usr/local/gcc/lib64" >> /etc/ld.so.conf.d/gcc.conf && ldconfig')
-        #     run('rm -rf gcc-9.3.0/ && rm -rf gcc-9.3.0.tar.gz')
-        run('yum -y remove gcc')
-        run('yum -y install centos-release-scl')
-        run('yum -y install devtoolset-9-gcc*')
-        run('scl enable devtoolset-9 bash')
-        run('echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile')
+        Tool.check_local_files([
+            'resources/linux/gcc-9.3.0.tar.gz',
+        ])
+        Tool.upload_file_fabric({
+            '/resources/linux/gcc-9.3.0.tar.gz': 'remote/gcc-9.3.0.tar.gz',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('tar -zxf gcc-9.3.0.tar.gz')
+            run('cd gcc-9.3.0/ && ./contrib/download_prerequisites && ./configure --prefix=/usr --enable-bootstrap --enable-checking=release --enable-languages=c,c++ --disable-multilib && make -j6 && make install')
+            # gcc_gdb_py = str(run('find /usr/lib -maxdepth 1 -name "libstdc*.py"'))
+            # if len(gcc_gdb_py) > 0:
+            #     run('rm -rf %s' % gcc_gdb_py)
+            # run('rm -rf /lib64/libstdc++.so*')
+            # run('ln -s /usr/local/gcc/include/ /usr/include/gcc && ln -s /usr/local/gcc/bin/c++ /usr/bin/ && ln -s /usr/local/gcc/bin/gcc /usr/bin/gcc && ln -s /usr/local/gcc/bin/gcc /usr/bin/cc && rm -rf /usr/lib64/libstdc++.so.6 && cp /usr/local/gcc/lib64/libstdc++.so /usr/lib64/ && echo "/usr/local/gcc/lib64" >> /etc/ld.so.conf.d/gcc.conf && ldconfig')
+            run('rm -rf gcc-9.3.0/ && rm -rf gcc-9.3.0.tar.gz')
+        # run('yum -y remove gcc')
+        # run('yum -y install centos-release-scl')
+        # run('yum -y install devtoolset-9-gcc*')
+        # run('scl enable devtoolset-9 bash')
+        # run('echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile')
 
     @staticmethod
     def install_make(params: dict):
@@ -249,7 +248,7 @@ class SyLinux:
         with cd(install_configs['path.package.remote']):
             run('tar -zxf glibc-2.29.tar.gz')
             # 需要先获取LD_LIBRARY_PATH的值,然后 export LD_LIBRARY_PATH=
-            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr && make -j4')
+            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin --disable-sanity-checks --disable-werror && make -j4')
             # 忽略错误ld: cannot find -lnss_test2
             with settings(warn_only=True):
                 run('cd glibc-2.29/build/ && make install')
