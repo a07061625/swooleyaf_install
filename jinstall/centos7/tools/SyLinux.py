@@ -60,10 +60,8 @@ class SyLinux:
             '/resources/linux/pcre-8.44.tar.gz': 'remote/pcre-8.44.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('mkdir /usr/local/pcre')
             run('tar -zxf pcre-8.44.tar.gz')
-            run('cd pcre-8.44/ && ./configure --prefix=/usr/local/pcre --enable-utf --enable-unicode-properties --enable-jit --with-gnu-ld && make && make install && echo "/usr/local/pcre/lib" >> /etc/ld.so.conf && ldconfig')
-            run('rpm -e --nodeps pcre')
+            run('cd pcre-8.44/ && ./configure --enable-utf8 --enable-unicode-properties --enable-jit --with-gnu-ld && make && make install')
             run('rm -rf pcre-8.44/ && rm -rf pcre-8.44.tar.gz')
 
     @staticmethod
