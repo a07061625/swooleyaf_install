@@ -1,5 +1,0 @@
-- targets:
-    - "192.168.3.168:19097"
-  labels:
-    host: 192.168.3.168
-    name: nginx-vts
