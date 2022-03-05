@@ -33,3 +33,11 @@ scrape_configs:
       - refresh_interval: 1440m
         files:
           - "/usr/local/prometheus/conf/pushgateway.yml"
+remote_read:
+  - url: "http://192.168.3.168:18086/api/v2/query?org=jw01"
+    read_recent: true
+    headers:
+      Authorization: "Token lrmKtPuYwxZp0pNGXMaQZteHMf-XgaKliVkD6E-ID-oR66pJqP2PW57ihgYL4PZpXNs-cjbInqlLcozEwpJzPg=="
+      Content-type: "application/json"
+remote_write:
+  - url: "http://192.168.3.168:18087/receive"
