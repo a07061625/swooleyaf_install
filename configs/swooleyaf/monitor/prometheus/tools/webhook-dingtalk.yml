@@ -1,0 +1,24 @@
+targets:
+  # 密钥
+  yxp1:
+    url: https://oapi.dingtalk.com/robot/send?access_token=2bb0218d774ddc4df2ef153b69087977271d921a5c36c123b487f47bb121074d
+    secret: SEC5a78c173cbc66ca1f7078127f773363a68560a6d01bcf95c743a4dae18b65272
+  # 消息前缀
+  yxp2:
+    url: https://oapi.dingtalk.com/robot/send?access_token=2bb0218d774ddc4df2ef153b69087977271d921a5c36c123b123367bb121074d
+  # 自定义消息格式
+  yxp3:
+    url: https://oapi.dingtalk.com/robot/send?access_token=2bb0218d774ddc4df2ef153b69087977271d921a5c36c123b123367bb121074d
+    message:
+      title: '{{ template "legacy.title" . }}'
+      text: '{{ template "legacy.content" . }}'
+  # @所有人
+  yxp4:
+    url: https://oapi.dingtalk.com/robot/send?access_token=2bb0218d774ddc4df2ef153b69087977271d921a5c36c123b123367bb121074d
+    mention:
+      all: true
+  # @指定人
+  yxp5:
+    url: https://oapi.dingtalk.com/robot/send?access_token=2bb0218d774ddc4df2ef153b69087977271d921a5c36c123b123367bb121074d
+    mention:
+      mobiles: ['156xxxx8827', '189xxxx8325']

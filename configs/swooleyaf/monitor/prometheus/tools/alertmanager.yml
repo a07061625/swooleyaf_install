@@ -1,6 +1,5 @@
 global:
   resolve_timeout: 5m
-
 route:
   group_by: ['alertname']
   group_wait: 20s
@@ -13,19 +12,18 @@ route:
     match_re:
       alertname: '实例存活告警|服务存活告警'
   - receiver: dingtalk_yxp2
-      group_wait: 15s
-      match_re:
-        alertname: '内存使用告警|磁盘使用告警'
+    group_wait: 15s
+    match_re:
+      alertname: '内存使用告警|磁盘使用告警'
 receivers:
 - name: 'dingtalk_yxp1'
   webhook_configs:
-  - url: 'http://192.168.1.4:19080/dingtalk/yxp1/send'
+  - url: 'http://172.18.134.141:18090/dingtalk/yxp1/send'
     send_resolved: true
 - name: 'dingtalk_yxp2'
   webhook_configs:
-    - url: 'http://192.168.1.4:19080/dingtalk/yxp2/send'
+    - url: 'http://172.18.134.141:18090/dingtalk/yxp2/send'
       send_resolved: true
-
 inhibit_rules:
   - source_match:
       severity: 'critical'
