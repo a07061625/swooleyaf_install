@@ -48,7 +48,6 @@ nohup /usr/local/alertmanager/alertmanager \
 
 mkdir /usr/local/prometheus_exporters
 # mongodb_exporter
-## grafana dashboard id: 7353
 mkdir /usr/local/prometheus_exporters/mongodb
 nohup /usr/local/prometheus_exporters/mongodb/mongodb_exporter \
 --log.level="info" \
@@ -58,7 +57,6 @@ nohup /usr/local/prometheus_exporters/mongodb/mongodb_exporter \
 >/home/logs/prometheus/exporter_mongodb.log 2>&1 &
 
 # node_exporter
-## grafana dashboard id: 9276
 mkdir /usr/local/prometheus_exporters/node
 nohup /usr/local/prometheus_exporters/node/node_exporter \
 --log.level=info \
@@ -68,7 +66,6 @@ nohup /usr/local/prometheus_exporters/node/node_exporter \
 >/home/logs/prometheus/exporter_node.log 2>&1 &
 
 # mysqld_exporter
-## grafana dashboard id: 7362
 ## 创建导出用户
 CREATE user 'exporter'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY '123456';
 ALTER user 'exporter'@'127.0.0.1' PASSWORD EXPIRE NEVER;

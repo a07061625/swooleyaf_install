@@ -75,4 +75,9 @@ curl -s -H Content-Type:application/json  -u elastic:jw07061625 -d '{
   "index.refresh_interval" : "60s"
 }' -X PUT http://192.168.96.21:9201/_all/_settings?preserve_existing=true
 
+# 调整es的索引字段数量上限
+curl -H "Content-Type: application/json" -u elastic:jw07061625 -X PUT -d '{
+  "index.mapping.total_fields.limit": 2000
+}' http://10.0.0.211:9201/_settings
+
 # 文档 https://github.com/elastic/built-docs.git
