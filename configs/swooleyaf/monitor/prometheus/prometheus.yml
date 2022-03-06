@@ -1,43 +1,27 @@
-# my global config
 global:
-  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
-
-# Alertmanager configuration
+  scrape_interval: 15s
+  evaluation_interval: 15s
 alerting:
   alertmanagers:
   - static_configs:
     - targets:
       - 192.168.3.168:18091
-
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
   - "first_rules.yml"
-  # - "second_rules.yml"
-
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
     file_sd_configs:
     - refresh_interval: 1440m
       files:
-        - "/usr/local/prometheus/conf/prometheus.yml"
+        - "/usr/local/prometheus/conf/prom.yml"
   - job_name: 'pushgateway'
     honor_labels: true
     file_sd_configs:
       - refresh_interval: 1440m
         files:
           - "/usr/local/prometheus/conf/pushgateway.yml"
-remote_read:
-  - url: "http://192.168.3.168:18086/api/v2/query?org=jw01"
-    read_recent: true
-    headers:
-      Authorization: "Token lrmKtPuYwxZp0pNGXMaQZteHMf-XgaKliVkD6E-ID-oR66pJqP2PW57ihgYL4PZpXNs-cjbInqlLcozEwpJzPg=="
-      Content-type: "application/json"
+#remote_read:
+#  - url: "http://192.168.3.168:18086/api/v2/query?org=jw01"
+#    read_recent: true
 remote_write:
   - url: "http://192.168.3.168:18087/receive"
