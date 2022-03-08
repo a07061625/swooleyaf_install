@@ -12,6 +12,7 @@ set -o errexit
 ### telegraf metrics: 61
 ### telegraf nginx-vts: 11967
 ### telegraf netdata: 12183
+### telegraf system dashboard: 928
 
 ## influxdb2
 ### telegraf system: 15650
