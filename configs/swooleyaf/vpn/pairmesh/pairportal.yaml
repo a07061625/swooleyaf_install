@@ -1,0 +1,19 @@
+host: 0.0.0.0
+port: 12823
+tlsKey: ''
+tlsCert: ''
+privateKey: ''
+dataDir: /usr/local/pairportal/data/
+relay:
+  authKey: f9d087343d6f5d9ea
+sso:
+  redirect: 'http://127.0.0.1:18080'
+  github:
+    clientID: x
+    clientSecret: x
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: '123456'
+  db: pairportal
