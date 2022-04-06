@@ -13,3 +13,6 @@
   scan_frequency: 3s
   harvester_limit: 0
   close_inactive: 5m
+  ignore_older: 20h
+  close_timeout: 24h
+  clean_inactive: 24h
