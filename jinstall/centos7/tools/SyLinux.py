@@ -208,6 +208,7 @@ class SyLinux:
         with cd(install_configs['path.package.remote']):
             run('tar -zxf gcc-9.3.0.tar.gz')
             run('cd gcc-9.3.0/ && ./contrib/download_prerequisites && ./configure --prefix=/usr --enable-bootstrap --enable-checking=release --enable-languages=c,c++ --disable-multilib && make -j6 && make install')
+            run('rm -rf /lib64/libstdc++.so.6.0.28-gdb.py')
             # gcc_gdb_py = str(run('find /usr/lib -maxdepth 1 -name "libstdc*.py"'))
             # if len(gcc_gdb_py) > 0:
             #     run('rm -rf %s' % gcc_gdb_py)
