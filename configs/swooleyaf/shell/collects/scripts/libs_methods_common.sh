@@ -71,6 +71,7 @@ function yxpCommonTimeAgo(){
     fi
 }
 
+# 发送钉钉消息
 function yxpCommonNotifyDingTalk() {
     echo -e "\e[1;36m钉钉通知: \e[0m \e[1;35m \t[开始发送消息] \e[0m"
     # shellcheck disable=SC2086
@@ -115,6 +116,7 @@ function yxpCommonNotifyWxToken() {
     fi
 }
 
+# 发送企业微信消息
 function yxpCommonNotifyWx() {
     yxpCommonNotifyWxToken
     if [ "${YXP_COMMON_WX_TOKEN}aaa" == "aaa" ]; then
