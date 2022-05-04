@@ -23,6 +23,7 @@ class SyNginx:
             'resources/nginx/modules/module_pagespeed_1.13.35.2.zip',
             'resources/nginx/modules/module_geoip2_3.3.tar.gz',
             'resources/nginx/modules/module_substitutions_filter_0.6.4.tar.gz',
+            'resources/nginx/modules/module_njs_0.7.3.zip',
             'resources/nginx/openresty-1.15.8.3.tar.gz',
             'configs/swooleyaf/nginx/context_http/conf.server',
             'configs/swooleyaf/nginx/context_http/default.conf',
@@ -201,6 +202,14 @@ class SyNginx:
             run('rm -rf module_substitutions_filter_0.6.4.tar.gz')
 
         Tool.upload_file_fabric({
+            '/resources/nginx/modules/module_njs_0.7.3.zip': 'remote/module_njs_0.7.3.zip',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('unzip -q module_njs_0.7.3.zip')
+            run('mv module_njs_0.7.3/ %s/modules/njs' % install_configs['openresty.path.configs'])
+            run('rm -rf module_njs_0.7.3.zip')
+
+        Tool.upload_file_fabric({
             '/resources/linux/zlib-1.2.11.tar.gz': 'remote/zlib-1.2.11.tar.gz',
             '/resources/nginx/openresty-1.15.8.3.tar.gz': 'remote/openresty-1.15.8.3.tar.gz',
         })
@@ -228,7 +237,7 @@ class SyNginx:
             ngx_conf_modules3 = '--add-module=%s/modules/brotli --add-module=%s/modules/iconv' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules4 = '--add-module=%s/modules/naxsi/naxsi_src --add-module=%s/modules/ct' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules5 = '--add-module=%s/modules/pagespeed --add-module=%s/modules/geoip2' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
-            ngx_conf_modules6 = '--add-module=%s/modules/substitutions_filter' % (install_configs['openresty.path.configs'])
+            ngx_conf_modules6 = '--add-module=%s/modules/substitutions_filter --add-module=%s/modules/njs/nginx' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf = ' '.join([
                 ngx_conf_start,
                 ngx_conf_custom1,
