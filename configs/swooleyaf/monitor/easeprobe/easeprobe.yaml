@@ -1,0 +1,46 @@
+settings:
+  http:
+    ip: 192.168.1.4
+    port: 18181
+    refresh: 5s
+  sla:
+    schedule : "daily"
+    time: "23:59"
+    debug: false
+  notify:
+    timeout: 20s
+    retry:
+      times: 3
+      interval: 10s
+  probe:
+    timeout: 30s
+    interval: 1m
+  logfile: "/usr/local/easeprobe/logs/server.log"
+  loglevel: "info"
+  timeformat: "2006-01-02 15:04:05 UTC"
+http:
+  - name: Special Website
+    url: http://www.baidu.com
+    method: GET
+    success_code:
+      - [300,308]
+    timeout: 10s
+    interval: 2m
+host:
+  bastion:
+    aws:
+      host: ubuntu@example.com
+      key: /path/to/bastion.pem
+  servers:
+    - name : 服务器检查-192.168.1.57
+      host: root@192.168.1.57:40
+      key: /home/yxpoperator/pythonspace/yxp_ops/data/operations_rsa
+      threshold:
+        cpu: 0.30
+        mem: 0.30
+        disk: 0.30
+      timeout: 10s
+notify:
+  dingtalk: # 需要将安全配置设置成IP限定,比如113.0.0.0/8
+    - name: "dingtalk alert service"
+      webhook: "https://oapi.dingtalk.com/robot/send?access_token=333388f51cdefef7282cd8e63e4d3164360e5858ff6d03dbd01d9c63e539dae6"

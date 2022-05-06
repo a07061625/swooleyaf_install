@@ -1,0 +1,28 @@
+failure-threshold: info
+format: tty
+ignored:
+  - DL3000
+  - DL3003
+  - DL3032
+  - DL3033
+  - SC1010
+no-color: false
+no-fail: false
+override:
+  error:
+    - DL3001
+    - DL3002
+  warning:
+    - DL3042
+    - DL3033
+  info:
+    - DL3032
+  style:
+    - DL3015
+strict-labels: true
+disable-ignore-pragma: false
+trustedRegistries:
+  - docker.io
+  - dockerregistries.huijia520.cn
+  - "*.dockerregistries.huijia520.cn"
+  - "*.gcr.io"
