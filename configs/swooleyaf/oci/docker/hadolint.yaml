@@ -6,6 +6,7 @@ ignored:
   - DL3032
   - DL3033
   - SC1010
+  - SC1091
 no-color: false
 no-fail: false
 override:

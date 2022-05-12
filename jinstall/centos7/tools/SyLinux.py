@@ -161,9 +161,9 @@ class SyLinux:
         with cd(install_configs['path.package.remote']):
             run('yum -y install libxml2 libxml2-devel gd-devel')
             run('mkdir /usr/local/fribidi')
-            run('xz -d fribidi-1.0.9.tar.xz && tar -xf fribidi-1.0.9.tar')
+            run('tar -Jxf fribidi-1.0.9.tar.xz')
             run('cd fribidi-1.0.9/ && ./configure --prefix=/usr/local/fribidi && make && make install && echo "/usr/local/fribidi/lib" >> /etc/ld.so.conf && ldconfig')
-            run('rm -rf fribidi-1.0.9/ && rm -rf fribidi-1.0.9.tar')
+            run('rm -rf fribidi-1.0.9/ && rm -rf fribidi-1.0.9.tar.xz')
 
     @staticmethod
     def install_jemalloc(params: dict):
