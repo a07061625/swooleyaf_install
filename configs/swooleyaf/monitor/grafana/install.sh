@@ -16,3 +16,5 @@ set -o errexit
 
 ## influxdb2
 ### telegraf system: 15650
+
+## alertmanager: 12947
