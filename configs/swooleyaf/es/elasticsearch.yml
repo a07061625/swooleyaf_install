@@ -128,3 +128,18 @@ indices.queries.cache.size: 5%
 # 节点用于 fielddata 的最大内存,如果 fielddata 达到该阈值,就会把旧数据交换出去
 # 一定要确保 indices.breaker.fielddata.limit 的值大于 indices.fielddata.cache.size 的值
 indices.fielddata.cache.size: 20%
+
+indices.memory.index_buffer_size: 20%
+indices.memory.min_index_buffer_size: 96mb
+
+thread_pool.search.size: 5
+thread_pool.search.queue_size: 100
+thread_pool.bulk.size: 16
+thread_pool.bulk.queue_size: 300
+thread_pool.index.size: 16
+thread_pool.index.queue_size: 300
+
+# 节点之间的故障检测
+discovery.zen.fd.ping_timeout: 120s
+discovery.zen.fd.ping_retries: 6
+discovery.zen.fd.ping_interval: 30s

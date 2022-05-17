@@ -72,6 +72,7 @@ curl -s -H Content-Type:application/json  -u elastic:jw07061625 -d '{
   "index.translog.durability" : "async",
   "index.translog.flush_threshold_size" : "512mb",
   "index.translog.sync_interval" : "60s",
+  "index.merge.scheduler.max_thread_count" : 1,
   "index.refresh_interval" : "60s"
 }' -X PUT http://192.168.96.21:9201/_all/_settings?preserve_existing=true
 

@@ -7,7 +7,7 @@ alerting:
     - targets:
       - 192.168.3.168:18091
 rule_files:
-  - "first_rules.yml"
+  - /usr/local/prometheus/rules/*.yml
 scrape_configs:
   - job_name: 'prometheus'
     file_sd_configs:
@@ -20,8 +20,8 @@ scrape_configs:
       - refresh_interval: 1440m
         files:
           - "/usr/local/prometheus/conf/pushgateway.yml"
-#remote_read:
-#  - url: "http://192.168.3.168:18086/api/v2/query?org=jw01"
-#    read_recent: true
+remote_read:
+  - url: "http://192.168.3.168:18086/api/v1/prom/read?db=prometheus&u=admin&p=123456"
+    read_recent: true
 remote_write:
   - url: "http://192.168.3.168:18087/receive"
