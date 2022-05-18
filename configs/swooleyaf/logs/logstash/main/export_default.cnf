@@ -49,4 +49,13 @@ output {
       }
     }
   }
+  # 参考文档: https://www.elastic.co/guide/en/logstash/current/plugins-outputs-http.html
+  if [save_types][prometheus] and [save_types][prometheus] != "" {
+    http {
+      url => "http://192.168.96.21:9999/api/prome"
+      http_method => "post"
+      content_type => "application/json"
+      format => "json"
+    }
+  }
 }
