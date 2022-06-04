@@ -17,6 +17,29 @@
 - upstream_check.conf: 反向代理健康检测配置
 - vts.conf: 域名监控配置
 
+# 模块
+## ip2location
+### 支持的变量
+- ip2location_country_short
+- ip2location_country_long
+- ip2location_region
+- ip2location_city
+- ip2location_isp
+- ip2location_latitude
+- ip2location_longitude
+- ip2location_domain
+- ip2location_zipcode
+- ip2location_timezone
+- ip2location_netspeed
+- ip2location_iddcode
+- ip2location_areacode
+- ip2location_weatherstationcode
+- ip2location_weatherstationname
+- ip2location_mcc
+- ip2location_mnc
+- ip2location_elevation
+- ip2location_usagetype
+
 # 其他
 ## 防止通过接口上传大文件来恶意攻击服务器
 nginx直接处理,避免透传到后端来判断,占用后端的服务资源

@@ -12,6 +12,7 @@ class SyNginx:
             'resources/nginx/gperftools-2.1.tar.gz',
             'resources/nginx/lualib.zip',
             'resources/nginx/data/geoip2.tar.gz',
+            'resources/nginx/data/IP2LOCATION-LITE-DB1.BIN.zip',
             'resources/nginx/modules/module_brotli.tar.gz',
             'resources/nginx/modules/module_cache_purge_2.3.tar.gz',
             'resources/nginx/modules/module_http_flv.zip',
@@ -22,6 +23,8 @@ class SyNginx:
             'resources/nginx/modules/module_ct_1.3.2.zip',
             'resources/nginx/modules/module_pagespeed_1.13.35.2.zip',
             'resources/nginx/modules/module_geoip2_3.3.tar.gz',
+            'resources/nginx/modules/IP2Location-C-Library.zip',
+            'resources/nginx/modules/module_ip2location_8.1.0.zip',
             'resources/nginx/modules/module_substitutions_filter_0.6.4.tar.gz',
             'resources/nginx/modules/module_njs_0.7.3.zip',
             'resources/nginx/openresty-1.15.8.3.tar.gz',
@@ -81,7 +84,7 @@ class SyNginx:
         run('mkdir %s/context_http && mkdir %s/context_http/locations && mkdir %s/context_rtmp && mkdir %s/context_stream' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
         run('mkdir %s/cache_cgi && mkdir %s/cache && mkdir %s/cache/pagespeed' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
         run('mkdir %s/temp_cgi && mkdir %s/temp && mkdir %s/temp/pagespeed' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
-        run('mkdir %s/data && mkdir %s/data/geoip2' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
+        run('mkdir %s/data && mkdir %s/data/geoip2 && mkdir %s/data/ip2location' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'], install_configs['openresty.path.configs']))
         run('yum -y install gd-devel')
 
         Tool.upload_file_fabric({
@@ -194,6 +197,27 @@ class SyNginx:
             run('rm -rf geoip2.tar.gz && rm -rf module_geoip2_3.3.tar.gz')
 
         Tool.upload_file_fabric({
+            '/resources/nginx/data/IP2LOCATION-LITE-DB1.BIN.zip': 'remote/IP2LOCATION-LITE-DB1.BIN.zip',
+            '/resources/nginx/modules/IP2Location-C-Library.zip': 'remote/IP2Location-C-Library.zip',
+            '/resources/nginx/modules/module_ip2location_8.1.0.zip': 'remote/module_ip2location_8.1.0.zip',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('unzip -q IP2LOCATION-LITE-DB1.BIN.zip')
+            run('mv IP2LOCATION-LITE-DB1.BIN %s/data/ip2location/' % (install_configs['openresty.path.configs']))
+            run('unzip -q IP2Location-C-Library.zip')
+            run('mv IP2Location-C-Library/ %s/modules/ip2location_library' % install_configs['openresty.path.configs'])
+            # 根据需要执行 echo "/usr/local/lib" >> /etc/ld.so.conf && ldconfig,本脚本因为初始化系统的时候已执行无需再次执行
+            run('cd %s/modules/ip2location_library && autoreconf -i -v --force && ./configure && make && make install' % install_configs['openresty.path.configs'])
+            run('unzip -q module_ip2location_8.1.0.zip')
+            run('mv module_ip2location_8.1.0/ %s/modules/ip2location' % install_configs['openresty.path.configs'])
+            run('rm -rf LICENSE-CC-BY-SA-4.0.TXT README_LITE.TXT IP2LOCATION-LITE-DB1.BIN.zip IP2Location-C-Library.zip module_ip2location_8.1.0.zip')
+            path_ip2location_include = ''.join([
+                install_configs['openresty.path.configs'],
+                '/modules/ip2location_library/libIP2Location/IP2Location.h',
+            ])
+            run("sed -i 's/<IP2Location.h>/\"%s\"/g' %s/modules/ip2location/ngx_http_ip2location_module.c" % (path_ip2location_include.replace('/', '\/'), install_configs['openresty.path.configs']))
+
+        Tool.upload_file_fabric({
             '/resources/nginx/modules/module_substitutions_filter_0.6.4.tar.gz': 'remote/module_substitutions_filter_0.6.4.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
@@ -238,6 +262,7 @@ class SyNginx:
             ngx_conf_modules4 = '--add-module=%s/modules/naxsi/naxsi_src --add-module=%s/modules/ct' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules5 = '--add-module=%s/modules/pagespeed --add-module=%s/modules/geoip2' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules6 = '--add-module=%s/modules/substitutions_filter --add-module=%s/modules/njs/nginx' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
+            ngx_conf_modules7 = '--add-module=%s/modules/ip2location' % (install_configs['openresty.path.configs'])
             ngx_conf = ' '.join([
                 ngx_conf_start,
                 ngx_conf_custom1,
@@ -253,6 +278,7 @@ class SyNginx:
                 ngx_conf_modules4,
                 ngx_conf_modules5,
                 ngx_conf_modules6,
+                ngx_conf_modules7,
             ])
             # 中间会弹出关于PSOL的选择,选Y即可
             run('cd openresty-1.15.8.3/ && %s && gmake && gmake install' % ngx_conf)

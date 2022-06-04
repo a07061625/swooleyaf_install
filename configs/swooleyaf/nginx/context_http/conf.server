@@ -122,6 +122,12 @@ geoip2 /home/configs/nginx/data/geoip2/city.mmdb {
     $geoip2_city_name_cn source=$remote_addr city names zh-CN;
 }
 
+#ip2location
+ip2location on;
+ip2location_database /home/configs/nginx/data/ip2location/IP2LOCATION-LITE-DB1.BIN;
+# 不要选择file_io,可能会严重拖慢响应速度
+ip2location_access_type shared_memory;
+
 #内容替换,在proxy中使用是无效的,必须在原始location中处理
 sub_filter_last_modified on;
 sub_filter_once on;
