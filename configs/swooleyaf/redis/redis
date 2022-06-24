@@ -24,7 +24,7 @@ case "$1" in
         else
             PID=$(cat $PIDFILE)
             echo "Stopping ..."
-            $CLIEXEC -p $REDISPORT --user $USER --pass $PASSWARD shutdown
+            $CLIEXEC -h $REDISHOST -p $REDISPORT --user $USER --pass $PASSWARD shutdown
             while [ -x /proc/${PID} ]
             do
                 echo "Waiting for Redis to shutdown ..."
@@ -37,7 +37,7 @@ case "$1" in
     restart)
         if [ -f $PIDFILE ]; then
             PID=$(cat $PIDFILE)
-            $CLIEXEC -p $REDISPORT --user $USER --pass $PASSWARD shutdown
+            $CLIEXEC -h $REDISHOST -p $REDISPORT --user $USER --pass $PASSWARD shutdown
             while [ -x /proc/${PID} ]
             do
                 echo "Waiting for Redis to shutdown ..."
