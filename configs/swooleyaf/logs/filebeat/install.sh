@@ -6,7 +6,10 @@ mkdir /home/configs/filebeat
 
 cd /usr/local/filebeat
 # 启动
-./filebeat -e -c /usr/local/filebeat/filebeat.yml
+mv filebeat.service /lib/systemd/system/filebeat.service
+systemctl daemon-reload
+systemctl enable filebeat
+systemctl start filebeat
 
 # 日志输出样例
 #{
