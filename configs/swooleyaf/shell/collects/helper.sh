@@ -28,7 +28,7 @@ cd ${YXP_COMMON_PATH_ROOT}
 # shellcheck disable=SC2207
 # shellcheck disable=SC2006
 # shellcheck disable=SC2116
-YXP_COMMON_CLI_PARAMS=(`echo "$*"`)
+YXP_COMMON_CLI_PARAMS=(`echo "$0 $*"`)
 
 YXP_COMMON_CLI_OPTION=${1:-''}
 case "${YXP_COMMON_CLI_OPTION}" in
