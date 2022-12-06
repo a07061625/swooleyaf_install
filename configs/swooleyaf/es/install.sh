@@ -67,18 +67,24 @@ curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-${DEL_DATE}
 NOW_DATE=`date +%Y-%m-%d`
 curl -u elastic:jw07061625 -X POST http://192.168.96.21:9201/log-${NOW_DATE}/_flush
 
-# 调整es的索引的写入参数,牺牲持久性来换取高写入性能,在新索引创建完成后执行
-curl -s -H Content-Type:application/json  -u elastic:jw07061625 -d '{
-  "index.translog.durability" : "async",
-  "index.translog.flush_threshold_size" : "512mb",
-  "index.translog.sync_interval" : "60s",
-  "index.merge.scheduler.max_thread_count" : 1,
-  "index.refresh_interval" : "60s"
-}' -X PUT http://192.168.96.21:9201/_all/_settings?preserve_existing=true
-
-# 调整es的索引字段数量上限
-curl -H "Content-Type: application/json" -u elastic:jw07061625 -X PUT -d '{
-  "index.mapping.total_fields.limit": 2000
-}' http://10.0.0.211:9201/_settings
+# 调整es的索引的写入参数,牺牲持久性来换取高写入性能
+# index.refresh_interval: doc被检索到的周期,不要求足够的实时性其实完全可以关闭
+# index.translog.durability: 是否在每次写数据或者修改数据就触发一次fsync,默认是request,即每次都触发fsync
+# index.translog.flush_threshold_size: translog的大小达到此值时会进行一次flush操作,默认是512mb
+# index.translog.sync_interval: 多久出发一次fsync,只有被fsync才会被写入到磁盘
+# index.merge.scheduler.max_thread_count: segment进行merge的线程数,磁盘不是SSD盘可以将其调整为1
+# index.merge.policy.max_merged_segment: 最大可以merge的segment
+# index.merge.policy.floor_segment: 小于这个值的segment,均会被优先进行merge操作,将其调大,最大限度的一次多完成merge操作
+# index.mapping.total_fields.limit: 调整索引字段数量上限
+curl -H "Content-Type:application/json"  -u elastic:jw07061625 -d '{
+  "index.refresh_interval":"60s",
+  "index.translog.durability":"async",
+  "index.translog.flush_threshold_size":"512mb",
+  "index.translog.sync_interval":"60s",
+  "index.merge.scheduler.max_thread_count":1,
+  "index.merge.policy.max_merged_segment":"1gb",
+  "index.merge.policy.floor_segment":"100mb",
+  "index.mapping.total_fields.limit":2000
+}' -X PUT http://192.168.96.21:9201/_settings
 
 # 文档 https://github.com/elastic/built-docs.git
