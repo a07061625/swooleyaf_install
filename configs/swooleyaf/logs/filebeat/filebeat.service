@@ -4,7 +4,7 @@ After=network.target
 [Service]
 User=develop2
 Group=develop2
-Type=forking
+Type=simple
 ExecStart=/usr/local/filebeat/filebeat -e -c /usr/local/filebeat/filebeat.yml
 Restart=always
 PrivateTmp=true
