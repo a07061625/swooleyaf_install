@@ -64,8 +64,7 @@ curl -u elastic:jw07061625 -H "Content-Type: application/json" -X PUT 'http://19
 DEL_DATE=`date +%Y-%m-%d -d "-3 days"`
 curl -u elastic:jw07061625 -X DELETE http://192.168.96.21:9201/log-${DEL_DATE}
 # 数据落盘,每半个小时执行一次
-NOW_DATE=`date +%Y-%m-%d`
-curl -u elastic:jw07061625 -X POST http://192.168.96.21:9201/log-${NOW_DATE}/_flush
+curl -u elastic:jw07061625 -X POST http://192.168.96.21:9201/_flush
 
 # 调整es的索引的写入参数,牺牲持久性来换取高写入性能
 # index.refresh_interval: doc被检索到的周期,不要求足够的实时性其实完全可以关闭
@@ -86,5 +85,8 @@ curl -H "Content-Type:application/json"  -u elastic:jw07061625 -d '{
   "index.merge.policy.floor_segment":"100mb",
   "index.mapping.total_fields.limit":2000
 }' -X PUT http://192.168.96.21:9201/_settings
+
+# 解决问题: Data too large, data for [@timestamp] would be larger than limit
+curl -u elastic:jw07061625 -H "Content-Type: application/json" -d '{"fielddata":"true"}' -X POST 'http://192.168.96.21:9201/_cache/clear'
 
 # 文档 https://github.com/elastic/built-docs.git

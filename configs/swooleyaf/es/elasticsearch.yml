@@ -120,17 +120,20 @@ xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
 
 # 默认读取文件方式
 index.store.type: niofs
+index.store.preload: ["nvd", "dvd"]
 
-indices.breaker.total.limit: 70%
+indices.breaker.total.limit: 80%
 indices.breaker.request.limit: 40%
-indices.breaker.fielddata.limit: 60%
+indices.breaker.fielddata.limit: 70%
+indices.breaker.total.use_real_memory: false
 indices.queries.cache.size: 5%
 # 节点用于 fielddata 的最大内存,如果 fielddata 达到该阈值,就会把旧数据交换出去
 # 一定要确保 indices.breaker.fielddata.limit 的值大于 indices.fielddata.cache.size 的值
-indices.fielddata.cache.size: 20%
+indices.fielddata.cache.size: 30%
 
 indices.memory.index_buffer_size: 20%
 indices.memory.min_index_buffer_size: 96mb
+indices.memory.max_index_buffer_size: 512mb
 
 thread_pool.search.size: 5
 thread_pool.search.queue_size: 100
