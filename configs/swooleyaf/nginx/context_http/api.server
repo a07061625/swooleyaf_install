@@ -18,6 +18,7 @@ location / {
 }
 location = /mymonitor {
     include /home/configs/nginx/context_http/locations/mirror_monitor.location;
+    proxy_pass http://monitor.xxx.cn;
     proxy_set_header Sy-Monitor "a01";
 }
 location /mymonitor-refresh {
@@ -48,3 +49,8 @@ include /home/configs/nginx/context_http/locations/naxsi_forbidden.location;
 include /home/configs/nginx/context_http/locations/pagespeed_server.location;
 #域名,如果server中没有写明,则必须显式列举出来
 #pagespeed Domain api.xxx.cn;
+
+# 获取IP对应的信息
+location /ipinfo {
+    include /home/configs/nginx/context_http/locations/ip_info.location;
+}

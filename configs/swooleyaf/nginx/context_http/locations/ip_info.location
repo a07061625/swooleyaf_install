@@ -1,0 +1,4 @@
+internal;
+resolver 8.8.8.8;
+proxy_set_header Accept-Encoding ' ';
+proxy_pass "http://ip-api.com/json/$arg_ip";
