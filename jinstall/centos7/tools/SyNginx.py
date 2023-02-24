@@ -21,6 +21,7 @@ class SyNginx:
             'resources/nginx/modules/module_vts_0.1.18.tar.gz',
             'resources/nginx/modules/module_naxsi_1.1a.zip',
             'resources/nginx/modules/module_ct_1.3.2.zip',
+            'resources/nginx/modules/module_dynamic_upstream_0.1.6.zip',
             'resources/nginx/modules/module_pagespeed_1.13.35.2.zip',
             'resources/nginx/modules/module_geoip2_3.3.tar.gz',
             'resources/nginx/modules/IP2Location-C-Library.zip',
@@ -234,6 +235,14 @@ class SyNginx:
             run('rm -rf module_njs_0.7.3.zip')
 
         Tool.upload_file_fabric({
+            '/resources/nginx/modules/module_dynamic_upstream_0.1.6.zip': 'remote/module_dynamic_upstream_0.1.6.zip',
+        })
+        with cd(install_configs['path.package.remote']):
+            run('unzip -q module_dynamic_upstream_0.1.6.zip')
+            run('mv module_dynamic_upstream_0.1.6/ %s/modules/dynamic_upstream' % install_configs['openresty.path.configs'])
+            run('rm -rf module_dynamic_upstream_0.1.6.zip')
+
+        Tool.upload_file_fabric({
             '/resources/linux/zlib-1.2.11.tar.gz': 'remote/zlib-1.2.11.tar.gz',
             '/resources/nginx/openresty-1.15.8.3.tar.gz': 'remote/openresty-1.15.8.3.tar.gz',
         })
@@ -262,7 +271,7 @@ class SyNginx:
             ngx_conf_modules4 = '--add-module=%s/modules/naxsi/naxsi_src --add-module=%s/modules/ct' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules5 = '--add-module=%s/modules/pagespeed --add-module=%s/modules/geoip2' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf_modules6 = '--add-module=%s/modules/substitutions_filter --add-module=%s/modules/njs/nginx' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
-            ngx_conf_modules7 = '--add-module=%s/modules/ip2location' % (install_configs['openresty.path.configs'])
+            ngx_conf_modules7 = '--add-module=%s/modules/ip2location --add-module=%s/modules/dynamic_upstream' % (install_configs['openresty.path.configs'], install_configs['openresty.path.configs'])
             ngx_conf = ' '.join([
                 ngx_conf_start,
                 ngx_conf_custom1,
