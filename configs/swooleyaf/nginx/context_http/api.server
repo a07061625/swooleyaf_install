@@ -41,7 +41,7 @@ location = /jnservers {
     }
     include /home/configs/nginx/context_http/locations/upstream_dynamic.location;
     # 参数upstream的值为upstream配置下的zone配置项名称
-    # 获取服务节点列表: http://ip:port/jnservers?upstream=http_a01
+    # 获取服务节点列表: http://ip:port/jnservers?upstream=http_a01&jnsecret=my666
     # 获取服务节点详情列表: http://ip:port/jnservers?upstream=http_a01&jnsecret=my666&verbose=
     # 更新服务节点信息: http://ip:port/jnservers?upstream=http_a01&jnsecret=my666&server=127.0.0.1:6003&weight=10&max_fails=5&fail_timeout=5
     # 下线服务节点: http://ip:port/jnservers?upstream=http_a01&jnsecret=my666&server=127.0.0.1:6003&down=
