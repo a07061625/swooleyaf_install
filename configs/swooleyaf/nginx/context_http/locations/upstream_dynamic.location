@@ -1,3 +1,3 @@
 # 需要安装模块 ngx_dynamic_upstream(https://github.com/cubicdaiya/ngx_dynamic_upstream)
-deny all;
+allow all;
 dynamic_upstream;

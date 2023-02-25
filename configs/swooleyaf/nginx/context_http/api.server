@@ -35,7 +35,6 @@ location = /register {
     include /home/configs/nginx/context_http/locations/server_register.location;
 }
 location = /jnservers {
-    allow 127.0.0.1;
     if ( $arg_jnsecret != "my666" ) {
         return 403;
     }
