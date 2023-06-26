@@ -78,6 +78,8 @@ vhost_traffic_status_filter_by_host on;
 
 lua_shared_dict sm010 10M;
 
+underscores_in_headers on;
+
 lua_code_cache on;
 lua_need_request_body on;
 lua_package_path "/home/configs/nginx/lualib/?.lua;;/usr/local/openresty/lualib/?.lua;/usr/local/luarocks/share/lua/5.1/?.lua;/usr/local/luarocks/share/lua/5.1/?/init.lua;";
