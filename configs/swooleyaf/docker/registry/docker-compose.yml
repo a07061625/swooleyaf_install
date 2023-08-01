@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  registry-docker:
+    image: registry:2
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/dockerregistry.huijia520.cn.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/dockerregistry.huijia520.cn.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/dockerregistry
+      REGISTRY_AUTH_HTPASSWD_REALM: basic
+    volumes:
+      - /home/configs/docker/registry.yml:/etc/docker/registry/config.yml
+      - /home/data/docker_registry:/var/lib/registry
+      - /home/configs/certs:/certs
+      - /home/configs/passwd:/auth
