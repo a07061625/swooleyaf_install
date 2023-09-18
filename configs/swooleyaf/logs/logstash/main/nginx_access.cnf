@@ -26,6 +26,13 @@ filter {
       source => "client_ip"
       fields => ["city_name", "country_code2", "country_name", "latitude", "longitude", "region_name"]
     }
+    kv {
+      allow_duplicate_values => false
+      source => "request_url"
+      field_split => "&?"
+      include_keys => ["sysVer","appTag","appVersion","machineNo","userId","interfaceTag"]
+      prefix => "arg_"
+    }
     mutate {
       split => ["request_url", "?"]
       add_field => {
