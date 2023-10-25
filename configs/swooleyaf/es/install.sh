@@ -29,10 +29,8 @@ bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis
 
 ## 压缩包安装
 cd /usr/local/elasticsearch/plugins
-unzip analysis-ik-v7.7.1.zip
-unzip analysis-pinyin-v7.7.1.zip
-rm -rf analysis-ik-v7.7.1.zip
-rm -rf analysis-pinyin-v7.7.1.zip
+mkdir analysis-ik && cd analysis-ik && unzip analysis-ik-v7.7.1.zip && rm -rf analysis-ik-v7.7.1.zip
+mkdir analysis-pinyin && cd analysis-pinyin && unzip analysis-pinyin-v7.7.1.zip && rm -rf analysis-pinyin-v7.7.1.zip
 
 mkdir /home/data/elasticsearch
 mkdir /home/logs/elasticsearch
