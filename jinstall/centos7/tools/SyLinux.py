@@ -245,13 +245,24 @@ class SyLinux:
             '/resources/linux/glibc-2.29.tar.gz': 'remote/glibc-2.29.tar.gz',
         })
         with cd(install_configs['path.package.remote']):
-            run('tar -zxf glibc-2.29.tar.gz')
-            # 将glibc-2.29/scripts/test-installation.pl的128行
+            run('yum install -y python3 bison')
+            run('tar -zxf glibc-2.31.tar.gz')
+            # 将glibc-2.31/scripts/test-installation.pl的128行
             # 由 && $name ne "nss_test1" 改成 && $name ne "nss_test1" && $name ne "nss_test2"
             # 需要先获取LD_LIBRARY_PATH的值,然后 export LD_LIBRARY_PATH=
-            run('cd glibc-2.29/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin --disable-sanity-checks --disable-werror --enable-obsolete-nsl && make -j4 && make install')
+            run('cd glibc-2.31/ && mkdir build && cd build/ && ../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin --disable-sanity-checks --disable-werror --disable-option-checking')
+            with settings(warn_only=True):
+                run('make -j4 && make install')
+            run('make localedata/install-locales')
+            run('rm -rf glibc-2.31/')
+            run('tar -zxf glibc-2.31.tar.gz')
+            run('mkdir /usr/local/glibc')
+            run('cd glibc-2.31/ && mkdir build && cd build/ && ../configure --prefix=/usr/local/glibc --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin --disable-sanity-checks --disable-werror --disable-option-checking')
+            with settings(warn_only=True):
+                run('make -j4 && make install')
+            run('echo "/usr/local/glibc/lib" >> /etc/ld.so.conf && ldconfig')
             # 将LD_LIBRARY_PATH重新设置为原来的值
-            run('rm -rf glibc-2.29/ && rm -rf glibc-2.29.tar.gz')
+            run('rm -rf glibc-2.31/ && rm -rf glibc-2.31.tar.gz')
 
     @staticmethod
     def install_inotify(params: dict):

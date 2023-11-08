@@ -23,7 +23,7 @@ class Front(SyBase):
             'export OPENSSL_ROOT_DIR=/usr/local/openssl',
             'export OPENSSL_CRYPTO_LIBRARY=/usr/local/openssl/lib',
             'export OPENSSL_INCLUDE_DIR=/usr/local/openssl/include',
-            'export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib64',
+            'export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/glibc/lib:/usr/local/lib:/usr/lib64',
             'export NODE_HOME=/usr/local/nodejs',
             'export JAVA_HOME=/usr/java/jdk1.8.0',
             'export CLASSPATH=.:\$JAVA_HOME/jre/lib/rt.jar:\$JAVA_HOME/lib/dt.jar:\$JAVA_HOME/lib/tools.jar',
